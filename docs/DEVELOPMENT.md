@@ -10,3 +10,21 @@ where i've used a variant of Hospitable's PALM-B stack variant:
 - instead of [**a**ngular](https://angular.dev/) i'm using [**v**ue](https://vuejs.org/)
 
 **PALM-V** (it sounds pretty much the same).
+
+## running it locally
+
+- install [php](https://php.new/)
+- install [nvm](https://github.com/nvm-sh/nvm)
+
+```sh
+cd affable_core
+composer global require laravel/installer
+
+nvm install
+nvm use
+
+npm install --ignore-scripts
+npm run build
+
+composer run dev
+```
