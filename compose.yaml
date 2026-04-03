@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: mysql:9.6
+    volumes:
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+    ports:
+      - published: 3306
+        target: 3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+
+volumes:
+  mysql_data:

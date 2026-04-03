@@ -1,0 +1,20 @@
+FROM node:krypton-slim AS dependencies-env
+COPY . /app
+WORKDIR /app
+RUN npm ci && \
+    npm cache clean --force && \
+    npm cache verify
+
+FROM node:krypton-slim AS build-env
+COPY . /app/
+COPY --from=dependencies-env /app/node_modules /app/node_modules
+WORKDIR /app
+RUN npm run build
+
+FROM nginxinc/nginx-unprivileged:1.29
+COPY --from=build-env /app/build/client /usr/share/nginx/html
+COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
