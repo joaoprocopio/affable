@@ -1,13 +1,8 @@
-import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "react-router";
+import { ThemeProvider } from "next-themes";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 import "~/assets/theme.css";
+import { TooltipProvider } from "~/components/ui/tooltip";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,8 +13,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
+
       <body>
-        {children}
+        <ThemeProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+        </ThemeProvider>
+
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -4,17 +4,12 @@
 @import "@fontsource-variable/geist";
 
 @import "./typography.css";
+
 @import "./colors/gray.css";
 @import "./colors/blue.css";
 @import "./colors/red.css";
 
 @custom-variant dark (&:is(.dark *));
-
-@theme {
-  --font-sans:
-    "Geist Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
 
 @theme inline {
   --font-heading: var(--font-sans);
@@ -60,6 +55,11 @@
 }
 
 :root {
+  --radius: 0.625rem;
+  --font-sans:
+    "Geist Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -83,7 +83,6 @@
   --chart-3: oklch(0.546 0.245 262.881);
   --chart-4: oklch(0.488 0.243 264.376);
   --chart-5: oklch(0.424 0.199 265.638);
-  --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.546 0.245 262.881);
