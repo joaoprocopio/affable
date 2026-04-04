@@ -1,9 +1,19 @@
+import { Eye, EyeOff } from "lucide-react"
+import * as React from "react"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "~/lib/ui/input-group"
 
 export default function SignUpPage() {
+  const [showPassword, setShowPassword] = React.useState(false)
+
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -29,11 +39,30 @@ export default function SignUpPage() {
 
               <Field>
                 <FieldLabel htmlFor="email">Password</FieldLabel>
-                <Input id="password" type="password" />
+                <InputGroup>
+                  <InputGroupInput
+                    id="password"
+                    placeholder="Enter your password..."
+                    type={showPassword ? "text" : "password"}
+                  />
+
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupButton
+                      variant="outline"
+                      size="icon-xs"
+                      onClick={() => setShowPassword(!showPassword)}>
+                      {showPassword ? (
+                        <Eye className="size-3.5" />
+                      ) : (
+                        <EyeOff className="size-3.5" />
+                      )}
+                    </InputGroupButton>
+                  </InputGroupAddon>
+                </InputGroup>
               </Field>
 
               <Field>
-                <Button type="submit">Sign in</Button>
+                <Button type="submit">Continue</Button>
               </Field>
             </FieldGroup>
           </form>
