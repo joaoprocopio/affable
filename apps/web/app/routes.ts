@@ -1,3 +1,6 @@
-import { type RouteConfig, index } from "@react-router/dev/routes"
+import { route, type RouteConfig } from "@react-router/dev/routes"
 
-export default [index("routes/signin.tsx")] satisfies RouteConfig
+export default [
+  route("/signin", "routes/signin.tsx"),
+  route("/signup", "routes/signup.tsx"),
+] satisfies RouteConfig

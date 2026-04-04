@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button"
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
 
-export default function SignInPage() {
+export default function SignUpPage() {
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -11,11 +11,16 @@ export default function SignInPage() {
           <form>
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-lg font-bold">Sign in to Affable</h1>
+                <h1 className="text-lg font-bold">Welcome to Affable</h1>
                 <FieldDescription>
-                  Don&apos;t have an account? <a href="/signup">Sign up</a>
+                  Already have an account? <a href="/signin">Sign in</a>
                 </FieldDescription>
               </div>
+
+              <Field>
+                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <Input id="name" type="name" placeholder="Enter your name..." />
+              </Field>
 
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -28,7 +33,7 @@ export default function SignInPage() {
               </Field>
 
               <Field>
-                <Button type="submit">Continue</Button>
+                <Button type="submit">Sign in</Button>
               </Field>
             </FieldGroup>
           </form>
