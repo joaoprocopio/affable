@@ -1,0 +1,83 @@
+:root {
+  --indigo-1: #fdfdfe;
+  --indigo-2: #f7f9ff;
+  --indigo-3: #edf2fe;
+  --indigo-4: #e1e9ff;
+  --indigo-5: #d2deff;
+  --indigo-6: #c1d0ff;
+  --indigo-7: #abbdf9;
+  --indigo-8: #8da4ef;
+  --indigo-9: #3e63dd;
+  --indigo-10: #3358d4;
+  --indigo-11: #3a5bc7;
+  --indigo-12: #1f2d5c;
+
+  --indigo-a1: #00008002;
+  --indigo-a2: #0040ff08;
+  --indigo-a3: #0047f112;
+  --indigo-a4: #0044ff1e;
+  --indigo-a5: #0044ff2d;
+  --indigo-a6: #003eff3e;
+  --indigo-a7: #0037ed54;
+  --indigo-a8: #0034dc72;
+  --indigo-a9: #0031d2c1;
+  --indigo-a10: #002ec9cc;
+  --indigo-a11: #002bb7c5;
+  --indigo-a12: #001046e0;
+}
+
+.dark {
+  --indigo-1: #11131f;
+  --indigo-2: #141726;
+  --indigo-3: #182449;
+  --indigo-4: #1d2e62;
+  --indigo-5: #253974;
+  --indigo-6: #304384;
+  --indigo-7: #3a4f97;
+  --indigo-8: #435db1;
+  --indigo-9: #3e63dd;
+  --indigo-10: #5472e4;
+  --indigo-11: #9eb1ff;
+  --indigo-12: #d6e1ff;
+
+  --indigo-a1: #1133ff0f;
+  --indigo-a2: #3354fa17;
+  --indigo-a3: #2f62ff3c;
+  --indigo-a4: #3566ff57;
+  --indigo-a5: #4171fd6b;
+  --indigo-a6: #5178fd7c;
+  --indigo-a7: #5a7fff90;
+  --indigo-a8: #5b81feac;
+  --indigo-a9: #4671ffdb;
+  --indigo-a10: #5c7efee3;
+  --indigo-a11: #9eb1ff;
+  --indigo-a12: #d6e1ff;
+}
+
+@theme inline {
+  --color-indigo-1: var(--indigo-1);
+  --color-indigo-2: var(--indigo-2);
+  --color-indigo-3: var(--indigo-3);
+  --color-indigo-4: var(--indigo-4);
+  --color-indigo-5: var(--indigo-5);
+  --color-indigo-6: var(--indigo-6);
+  --color-indigo-7: var(--indigo-7);
+  --color-indigo-8: var(--indigo-8);
+  --color-indigo-9: var(--indigo-9);
+  --color-indigo-10: var(--indigo-10);
+  --color-indigo-11: var(--indigo-11);
+  --color-indigo-12: var(--indigo-12);
+
+  --color-indigo-a1: var(--indigo-a1);
+  --color-indigo-a2: var(--indigo-a2);
+  --color-indigo-a3: var(--indigo-a3);
+  --color-indigo-a4: var(--indigo-a4);
+  --color-indigo-a5: var(--indigo-a5);
+  --color-indigo-a6: var(--indigo-a6);
+  --color-indigo-a7: var(--indigo-a7);
+  --color-indigo-a8: var(--indigo-a8);
+  --color-indigo-a9: var(--indigo-a9);
+  --color-indigo-a10: var(--indigo-a10);
+  --color-indigo-a11: var(--indigo-a11);
+  --color-indigo-a12: var(--indigo-a12);
+}
