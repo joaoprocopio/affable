@@ -5,6 +5,8 @@
 
 @import "./typography.css";
 
+@import "./colors/gray.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
