@@ -1,5 +1,5 @@
 {
-  "name": "affable_web",
+  "name": "@affable/web",
   "private": true,
   "type": "module",
   "scripts": {
