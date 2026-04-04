@@ -1,7 +1,8 @@
-import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react"
 import * as React from "react"
-import { Button } from "~/lib/ui/button"
+
 import { cn } from "~/lib/ui/utils"
+import { Button } from "~/lib/ui/button"
+import { ChevronLeftIcon, ChevronRightIcon, MoreHorizontalIcon } from "lucide-react"
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -15,7 +16,10 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   )
 }
 
-function PaginationContent({ className, ...props }: React.ComponentProps<"ul">) {
+function PaginationContent({
+  className,
+  ...props
+}: React.ComponentProps<"ul">) {
   return (
     <ul
       data-slot="pagination-content"
@@ -34,7 +38,12 @@ type PaginationLinkProps = {
 } & Pick<React.ComponentProps<typeof Button>, "size"> &
   React.ComponentProps<"a">
 
-function PaginationLink({ className, isActive, size = "icon", ...props }: PaginationLinkProps) {
+function PaginationLink({
+  className,
+  isActive,
+  size = "icon",
+  ...props
+}: PaginationLinkProps) {
   return (
     <Button
       variant={isActive ? "outline" : "ghost"}
@@ -63,7 +72,8 @@ function PaginationPrevious({
       aria-label="Go to previous page"
       size="default"
       className={cn("pl-2!", className)}
-      {...props}>
+      {...props}
+    >
       <ChevronLeftIcon data-icon="inline-start" />
       <span className="hidden sm:block">{text}</span>
     </PaginationLink>
@@ -80,24 +90,30 @@ function PaginationNext({
       aria-label="Go to next page"
       size="default"
       className={cn("pr-2!", className)}
-      {...props}>
+      {...props}
+    >
       <span className="hidden sm:block">{text}</span>
       <ChevronRightIcon data-icon="inline-end" />
     </PaginationLink>
   )
 }
 
-function PaginationEllipsis({ className, ...props }: React.ComponentProps<"span">) {
+function PaginationEllipsis({
+  className,
+  ...props
+}: React.ComponentProps<"span">) {
   return (
     <span
       aria-hidden
       data-slot="pagination-ellipsis"
       className={cn(
         "flex size-9 items-center justify-center [&_svg:not([class*='size-'])]:size-4",
-        className,
+        className
       )}
-      {...props}>
-      <MoreHorizontalIcon />
+      {...props}
+    >
+      <MoreHorizontalIcon
+      />
       <span className="sr-only">More pages</span>
     </span>
   )

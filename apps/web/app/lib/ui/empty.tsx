@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority"
+
 import { cn } from "~/lib/ui/utils"
 
 function Empty({ className, ...props }: React.ComponentProps<"div">) {
@@ -7,7 +8,7 @@ function Empty({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="empty"
       className={cn(
         "flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-lg border-dashed p-12 text-center text-balance",
-        className,
+        className
       )}
       {...props}
     />
@@ -36,7 +37,7 @@ const emptyMediaVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  },
+  }
 )
 
 function EmptyMedia({
@@ -58,7 +59,10 @@ function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="empty-title"
-      className={cn("font-heading text-lg font-medium tracking-tight", className)}
+      className={cn(
+        "font-heading text-lg font-medium tracking-tight",
+        className
+      )}
       {...props}
     />
   )
@@ -69,8 +73,8 @@ function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
     <div
       data-slot="empty-description"
       className={cn(
-        "text-muted-foreground [&>a:hover]:text-primary text-sm/relaxed [&>a]:underline [&>a]:underline-offset-4",
-        className,
+        "text-sm/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary",
+        className
       )}
       {...props}
     />
@@ -83,11 +87,18 @@ function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="empty-content"
       className={cn(
         "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance",
-        className,
+        className
       )}
       {...props}
     />
   )
 }
 
-export { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia }
+export {
+  Empty,
+  EmptyHeader,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+  EmptyMedia,
+}
