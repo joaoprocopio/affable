@@ -2,7 +2,7 @@ import { Button } from "~/components/ui/button"
 import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/components/ui/field"
 import { Input } from "~/components/ui/input"
 
-export default function LoginPage() {
+export default function SigninPage() {
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -15,10 +15,17 @@ export default function LoginPage() {
                   Don&apos;t have an account? <a href="#">Sign up</a>
                 </FieldDescription>
               </div>
+
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input id="email" type="email" placeholder="m@example.com" required />
+                <Input id="email" type="email" placeholder="m@example.com" />
               </Field>
+
+              <Field>
+                <FieldLabel htmlFor="email">Password</FieldLabel>
+                <Input id="password" type="password" />
+              </Field>
+
               <Field>
                 <Button type="submit">Sign in</Button>
               </Field>

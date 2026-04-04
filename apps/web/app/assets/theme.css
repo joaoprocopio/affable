@@ -133,7 +133,7 @@
   }
 
   body {
-    @apply text-base antialiased bg-background text-foreground;
+    @apply bg-background text-foreground text-base antialiased;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
