@@ -44,7 +44,7 @@ final class AuthController extends ApiController
     {
         $user = User::query()->where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return $this->unauthorized('Invalid credentials');
         }
 
@@ -90,7 +90,7 @@ final class AuthController extends ApiController
     {
         $user = User::query()->where('email', $request->email)->first();
 
-        if (! $user) {
+        if (!$user) {
             return $this->notFound('User not found');
         }
 

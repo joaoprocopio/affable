@@ -1,9 +1,7 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "grazulex/laravel-api-kit",
+    "name": "affable/core",
     "type": "project",
-    "description": "Laravel REST API starter kit with Sanctum, Spatie packages, Scramble docs, and Pest testing.",
-    "keywords": ["laravel", "api", "rest", "starter-kit", "sanctum"],
     "license": "MIT",
     "require": {
         "php": "^8.3",
