@@ -11,7 +11,7 @@ export default function SignUpPage() {
           <form>
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-lg font-bold">Welcome to Affable</h1>
+                <h1 className="text-xl font-bold">Sign up to Affable</h1>
                 <FieldDescription>
                   Already have an account? <a href="/signin">Sign in</a>
                 </FieldDescription>
