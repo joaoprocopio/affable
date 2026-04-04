@@ -1,17 +1,9 @@
-import { Button } from "~/components/ui/button";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "~/components/ui/field";
-import { Input } from "~/components/ui/input";
-import { cn } from "~/utils/cn";
+import { Button } from "~/components/ui/button"
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/components/ui/field"
+import { Input } from "~/components/ui/input"
+import { cn } from "~/utils/cn"
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form>
@@ -24,12 +16,7 @@ export function LoginForm({
           </div>
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              required
-            />
+            <Input id="email" type="email" placeholder="m@example.com" required />
           </Field>
           <Field>
             <Button type="submit">Sign in</Button>
@@ -38,11 +25,9 @@ export function LoginForm({
       </form>
       <FieldDescription className="px-6 text-center">
         {/* TODO: add TOS and PP */}
-        By clicking continue, you agree to our <a href="#">
-          Terms of Service
-        </a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a> and{" "}
+        <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
-  );
+  )
 }

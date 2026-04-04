@@ -9,6 +9,7 @@
 Property managers lose thousands to reactive maintenance. Issues go unreported, small problems become expensive repairs, and teams waste hours coordinating through scattered channels. Hospitable has basic "issue alerts" but no comprehensive maintenance lifecycle.
 
 **Pain points:**
+
 - Issues discovered late (during guest check-in)
 - No visibility into property health trends
 - Team coordination through WhatsApp/spreadsheets
@@ -20,6 +21,7 @@ Property managers lose thousands to reactive maintenance. Issues go unreported, 
 ## The Solution
 
 **Affable** is a maintenance operations platform that:
+
 1. **Catches issues early** with systematic tracking
 2. **Scores property health** to prioritize attention
 3. **Automates team coordination** via intelligent queues
@@ -450,21 +452,25 @@ Team Member (Maintenance Staff)
 ## Quick Build Strategy
 
 ### Phase 1: Core Domain (Day 1-2)
+
 - Property, Issue, TeamMember models
 - Basic CRUD for properties and team
 - Issue creation (reported status only)
 
 ### Phase 2: Queue System (Day 2-3)
+
 - Triage queue (manual triage UI)
 - Assignment queue (smart assignment)
 - Status transitions
 
 ### Phase 3: Dashboard & Scoring (Day 3-4)
+
 - Property health scoring
 - Issue dashboard with filters
 - Team workload view
 
 ### Phase 4: Polish (Day 4-5)
+
 - SLA tracking
 - Cost tracking
 - Timeline visualization
