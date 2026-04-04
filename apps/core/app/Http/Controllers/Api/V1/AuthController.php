@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Password;
 
 final class AuthController extends ApiController
 {
-    public function register(RegisterRequest $request): JsonResponse
+    public function signup(RegisterRequest $request): JsonResponse
     {
         $user = User::query()->create([
             'name' => $request->name,
@@ -40,7 +40,7 @@ final class AuthController extends ApiController
         ], 'User registered successfully. Please check your email to verify your account.');
     }
 
-    public function login(LoginRequest $request): JsonResponse
+    public function signin(LoginRequest $request): JsonResponse
     {
         $user = User::query()->where('email', $request->email)->first();
 
@@ -56,7 +56,7 @@ final class AuthController extends ApiController
         ], 'Login successful');
     }
 
-    public function logout(Request $request): JsonResponse
+    public function signout(Request $request): JsonResponse
     {
         /** @var User $user */
         $user = $request->user();
