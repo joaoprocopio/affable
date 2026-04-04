@@ -1,0 +1,33 @@
+@theme {
+  --text-*: initial;
+  --text-3xl: 2.125rem;
+  --text-3xl--line-height: 2.5625rem;
+  --text-3xl--letter-spacing: 0.012em;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 2.125rem;
+  --text-2xl--letter-spacing: 0.014em;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 1.75rem;
+  --text-xl--letter-spacing: -0.012em;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.5625rem;
+  --text-lg--letter-spacing: -0.023em;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.375rem;
+  --text-base--letter-spacing: -0.026em;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.3125rem;
+  --text-sm--letter-spacing: -0.02em;
+  --text-xs: 0.9375rem;
+  --text-xs--line-height: 1.25rem;
+  --text-xs--letter-spacing: -0.016em;
+  --text-2xs: 0.8125rem;
+  --text-2xs--line-height: 1.125rem;
+  --text-2xs--letter-spacing: -0.006em;
+  --text-3xs: 0.75rem;
+  --text-3xs--line-height: 1rem;
+  --text-3xs--letter-spacing: 0em;
+  --text-4xs: 0.6875rem;
+  --text-4xs--line-height: 0.8125rem;
+  --text-4xs--letter-spacing: 0.006em;
+}

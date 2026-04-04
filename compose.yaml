@@ -1,15 +1,25 @@
 services:
   mysql:
     image: mysql:9.6
+    ports:
+      - published: 3306
+        target: 3306
     volumes:
       - type: volume
         source: mysql_data
         target: /var/lib/mysql
-    ports:
-      - published: 3306
-        target: 3306
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: affable
+      MYSQL_ROOT_PASSWORD: root
+
+  laravel:
+    build:
+      context: ./apps/core
+      dockerfile: dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./apps/core:/var/www
+    command: ["php-fpm"]
 
 volumes:
   mysql_data:

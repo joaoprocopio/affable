@@ -1,0 +1,70 @@
+:root {
+  --gray-1: oklch(99.107% 0 none);
+  --gray-2: oklch(98.212% 0 none);
+  --gray-3: oklch(95.514% 0 none);
+  --gray-4: oklch(93.1% 0 none);
+  --gray-5: oklch(90.67% 0 none);
+  --gray-6: oklch(88.531% 0 none);
+  --gray-7: oklch(85.142% 0 none);
+  --gray-8: oklch(79.207% 0 none);
+  --gray-9: oklch(64.341% 0 none);
+  --gray-10: oklch(60.999% 0 none);
+  --gray-11: oklch(50.323% 0 none);
+  --gray-12: oklch(24.353% 0 none);
+
+  --gray-a1: oklch(0% 0 none / 0.01176);
+  --gray-a2: oklch(0% 0 none / 0.02353);
+  --gray-a3: oklch(0% 0 none / 0.05882);
+  --gray-a4: oklch(0% 0 none / 0.0902);
+  --gray-a5: oklch(0% 0 none / 0.12157);
+  --gray-a6: oklch(0% 0 none / 0.14902);
+  --gray-a7: oklch(0% 0 none / 0.19216);
+  --gray-a8: oklch(0% 0 none / 0.26667);
+  --gray-a9: oklch(0% 0 none / 0.44706);
+  --gray-a10: oklch(0% 0 none / 0.48627);
+  --gray-a11: oklch(0% 0 none / 0.60784);
+  --gray-a12: oklch(0% 0 none / 0.87451);
+}
+
+.dark {
+  --gray-1: oklch(17.764% 0 none);
+  --gray-2: oklch(21.342% 0 none);
+  --gray-3: oklch(25.196% 0 none);
+  --gray-4: oklch(28.502% 0 none);
+  --gray-5: oklch(31.317% 0 none);
+  --gray-6: oklch(34.846% 0 none);
+  --gray-7: oklch(40.167% 0 none);
+  --gray-8: oklch(48.906% 0 none);
+  --gray-9: oklch(53.824% 0 none);
+  --gray-10: oklch(58.292% 0 none);
+  --gray-11: oklch(76.993% 0 none);
+  --gray-12: oklch(94.912% 0 none);
+
+  --gray-a1: oklch(0% 0 none / 0);
+  --gray-a2: oklch(100% 0 none / 0.03529);
+  --gray-a3: oklch(100% 0 none / 0.07059);
+  --gray-a4: oklch(100% 0 none / 0.10588);
+  --gray-a5: oklch(100% 0 none / 0.13333);
+  --gray-a6: oklch(100% 0 none / 0.17255);
+  --gray-a7: oklch(100% 0 none / 0.23137);
+  --gray-a8: oklch(100% 0 none / 0.33333);
+  --gray-a9: oklch(100% 0 none / 0.39216);
+  --gray-a10: oklch(100% 0 none / 0.44706);
+  --gray-a11: oklch(100% 0 none / 0.68627);
+  --gray-a12: oklch(100% 0 none / 0.92941);
+}
+
+@theme inline {
+  --color-gray-1: var(--gray-1);
+  --color-gray-2: var(--gray-2);
+  --color-gray-3: var(--gray-3);
+  --color-gray-4: var(--gray-4);
+  --color-gray-5: var(--gray-5);
+  --color-gray-6: var(--gray-6);
+  --color-gray-7: var(--gray-7);
+  --color-gray-8: var(--gray-8);
+  --color-gray-9: var(--gray-9);
+  --color-gray-10: var(--gray-10);
+  --color-gray-11: var(--gray-11);
+  --color-gray-12: var(--gray-12);
+}

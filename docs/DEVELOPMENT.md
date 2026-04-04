@@ -13,16 +13,18 @@ where i've used a variant of Hospitable's PALM-B stack variant:
 
 - install [php](https://php.new/)
 - install [nvm](https://github.com/nvm-sh/nvm)
+- install [docker](https://docs.docker.com/engine/install)
+  - remember do run [post-install scripts](https://docs.docker.com/engine/install/linux-postinstall/)
 
 ```sh
-cd affable_core
-composer global require laravel/installer
+docker compose up -d mysql
 
-nvm install
-nvm use
+cd apps/core
+composer install
 
-npm install --ignore-scripts
-npm run build
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
 
-composer run dev
+./vendor/bin/pest
 ```
