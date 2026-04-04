@@ -1,7 +1,7 @@
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
-import { Button } from "~/components/ui/button"
-import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/components/ui/field"
-import { Input } from "~/components/ui/input"
+import { Button } from "~/lib/ui/button"
+import { Field, FieldDescription, FieldGroup, FieldLabel } from "~/lib/ui/field"
+import { Input } from "~/lib/ui/input"
 
 export default function SignUpPage() {
   return (

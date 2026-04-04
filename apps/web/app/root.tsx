@@ -1,8 +1,8 @@
 import type { Route } from "./+types/root"
-import { ThemeProvider } from "next-themes"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import "~/assets/theme.css"
-import { TooltipProvider } from "~/components/ui/tooltip"
+import { ThemeProvider } from "~/lib/theme/provider"
+import { TooltipProvider } from "~/lib/ui/tooltip"
 
 export const meta: Route.MetaFunction = () => [
   { charSet: "utf-8" },
@@ -21,7 +21,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
 
       <body>
-        <ThemeProvider attribute="class" enableSystem disableTransitionOnChange>
+        <ThemeProvider>
           <TooltipProvider>{children}</TooltipProvider>
         </ThemeProvider>
 
