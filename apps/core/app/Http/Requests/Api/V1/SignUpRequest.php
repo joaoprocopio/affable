@@ -12,7 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property string $email
  * @property string $password
  */
-final class RegisterRequest extends FormRequest
+final class SignUpRequest extends FormRequest
 {
     public function authorize(): bool
     {

@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Api\V1\ForgotPasswordRequest;
-use App\Http\Requests\Api\V1\LoginRequest;
-use App\Http\Requests\Api\V1\RegisterRequest;
+use App\Http\Requests\Api\V1\SignInRequest;
+use App\Http\Requests\Api\V1\SignUpRequest;
 use App\Http\Requests\Api\V1\ResendVerificationRequest;
 use App\Http\Requests\Api\V1\ResetPasswordRequest;
 use App\Http\Requests\Api\V1\VerifyEmailRequest;
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Password;
 
 final class AuthController extends ApiController
 {
-    public function signup(RegisterRequest $request): JsonResponse
+    public function signup(SignUpRequest $request): JsonResponse
     {
         $user = User::query()->create([
             'name' => $request->name,
@@ -40,7 +40,7 @@ final class AuthController extends ApiController
         ], 'User registered successfully. Please check your email to verify your account.');
     }
 
-    public function signin(LoginRequest $request): JsonResponse
+    public function signin(SignInRequest $request): JsonResponse
     {
         $user = User::query()->where('email', $request->email)->first();
 
