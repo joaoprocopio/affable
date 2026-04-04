@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
-use Carbon\CarbonImmutable;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Validation\Rules\Password;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -23,28 +24,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->configureDefaults();
+        $this->configureRateLimiting();
     }
 
     /**
-     * Configure default behaviors for production-ready applications.
+     * Configure the rate limiters for the application.
      */
-    protected function configureDefaults(): void
+    private function configureRateLimiting(): void
     {
-        Date::use(CarbonImmutable::class);
+        // Default API rate limiter - 60 requests per minute
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
 
-        DB::prohibitDestructiveCommands(
-            app()->isProduction(),
-        );
+        // Auth endpoints - more restrictive (prevent brute force)
+        RateLimiter::for('auth', fn (Request $request) => Limit::perMinute(5)->by($request->ip()));
 
-        Password::defaults(fn (): ?Password => app()->isProduction()
-            ? Password::min(12)
-                ->mixedCase()
-                ->letters()
-                ->numbers()
-                ->symbols()
-                ->uncompromised()
-            : null,
-        );
+        // Authenticated user requests - higher limit
+        RateLimiter::for('authenticated', fn (Request $request) => $request->user()
+            ? Limit::perMinute(120)->by($request->user()->id)
+            : Limit::perMinute(60)->by($request->ip()));
     }
 }

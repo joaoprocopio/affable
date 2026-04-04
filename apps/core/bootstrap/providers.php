@@ -1,9 +1,7 @@
 <?php
 
-use App\Providers\AppServiceProvider;
-use App\Providers\FortifyServiceProvider;
+declare(strict_types=1);
 
 return [
-    AppServiceProvider::class,
-    FortifyServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
 ];
