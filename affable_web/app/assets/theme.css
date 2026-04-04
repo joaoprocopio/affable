@@ -55,7 +55,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.25rem;
   --font-sans:
     "Geist Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -100,8 +100,8 @@
   --card-foreground: var(--gray-12);
   --popover: var(--gray-3);
   --popover-foreground: var(--gray-12);
-  --primary: var(--blue-11);
-  --primary-foreground: var(--blue-1);
+  --primary: var(--blue-9);
+  --primary-foreground: var(--blue-12);
   --secondary: var(--gray-4);
   --secondary-foreground: var(--gray-12);
   --muted: var(--gray-4);
