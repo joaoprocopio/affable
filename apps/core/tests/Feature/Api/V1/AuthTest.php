@@ -9,7 +9,7 @@ uses(RefreshDatabase::class);
 
 describe('Registration', function (): void {
     it('registers a new user successfully', function (): void {
-        $response = $this->postJson('/api/v1/register', [
+        $response = $this->postJson('/api/v1/auth/signup', [
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password123',
@@ -36,7 +36,7 @@ describe('Registration', function (): void {
     });
 
     it('fails registration with invalid data', function (): void {
-        $response = $this->postJson('/api/v1/register', [
+        $response = $this->postJson('/api/v1/auth/signup', [
             'name' => '',
             'email' => 'invalid-email',
             'password' => 'short',
@@ -48,7 +48,7 @@ describe('Registration', function (): void {
     it('fails registration with duplicate email', function (): void {
         User::factory()->create(['email' => 'existing@example.com']);
 
-        $response = $this->postJson('/api/v1/register', [
+        $response = $this->postJson('/api/v1/auth/signup', [
             'name' => 'Test User',
             'email' => 'existing@example.com',
             'password' => 'password123',
@@ -65,7 +65,7 @@ describe('Login', function (): void {
             'password' => bcrypt('password123'),
         ]);
 
-        $response = $this->postJson('/api/v1/login', [
+        $response = $this->postJson('/api/v1/auth/signin', [
             'email' => $user->email,
             'password' => 'password123',
         ]);
@@ -90,7 +90,7 @@ describe('Login', function (): void {
             'password' => bcrypt('password123'),
         ]);
 
-        $response = $this->postJson('/api/v1/login', [
+        $response = $this->postJson('/api/v1/auth/signin', [
             'email' => $user->email,
             'password' => 'wrongpassword',
         ]);
@@ -103,7 +103,7 @@ describe('Login', function (): void {
     });
 
     it('fails login with non-existent user', function (): void {
-        $response = $this->postJson('/api/v1/login', [
+        $response = $this->postJson('/api/v1/auth/signin', [
             'email' => 'nonexistent@example.com',
             'password' => 'password123',
         ]);
@@ -117,8 +117,8 @@ describe('Logout', function (): void {
         $user = User::factory()->create();
         $token = $user->createToken('test-token')->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer '.$token)
-            ->postJson('/api/v1/logout');
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->postJson('/api/v1/auth/signout');
 
         $response->assertStatus(200)
             ->assertJson([
@@ -128,7 +128,7 @@ describe('Logout', function (): void {
     });
 
     it('fails logout without authentication', function (): void {
-        $response = $this->postJson('/api/v1/logout');
+        $response = $this->postJson('/api/v1/auth/signout');
 
         $response->assertStatus(401);
     });
@@ -139,8 +139,8 @@ describe('Me', function (): void {
         $user = User::factory()->create();
         $token = $user->createToken('test-token')->plainTextToken;
 
-        $response = $this->withHeader('Authorization', 'Bearer '.$token)
-            ->getJson('/api/v1/me');
+        $response = $this->withHeader('Authorization', 'Bearer ' . $token)
+            ->getJson('/api/v1/auth/me');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -158,7 +158,7 @@ describe('Me', function (): void {
     });
 
     it('fails without authentication', function (): void {
-        $response = $this->getJson('/api/v1/me');
+        $response = $this->getJson('/api/v1/auth/me');
 
         $response->assertStatus(401);
     });

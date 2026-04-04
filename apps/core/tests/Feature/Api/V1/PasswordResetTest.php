@@ -13,7 +13,7 @@ describe('Forgot Password', function (): void {
     it('sends reset link successfully', function (): void {
         $user = User::factory()->create();
 
-        $response = $this->postJson('/api/v1/forgot-password', [
+        $response = $this->postJson('/api/v1/auth/forgot-password', [
             'email' => $user->email,
         ]);
 
@@ -25,7 +25,7 @@ describe('Forgot Password', function (): void {
     });
 
     it('fails with non-existent email', function (): void {
-        $response = $this->postJson('/api/v1/forgot-password', [
+        $response = $this->postJson('/api/v1/auth/forgot-password', [
             'email' => 'nonexistent@example.com',
         ]);
 
@@ -37,7 +37,7 @@ describe('Forgot Password', function (): void {
 
         // Make 7 requests (limit is 6 per minute)
         for ($i = 0; $i < 7; $i++) {
-            $response = $this->postJson('/api/v1/forgot-password', [
+            $response = $this->postJson('/api/v1/auth/forgot-password', [
                 'email' => $user->email,
             ]);
         }
@@ -53,7 +53,7 @@ describe('Reset Password', function (): void {
 
         $token = Password::createToken($user);
 
-        $response = $this->postJson('/api/v1/reset-password', [
+        $response = $this->postJson('/api/v1/auth/reset-password', [
             'email' => $user->email,
             'token' => $token,
             'password' => 'newpassword123',
@@ -76,7 +76,7 @@ describe('Reset Password', function (): void {
     it('fails with invalid token', function (): void {
         $user = User::factory()->create();
 
-        $response = $this->postJson('/api/v1/reset-password', [
+        $response = $this->postJson('/api/v1/auth/reset-password', [
             'email' => $user->email,
             'token' => 'invalid-token',
             'password' => 'newpassword123',
@@ -94,7 +94,7 @@ describe('Reset Password', function (): void {
         $user = User::factory()->create();
         $token = Password::createToken($user);
 
-        $response = $this->postJson('/api/v1/reset-password', [
+        $response = $this->postJson('/api/v1/auth/reset-password', [
             'email' => $user->email,
             'token' => $token,
             'password' => 'newpassword123',
@@ -105,7 +105,7 @@ describe('Reset Password', function (): void {
     });
 
     it('fails with non-existent email', function (): void {
-        $response = $this->postJson('/api/v1/reset-password', [
+        $response = $this->postJson('/api/v1/auth/reset-password', [
             'email' => 'nonexistent@example.com',
             'token' => 'some-token',
             'password' => 'newpassword123',
