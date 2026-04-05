@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Domain\Contracts;
+namespace App\Auth\Domain\Repositories;
 
-use App\Auth\Domain\Entities\User;
+use App\Auth\Domain\Aggregates\User;
+use App\Shared\Application\Repositories\Repository;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Id;
 
-interface UserRepository
+interface UserRepository extends Repository
 {
     public function save(User $user): void;
-
     public function findById(Id $id): ?User;
-
     public function findByEmail(Email $email): ?User;
 }

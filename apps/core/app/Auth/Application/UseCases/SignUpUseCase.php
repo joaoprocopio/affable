@@ -6,7 +6,7 @@ namespace App\Auth\Application\UseCases;
 
 use App\Auth\Application\DTOs\SignUpDTO;
 use App\Auth\Domain\Aggregates\User;
-use App\Auth\Domain\Contracts\UserRepository;
+use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Exceptions\EmailAlreadyExists;
 use App\Shared\Application\UseCases\UseCase;
 

@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
 
 #[Fillable(['email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
-final class EloquentUser extends Authenticatable
+final class IlluminateUser extends Authenticatable
 {
     use Notifiable;
 

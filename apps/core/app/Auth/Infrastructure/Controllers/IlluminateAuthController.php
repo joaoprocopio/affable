@@ -13,7 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-final class AuthController extends Controller
+final class IlluminateAuthController extends Controller
 {
     public function signUp(Request $request, SignUpUseCase $useCase): JsonResponse
     {

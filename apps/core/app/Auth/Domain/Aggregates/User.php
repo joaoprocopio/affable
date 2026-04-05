@@ -7,40 +7,22 @@ namespace App\Auth\Domain\Aggregates;
 use App\Auth\Domain\Events\UserSignedIn;
 use App\Auth\Domain\Events\UserSignedOut;
 use App\Auth\Domain\Events\UserSignedUp;
-use App\Auth\Domain\ValueObjects\Email;
-use App\Auth\Domain\ValueObjects\Password;
-use App\Auth\Domain\ValueObjects\UserId;
+use App\Auth\Domain\Services\PasswordHashingService;
+use App\Auth\Domain\ValueObjects\PasswordHash;
+use App\Auth\Domain\ValueObjects\PasswordRaw;
 use App\Shared\Domain\Aggregates\AggregateRoot;
-use App\Auth\Domain\Entities;
+use App\Shared\Domain\ValueObjects\Email;
+use App\Shared\Domain\ValueObjects\Id;
 
 final class User extends AggregateRoot
 {
     private function __construct(
-        private Entities\User $user
+        private Id $id,
+        private Email $email,
+        private PasswordRaw | PasswordHash $password
     ) {}
 
-    public static function signUp(UserId $id, Email $email, Password $password): self
-    {
-        $user = new self($id, $email, $password);
-        $user->recordEvent(new UserSignedUp($id, $email));
-
-        return $user;
-    }
-
-    public static function reconstitute(
-        UserId $id,
-        Email $email,
-        Password $password
-    ): self {
-        return new self($id, $email, $password);
-    }
-
-    public function id(): int
-    {
-        return $this->id->value();
-    }
-
-    public function userId(): UserId
+    public function id(): Id
     {
         return $this->id;
     }
@@ -50,19 +32,24 @@ final class User extends AggregateRoot
         return $this->email;
     }
 
-    public function password(): Password
+    public function password(): PasswordRaw | PasswordHash
     {
         return $this->password;
     }
 
-    public function verifyPassword(string $plainPassword): bool
+    public function verifyPassword(PasswordRaw $passwordRaw, PasswordHashingService $passwordHashingService): bool
     {
-        return $this->password->verify($plainPassword);
+        return $passwordHashingService->verify($passwordRaw, $this->password);
     }
 
-    public function changePassword(Password $newPassword): void
+    public function changePassword(PasswordRaw $passwordRaw, PasswordHashingService $passwordHashingService): void
     {
-        $this->user->password = $newPassword;
+        $this->password = $passwordHashingService->hash($passwordRaw);
+    }
+
+    public function markAsSignedUp(): void
+    {
+        $this->recordEvent(new UserSignedUp($this->id, $this->email));
     }
 
     public function markAsSignedIn(): void

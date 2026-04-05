@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace App\Auth\Infrastructure\Repositories;
 
-use App\Auth\Domain\Aggregates\User as DomainUser;
-use App\Auth\Domain\Contracts\UserRepository;
-use App\Auth\Domain\ValueObjects\Email;
-use App\Auth\Domain\ValueObjects\Password;
-use App\Auth\Domain\ValueObjects\UserId;
+use App\Auth\Domain\Aggregates\User;
+use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Infrastructure\Models\EloquentUser;
 
-final class EloquentUserRepository implements UserRepository
+final class IlluminateUserRepository implements UserRepository
 {
-    public function save(DomainUser $user): void
+    public function save(User $user): void
     {
         EloquentUser::updateOrCreate(
             ['id' => $user->id()],
@@ -24,7 +21,7 @@ final class EloquentUserRepository implements UserRepository
         );
     }
 
-    public function findById(UserId $id): ?DomainUser
+    public function findById(UserId $id): ?User
     {
         /** @var User|null $model */
         $model = EloquentUser::find($id->value());
@@ -36,7 +33,7 @@ final class EloquentUserRepository implements UserRepository
         return $this->toDomain($model);
     }
 
-    public function findByEmail(Email $email): ?DomainUser
+    public function findByEmail(Email $email): ?User
     {
         /** @var User|null $model */
         $model = EloquentUser::where('email', (string) $email)->first();
@@ -48,9 +45,9 @@ final class EloquentUserRepository implements UserRepository
         return $this->toDomain($model);
     }
 
-    private function toDomain(User $model): DomainUser
+    private function toDomain(User $model): User
     {
-        return DomainUser::reconstitute(
+        return User::reconstitute(
             new UserId((int) $model->id),
             new Email((string) $model->email),
             Password::fromHash((string) $model->password)

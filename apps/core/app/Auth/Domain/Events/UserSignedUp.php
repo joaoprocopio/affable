@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Auth\Domain\Events;
 
-use App\Auth\Domain\ValueObjects\Email;
-use App\Auth\Domain\ValueObjects\UserId;
 use App\Shared\Domain\Events\DomainEvent;
+use App\Shared\Domain\ValueObjects\Email;
+use App\Shared\Domain\ValueObjects\Id;
 
 final class UserSignedUp extends DomainEvent
 {
     public function __construct(
-        public readonly UserId $userId,
+        public readonly Id $id,
         public readonly Email $email
     ) {
         parent::__construct();
@@ -25,8 +25,8 @@ final class UserSignedUp extends DomainEvent
     public function toArray(): array
     {
         return [
-            'user_id' => $this->userId->value(),
-            'email' => (string) $this->email,
+            'user_id' => $this->id->value(),
+            'email' => $this->email->value(),
             'occurred_at' => $this->occurredAt->format('c'),
         ];
     }
