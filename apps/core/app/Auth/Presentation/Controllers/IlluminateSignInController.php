@@ -10,7 +10,6 @@ use App\Auth\Domain\ValueObjects\PasswordRaw;
 use App\Auth\Presentation\Requests\IlluminateSignInRequest;
 use App\Shared\Domain\ValueObjects\Email;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 
@@ -27,9 +26,6 @@ final class IlluminateSignInController extends Controller
 
         $user = $this->useCase->execute($dto);
 
-        return Response::json([
-            'message' => 'Signed in successfully',
-            'user_id' => $user->id()->value(),
-        ]);
+        return Response::json($user);
     }
 }

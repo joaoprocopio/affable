@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Response;
 
 final class IlluminateSignOutController extends Controller
 {
-    private function __construct(private readonly SignOutUseCase $useCase) {}
+    public function __construct(private readonly SignOutUseCase $useCase) {}
 
     public function __invoke(Request $request): JsonResponse
     {

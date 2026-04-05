@@ -12,7 +12,7 @@ use App\Shared\Domain\ValueObjects\Id;
 
 final class IlluminateUserRepository implements UserRepository
 {
-    public function save(User $user): void
+    public function save(User $user): User
     {
         $model = IlluminateUserModel::query()->updateOrCreate(
             ['id' => (int) $user->id()],

@@ -26,7 +26,7 @@ final class IlluminateSignUpController extends Controller
 
         $dto = new SignUpDTO(
             email: new Email($data['email']),
-            password: new PasswordRaw($data['password'])
+            passwordRaw: new PasswordRaw($data['password'])
         );
 
         $userId = $this->useCase->execute($dto);
