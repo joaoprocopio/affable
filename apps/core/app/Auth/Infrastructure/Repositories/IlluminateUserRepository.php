@@ -6,7 +6,6 @@ namespace App\Auth\Infrastructure\Repositories;
 
 use App\Auth\Domain\Aggregates\User;
 use App\Auth\Domain\Repositories\UserRepository;
-use App\Auth\Domain\ValueObjects\PasswordHash;
 use App\Auth\Infrastructure\Models\IlluminateUserModel;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Id;
