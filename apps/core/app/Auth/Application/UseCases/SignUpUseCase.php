@@ -9,11 +9,18 @@ use App\Auth\Application\DTOs\UserDTO;
 use App\Auth\Domain\Aggregates\User;
 use App\Auth\Domain\Exceptions\EmailAlreadyExistsException;
 use App\Auth\Domain\Repositories\UserRepository;
+use App\Auth\Domain\Services\AuthService;
+use App\Auth\Domain\Services\PasswordHashingService;
 use App\Shared\Application\UseCase;
 
 final class SignUpUseCase implements UseCase
 {
-    public function __construct(private UserRepository $userRepository) {}
+
+    public function __construct(
+        private UserRepository $userRepository,
+        private PasswordHashingService $passwordHashingService,
+        private AuthService $authService,
+    ) {}
 
     public function execute(SignUpDTO $dto): UserDTO
     {
@@ -23,9 +30,12 @@ final class SignUpUseCase implements UseCase
             throw new EmailAlreadyExistsException($dto->email->value());
         }
 
+        $user = new User(
+            id: null,
+            email: $dto->email,
+            passwordHash: $this->passwordHashingService->hash($dto->passwordRaw),
+        );
 
         $this->userRepository->save($user);
-
-        return $user->id()->value();
     }
 }

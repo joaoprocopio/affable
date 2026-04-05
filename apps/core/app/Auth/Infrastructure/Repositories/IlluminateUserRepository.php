@@ -14,7 +14,7 @@ final class IlluminateUserRepository implements UserRepository
 {
     public function save(User $user): void
     {
-        IlluminateUserModel::updateOrCreate(
+        $illuminateUser = IlluminateUserModel::updateOrCreate(
             ['id' => $user->id()->value()],
             [
                 'email' => (string) $user->email(),

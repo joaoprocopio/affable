@@ -7,6 +7,7 @@ namespace App\Auth\Presentation\Controllers;
 use App\Auth\Application\DTOs\SignInDTO;
 use App\Auth\Application\UseCases\SignInUseCase;
 use App\Auth\Domain\ValueObjects\PasswordRaw;
+use App\Auth\Presentation\Requests\IlluminateSignInRequest;
 use App\Shared\Domain\ValueObjects\Email;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,16 +18,11 @@ final class IlluminateSignInController extends Controller
 {
     public function __construct(private readonly SignInUseCase $useCase) {}
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(IlluminateSignInRequest $request): JsonResponse
     {
-        $data = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
-
         $dto = new SignInDTO(
-            email: new Email($data['email']),
-            password: new PasswordRaw($data['password'])
+            email: new Email($request->email),
+            passwordRaw: new PasswordRaw($request->password),
         );
 
         $user = $this->useCase->execute($dto);

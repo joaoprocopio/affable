@@ -16,13 +16,13 @@ use App\Shared\Domain\ValueObjects\Id;
 
 final class User extends AggregateRoot
 {
-    private function __construct(
-        private Id $id,
+    public function __construct(
+        private ?Id $id,
         private Email $email,
         private PasswordHash $passwordHash
     ) {}
 
-    public function id(): Id
+    public function id(): ?Id
     {
         return $this->id;
     }
