@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Shared\Domain\Events;
+
+use DateTimeImmutable;
+
+abstract class DomainEvent
+{
+    public readonly DateTimeImmutable $occurredAt;
+
+    public function __construct()
+    {
+        $this->occurredAt = new DateTimeImmutable();
+    }
+
+    abstract public function eventName(): string;
+
+    /**
+     * @return array<string, mixed>
+     */
+    abstract public function toArray(): array;
+}
