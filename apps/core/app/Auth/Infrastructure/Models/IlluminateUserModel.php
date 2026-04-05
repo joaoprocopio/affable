@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\Models;
+namespace App\Auth\Infrastructure\Models\IlluminateUserModel;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
