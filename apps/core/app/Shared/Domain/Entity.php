@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Domain\Entities;
-
-use App\Shared\Domain\ValueObjects\Id;
+namespace App\Shared\Domain;
 
 abstract class Entity
 {

@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Application\Services;
+namespace App\Shared\Application;
 
 interface Service {}

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Auth\Domain\Repositories;
 
 use App\Auth\Domain\Aggregates\User;
-use App\Shared\Application\Repositories\Repository;
-use App\Shared\Domain\ValueObjects\Email;
-use App\Shared\Domain\ValueObjects\Id;
+use App\Shared\Application\Repository;
+use App\Shared\Domain\Email;
+use App\Shared\Domain\Id;
 
 interface UserRepository extends Repository
 {

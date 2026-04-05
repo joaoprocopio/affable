@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Application\Repositories;
+namespace App\Shared\Application;
 
 interface Repository {}

@@ -8,13 +8,11 @@ use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Services\AuthService;
 use App\Auth\Domain\Services\PasswordHashingService;
 use App\Auth\Infrastructure\Repositories\IlluminateUserRepository;
-use App\Auth\Infrastructure\Services\IlluminatePasswordHashingService;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
-use App\Auth\Infrastructure\Services\IlluminateAuthService;
 
 final class Provider extends ServiceProvider
 {

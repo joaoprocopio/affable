@@ -7,8 +7,7 @@ namespace App\Auth\Infrastructure\Repositories;
 use App\Auth\Domain\Aggregates\User;
 use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Infrastructure\Models\IlluminateUser;
-use App\Shared\Domain\ValueObjects\Email;
-use App\Shared\Domain\ValueObjects\Id;
+use App\Shared\Domain\Id;
 
 final class IlluminateUserRepository implements UserRepository
 {
