@@ -17,12 +17,12 @@ use App\Shared\Domain\ValueObjects\Id;
 final class User extends AggregateRoot
 {
     public function __construct(
-        private ?Id $id,
+        private Id $id,
         private Email $email,
         private PasswordHash $passwordHash
     ) {}
 
-    public function id(): ?Id
+    public function id(): Id
     {
         return $this->id;
     }
@@ -37,14 +37,9 @@ final class User extends AggregateRoot
         return $this->passwordHash;
     }
 
-    public function verifyPassword(PasswordRaw $passwordRaw, PasswordHashingService $passwordHashingService): bool
+    public function changePassword(PasswordHash $passwordHash): void
     {
-        return $passwordHashingService->verify($passwordRaw, $this->passwordHash);
-    }
-
-    public function changePassword(PasswordRaw $passwordRaw, PasswordHashingService $passwordHashingService): void
-    {
-        $this->passwordHash = $passwordHashingService->hash($passwordRaw);
+        $this->passwordHash = $passwordHash;
     }
 
     public function markAsSignedUp(): void

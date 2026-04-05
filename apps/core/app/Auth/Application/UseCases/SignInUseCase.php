@@ -25,7 +25,7 @@ final class SignInUseCase implements UseCase
     {
         $user = $this->userRepository->findByEmail($dto->email);
 
-        if (! $user || ! $user->verifyPassword($dto->passwordRaw, $this->passwordHashingService)) {
+        if (!$user || !$this->passwordHashingService->verify($dto->passwordRaw, $user->password())) {
             throw new InvalidCredentialsException();
         }
 
