@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\Controllers;
+namespace App\Auth\Presentation\Controllers;
 
 use App\Auth\Application\DTOs\SignInDTO;
 use App\Auth\Application\UseCases\SignInUseCase;

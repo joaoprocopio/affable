@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\Controllers;
+namespace App\Auth\Presentation\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
