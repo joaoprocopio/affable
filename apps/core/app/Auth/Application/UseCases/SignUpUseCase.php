@@ -4,25 +4,22 @@ declare(strict_types=1);
 
 namespace App\Auth\Application\UseCases;
 
+use App\Auth\Application\DTOs\SignUpDTO;
 use App\Auth\Domain\Aggregates\User;
 use App\Auth\Domain\Contracts\UserRepository;
 use App\Auth\Domain\Exceptions\EmailAlreadyExists;
-use App\Auth\Domain\ValueObjects\Email;
-use App\Auth\Domain\ValueObjects\Password;
 use App\Shared\Application\UseCases\UseCase;
 
 final class SignUpUseCase implements UseCase
 {
     public function __construct(private UserRepository $userRepository) {}
 
-    public function execute(string $email, string $password): int
+    public function execute(SignUpDTO $dto): int
     {
-        $emailVO = new Email($email);
-        $passwordVO = Password::fromPlain($password);
+        $existingUser = $this->userRepository->findByEmail($dto->email);
 
-        $existingUser = $this->userRepository->findByEmail($emailVO);
         if ($existingUser !== null) {
-            throw new EmailAlreadyExists($email);
+            throw new EmailAlreadyExists($dto->email->value());
         }
 
         $user = User::signUp(

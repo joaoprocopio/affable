@@ -12,6 +12,7 @@ abstract class DTO
     final public function toArray(): array
     {
         $result = [];
+
         foreach (get_object_vars($this) as $key => $value) {
             $result[(string) $key] = $value;
         }

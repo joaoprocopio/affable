@@ -6,10 +6,11 @@ namespace App\Auth\Domain\Events;
 
 use App\Auth\Domain\ValueObjects\UserId;
 use App\Shared\Domain\Events\DomainEvent;
+use App\Shared\Domain\ValueObjects\Id;
 
 final class UserSignedOut extends DomainEvent
 {
-    public function __construct(public readonly UserId $userId)
+    public function __construct(public readonly Id $userId)
     {
         parent::__construct();
     }

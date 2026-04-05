@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\Http\Controllers;
+namespace App\Auth\Infrastructure\Controllers;
 
 use App\Auth\Application\DTOs\SignInDTO;
 use App\Auth\Application\DTOs\SignUpDTO;
@@ -11,14 +11,10 @@ use App\Auth\Application\UseCases\SignOutUseCase;
 use App\Auth\Application\UseCases\SignUpUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Illuminate\Routing\Controller;
 
-final class AuthController
+final class AuthController extends Controller
 {
-    public function __construct(
-        private ValidatorInterface $validator
-    ) {}
-
     public function signUp(Request $request, SignUpUseCase $useCase): JsonResponse
     {
         $email = $request->input('email');

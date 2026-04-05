@@ -8,7 +8,12 @@ use App\Shared\Domain\ValueObjects\ValueObject;
 
 final readonly class Id extends ValueObject
 {
-    public function __construct(private int $value) {}
+    public function __construct(private int $value)
+    {
+        if ($value < 1) {
+            throw new \InvalidArgumentException("Id must be a positive integer, got {$value}.");
+        }
+    }
 
     public function __toString(): string
     {

@@ -11,13 +11,12 @@ use App\Auth\Domain\ValueObjects\Email;
 use App\Auth\Domain\ValueObjects\Password;
 use App\Auth\Domain\ValueObjects\UserId;
 use App\Shared\Domain\Aggregates\AggregateRoot;
+use App\Auth\Domain\Entities;
 
 final class User extends AggregateRoot
 {
     private function __construct(
-        private readonly UserId $id,
-        private Email $email,
-        private Password $password
+        private Entities\User $user
     ) {}
 
     public static function signUp(UserId $id, Email $email, Password $password): self
@@ -63,7 +62,7 @@ final class User extends AggregateRoot
 
     public function changePassword(Password $newPassword): void
     {
-        $this->password = $newPassword;
+        $this->user->password = $newPassword;
     }
 
     public function markAsSignedIn(): void
