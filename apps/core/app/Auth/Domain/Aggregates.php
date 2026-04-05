@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Auth\Domain\Aggregates;
 
-use App\Auth\Domain\Events\UserSignedIn;
-use App\Auth\Domain\Events\UserSignedOut;
-use App\Auth\Domain\Events\UserSignedUp;
+use App\Auth\Domain\Events\UserSignedInEvent;
+use App\Auth\Domain\Events\UserSignedOutEvent;
+use App\Auth\Domain\Events\UserSignedUpEvent;
 use App\Auth\Domain\Services\PasswordHashingService;
 use App\Auth\Domain\ValueObjects\PasswordHash;
 use App\Auth\Domain\ValueObjects\PasswordRaw;
-use App\Shared\Domain\Aggregates\AggregateRoot;
+use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Id;
 
@@ -49,16 +49,16 @@ final class User extends AggregateRoot
 
     public function markAsSignedUp(): void
     {
-        $this->recordEvent(new UserSignedUp($this->id, $this->email));
+        $this->recordEvent(new UserSignedUpEvent($this->id, $this->email));
     }
 
     public function markAsSignedIn(): void
     {
-        $this->recordEvent(new UserSignedIn($this->id));
+        $this->recordEvent(new UserSignedInEvent($this->id));
     }
 
     public function markAsSignedOut(): void
     {
-        $this->recordEvent(new UserSignedOut($this->id));
+        $this->recordEvent(new UserSignedOutEvent($this->id));
     }
 }

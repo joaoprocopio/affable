@@ -25,7 +25,7 @@ abstract class AggregateRoot
         return count($this->domainEvents) > 0;
     }
 
-    protected function recordEvent(DomainEvent $event): void
+    protected function recordEvent(Event $event): void
     {
         $this->domainEvents[] = $event;
     }

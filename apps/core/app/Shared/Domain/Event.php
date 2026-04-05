@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain;
 
-abstract class DomainEvent
+abstract class Event
 {
     public readonly \DateTimeImmutable $occurredAt;
 

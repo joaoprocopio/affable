@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Auth\Application\UseCases;
 
-use App\Auth\Application\DTOs;
+use App\Auth\Application\DTOs\SignInDTO;
+use App\Auth\Application\DTOs\SignUpDTO;
 use App\Auth\Domain\Aggregates\User;
+use App\Auth\Domain\Exceptions\EmailAlreadyExistsException;
+use App\Auth\Domain\Exceptions\InvalidCredentialsException;
 use App\Auth\Domain\Repositories\UserRepository;
-use App\Auth\Domain\Exceptions\EmailAlreadyExists;
-use App\Shared\Application\Service;
+use App\Auth\Domain\Services\AuthService;
+use App\Auth\Domain\Services\PasswordHashingService;
 use App\Shared\Application\UseCase;
 
-final class SignIn implements UseCase
+final class SignInUseCase implements UseCase
 {
     public function __construct(
         private UserRepository $userRepository,
@@ -19,12 +22,12 @@ final class SignIn implements UseCase
         private AuthService $authService,
     ) {}
 
-    public function execute(DTOs\SignIn $dto): User
+    public function execute(SignInDTO $dto): User
     {
         $user = $this->userRepository->findByEmail($dto->email);
 
         if (!$user || !$user->verifyPassword($dto->password, $this->passwordHashingService)) {
-            throw new InvalidCredentials();
+            throw new InvalidCredentialsException();
         }
 
         $this->authService->signIn($user);
@@ -36,7 +39,7 @@ final class SignIn implements UseCase
 }
 
 
-final class SignOut implements UseCase
+final class SignOutUseCase implements UseCase
 {
     public function __construct(
         private AuthService $authService,
@@ -48,17 +51,16 @@ final class SignOut implements UseCase
     }
 }
 
-
-final class SignUp implements UseCase
+final class SignUpUseCase implements UseCase
 {
     public function __construct(private UserRepository $userRepository) {}
 
-    public function execute(DTOs\SignUp $dto): int
+    public function execute(SignUpDTO $dto): int
     {
         $existingUser = $this->userRepository->findByEmail($dto->email);
 
         if ($existingUser !== null) {
-            throw new EmailAlreadyExists($dto->email->value());
+            throw new EmailAlreadyExistsException($dto->email->value());
         }
 
         $user = User::signUp(

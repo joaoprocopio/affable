@@ -10,7 +10,7 @@ use App\Auth\Application\UseCases;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-final class IlluminateAuth extends Controller
+final class IlluminateAuthController extends Controller
 {
     public function signUp(Request $request, UseCases\SignUpUseCase $useCase): Response
     {
@@ -34,9 +34,7 @@ final class IlluminateAuth extends Controller
                 ];
             }
 
-            return Response::json();
-
-            return response()->json(['errors' => $messages], 422);
+            return Response::json(status: Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $userId = $useCase->execute($dto->email ?? '', $dto->password ?? '');
@@ -48,7 +46,7 @@ final class IlluminateAuth extends Controller
     }
 }
 
-final class IlluminateMe extends Controller
+final class IlluminateMeController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
@@ -56,7 +54,7 @@ final class IlluminateMe extends Controller
     }
 }
 
-final class IlluminateSignIn extends Controller
+final class IlluminateSignInController extends Controller
 {
     public function __invoke(Request $request, UseCases\SignIn $useCase): JsonResponse
     {
@@ -79,7 +77,7 @@ final class IlluminateSignIn extends Controller
     }
 }
 
-final class IlluminateSignOut extends Controller
+final class IlluminateSignOutController extends Controller
 {
     public function __invoke(Request $request, UseCases\SignOut $useCase): JsonResponse
     {
