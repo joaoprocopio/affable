@@ -13,11 +13,6 @@ use App\Shared\Domain\ValueObjects\Id;
 
 final class IlluminateUserRepository implements UserRepository
 {
-    public function nextIdentity(): Id
-    {
-        return new Id(0);
-    }
-
     public function save(User $user): void
     {
         IlluminateUserModel::updateOrCreate(
@@ -36,8 +31,6 @@ final class IlluminateUserRepository implements UserRepository
         if (! $model) {
             return null;
         }
-
-        return $this->toDomain($model);
     }
 
     public function findByEmail(Email $email): ?User
@@ -47,16 +40,5 @@ final class IlluminateUserRepository implements UserRepository
         if (! $model) {
             return null;
         }
-
-        return $this->toDomain($model);
-    }
-
-    private function toDomain(IlluminateUserModel $model): User
-    {
-        return User::reconstitute(
-            new Id((int) $model->id),
-            new Email((string) $model->email),
-            PasswordHash::fromString((string) $model->password)
-        );
     }
 }

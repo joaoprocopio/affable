@@ -11,11 +11,7 @@ use App\Shared\Domain\ValueObjects\Id;
 
 interface UserRepository extends Repository
 {
-    public function nextIdentity(): Id;
-
     public function save(User $user): void;
-
     public function findById(Id $id): ?User;
-
     public function findByEmail(Email $email): ?User;
 }

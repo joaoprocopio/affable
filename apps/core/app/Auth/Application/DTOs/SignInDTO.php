@@ -12,6 +12,6 @@ final class SignInDTO extends DTO
 {
     public function __construct(
         public readonly Email $email,
-        public readonly PasswordRaw $password
+        public readonly PasswordRaw $passwordRaw
     ) {}
 }
