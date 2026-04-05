@@ -4,45 +4,36 @@ declare(strict_types=1);
 
 namespace App\Auth\Infrastructure\Controllers;
 
-use Illuminate\Routing\Controller;
-use App\Auth\Application\DTOs;
-use App\Auth\Application\UseCases;
+use App\Auth\Application\DTOs\SignInDTO;
+use App\Auth\Application\DTOs\SignUpDTO;
+use App\Auth\Application\UseCases\SignInUseCase;
+use App\Auth\Application\UseCases\SignOutUseCase;
+use App\Auth\Application\UseCases\SignUpUseCase;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Response;
 
-final class IlluminateAuthController extends Controller
+final class IlluminateSignUpController extends Controller
 {
-    public function signUp(Request $request, UseCases\SignUpUseCase $useCase): Response
+    public function __invoke(Request $request, SignUpUseCase $useCase): JsonResponse
     {
-        $email = $request->input('email');
-        $password = $request->input('password');
-
+        $data = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
         $dto = new SignUpDTO(
-            email: is_string($email) ? $email : null,
-            password: is_string($password) ? $password : null
+            email: $data->email,
+            password: $data->password
         );
 
-        $errors = $this->validator->validate($dto);
+        $userId = $useCase->execute($dto);
 
-        if (count($errors) > 0) {
-            $messages = [];
-            foreach ($errors as $error) {
-                $messages[] = [
-                    'field' => $error->getPropertyPath(),
-                    'message' => $error->getMessage(),
-                ];
-            }
-
-            return Response::json(status: Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $userId = $useCase->execute($dto->email ?? '', $dto->password ?? '');
-
-        return response()->json([
+        return Response::json([
             'message' => 'User signed up successfully',
             'user_id' => $userId,
-        ], 201);
+        ]);
     }
 }
 
@@ -50,27 +41,27 @@ final class IlluminateMeController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        return response()->json($request->user());
+        return Response::json($request->user());
     }
 }
 
 final class IlluminateSignInController extends Controller
 {
-    public function __invoke(Request $request, UseCases\SignIn $useCase): JsonResponse
+    public function __invoke(Request $request, SignInUseCase $useCase): JsonResponse
     {
         $data = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        $dto = new DTOs\SignIn(
+        $dto = new SignInDTO(
             email: $data->email,
             password: $data->password,
         );
 
         $userId = $useCase->execute($dto);
 
-        return response()->json([
+        return Response::json([
             'message' => 'Signed in successfully',
             'user_id' => $userId,
         ]);
@@ -79,9 +70,9 @@ final class IlluminateSignInController extends Controller
 
 final class IlluminateSignOutController extends Controller
 {
-    public function __invoke(Request $request, UseCases\SignOut $useCase): JsonResponse
+    public function __invoke(Request $request, SignOutUseCase $useCase): JsonResponse
     {
         $useCase->execute($request);
-        return response()->json(status: JsonResponse::HTTP_OK);
+        return Response::json(status: JsonResponse::HTTP_OK);
     }
 }
