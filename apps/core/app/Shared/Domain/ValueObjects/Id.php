@@ -2,13 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Domain\ValueObjects;
+namespace App\Shared\Domain\ValueObjects;
 
 use App\Shared\Domain\ValueObjects\ValueObject;
 
-final readonly class UserId extends ValueObject
+final readonly class Id extends ValueObject
 {
     public function __construct(private int $value) {}
+
+    public function __toString(): string
+    {
+        return (string) $this->value;
+    }
 
     public function value(): int
     {

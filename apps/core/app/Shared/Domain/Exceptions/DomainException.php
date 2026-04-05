@@ -8,15 +8,13 @@ use Exception;
 
 abstract class DomainException extends Exception
 {
-    protected int $domainErrorCode;
-
-    public function __construct(string $message, int $domainErrorCode)
+    public function __construct(string $message, protected string $domainErrorCode)
     {
         parent::__construct($message, $domainErrorCode);
         $this->domainErrorCode = $domainErrorCode;
     }
 
-    final public function getDomainErrorCode(): int
+    final public function domainErrorCode(): string
     {
         return $this->domainErrorCode;
     }

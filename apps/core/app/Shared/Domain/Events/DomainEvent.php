@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Shared\Domain\Events;
 
-use DateTimeImmutable;
+use Carbon\CarbonImmutable;
 
 abstract class DomainEvent
 {
-    public readonly DateTimeImmutable $occurredAt;
+    public readonly CarbonImmutable $occurredAt;
 
     public function __construct()
     {
-        $this->occurredAt = new DateTimeImmutable();
+        $this->occurredAt = new CarbonImmutable();
     }
 
     abstract public function eventName(): string;
