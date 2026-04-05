@@ -10,6 +10,7 @@ use App\Auth\Application\UseCases\SignInUseCase;
 use App\Auth\Application\UseCases\SignOutUseCase;
 use App\Auth\Application\UseCases\SignUpUseCase;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -71,9 +72,7 @@ final class IlluminateAuthController extends Controller
             return response()->json(['errors' => $messages], 422);
         }
 
-        $userId = $useCase->execute($dto->email ?? '', $dto->password ?? '');
-
-        $request->session()->regenerate();
+        $userId = $useCase->execute($dto);
 
         return response()->json([
             'message' => 'Signed in successfully',
@@ -81,13 +80,10 @@ final class IlluminateAuthController extends Controller
         ]);
     }
 
-    public function signOut(Request $request, SignOutUseCase $useCase): JsonResponse
+    public function signOut(Request $request, SignOutUseCase $useCase): Response
     {
         $useCase->execute($request);
-
-        return response()->json([
-            'message' => 'Signed out successfully',
-        ]);
+        return response()->make(status: JsonResponse::HTTP_OK);
     }
 
     public function user(Request $request): JsonResponse

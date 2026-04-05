@@ -6,13 +6,15 @@ namespace App\Auth\Infrastructure\Repositories;
 
 use App\Auth\Domain\Aggregates\User;
 use App\Auth\Domain\Repositories\UserRepository;
-use App\Auth\Infrastructure\Models\EloquentUser;
+use App\Auth\Infrastructure\Models\IlluminateUser;
+use App\Shared\Domain\ValueObjects\Email;
+use App\Shared\Domain\ValueObjects\Id;
 
 final class IlluminateUserRepository implements UserRepository
 {
     public function save(User $user): void
     {
-        EloquentUser::updateOrCreate(
+        IlluminateUser::updateOrCreate(
             ['id' => $user->id()],
             [
                 'email' => (string) $user->email(),
@@ -21,10 +23,10 @@ final class IlluminateUserRepository implements UserRepository
         );
     }
 
-    public function findById(UserId $id): ?User
+    public function findById(Id $id): ?User
     {
         /** @var User|null $model */
-        $model = EloquentUser::find($id->value());
+        $model = IlluminateUser::find($id->value());
 
         if (! $model) {
             return null;
@@ -36,7 +38,7 @@ final class IlluminateUserRepository implements UserRepository
     public function findByEmail(Email $email): ?User
     {
         /** @var User|null $model */
-        $model = EloquentUser::where('email', (string) $email)->first();
+        $model = IlluminateUser::where('email', (string) $email)->first();
 
         if (! $model) {
             return null;

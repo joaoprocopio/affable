@@ -12,5 +12,5 @@ interface AuthService extends Service
 {
     public function signIn(User $user): void;
     public function signUp(User $user): void;
-    public function signOut(User $user): void;
+    public function signOut(): void;
 }
