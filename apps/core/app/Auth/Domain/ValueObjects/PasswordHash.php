@@ -15,11 +15,6 @@ final readonly class PasswordHash extends ValueObject
         return $this->value;
     }
 
-    public static function fromString(string $hashedPassword): self
-    {
-        return new self($hashedPassword);
-    }
-
     public function value(): string
     {
         return $this->value;

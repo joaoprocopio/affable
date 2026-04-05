@@ -7,7 +7,7 @@ namespace App\Auth\Infrastructure\Services;
 use App\Auth\Domain\Aggregates\User;
 use App\Auth\Domain\Services\AuthService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Contracts\Session\Session;
 
 final class IlluminateAuthService implements AuthService
 {
@@ -21,7 +21,10 @@ final class IlluminateAuthService implements AuthService
         $this->session->regenerate();
     }
 
-    public function signUp(User $user): void {}
+    public function signUp(User $user): void
+    {
+        $this->signIn($user);
+    }
 
     public function signOut(): void
     {

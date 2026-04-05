@@ -14,8 +14,8 @@ final class IlluminateUserRepository implements UserRepository
 {
     public function save(User $user): void
     {
-        $illuminateUser = IlluminateUserModel::updateOrCreate(
-            ['id' => $user->id()->value()],
+        $model = IlluminateUserModel::query()->updateOrCreate(
+            ['id' => (int) $user->id()],
             [
                 'email' => (string) $user->email(),
                 'password' => (string) $user->password(),
@@ -25,7 +25,7 @@ final class IlluminateUserRepository implements UserRepository
 
     public function findById(Id $id): ?User
     {
-        $model = IlluminateUserModel::find($id->value());
+        $model = IlluminateUserModel::query()->find($id->value());
 
         if (! $model) {
             return null;
@@ -34,7 +34,7 @@ final class IlluminateUserRepository implements UserRepository
 
     public function findByEmail(Email $email): ?User
     {
-        $model = IlluminateUserModel::where('email', (string) $email)->first();
+        $model = IlluminateUserModel::query()->where('email', (string) $email)->first();
 
         if (! $model) {
             return null;
