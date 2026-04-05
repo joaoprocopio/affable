@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Response;
 
 final class IlluminateSignOutController extends Controller
 {
-    public function __invoke(Request $request, SignOutUseCase $useCase): JsonResponse
+    private function __construct(private readonly SignOutUseCase $useCase) {}
+
+    public function __invoke(Request $request): JsonResponse
     {
-        $useCase->execute($request);
+        $this->useCase->execute($request);
 
         return Response::json(status: JsonResponse::HTTP_OK);
     }
