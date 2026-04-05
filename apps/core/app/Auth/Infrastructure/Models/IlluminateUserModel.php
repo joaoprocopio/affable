@@ -12,13 +12,8 @@ use Illuminate\Notifications\Notifiable;
 
 #[Table('users')]
 #[Fillable(['email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Hidden(['password'])]
 final class IlluminateUserModel extends Authenticatable
 {
     use Notifiable;
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
 }
