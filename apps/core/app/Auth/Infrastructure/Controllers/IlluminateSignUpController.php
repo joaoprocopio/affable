@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\IlluminateSignUpController;
+namespace App\Auth\Infrastructure\Controllers;
 
 use App\Auth\Application\DTOs\SignUpDTO;
 use App\Auth\Application\UseCases\SignUpUseCase;
+use App\Auth\Domain\ValueObjects\PasswordRaw;
+use App\Shared\Domain\ValueObjects\Email;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,23 +15,25 @@ use Illuminate\Support\Facades\Response;
 
 final class IlluminateSignUpController extends Controller
 {
-    public function __invoke(Request $request, SignUpUseCase $useCase): JsonResponse
+    public function __construct(private readonly SignUpUseCase $useCase) {}
+
+    public function __invoke(Request $request): JsonResponse
     {
         $data = $request->validate([
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string|min:8',
         ]);
 
         $dto = new SignUpDTO(
-            email: $data->email,
-            password: $data->password
+            email: new Email($data['email']),
+            password: new PasswordRaw($data['password'])
         );
 
-        $userId = $useCase->execute($dto);
+        $userId = $this->useCase->execute($dto);
 
         return Response::json([
             'message' => 'User signed up successfully',
             'user_id' => $userId,
-        ]);
+        ], JsonResponse::HTTP_CREATED);
     }
 }

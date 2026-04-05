@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\Controllers\IlluminateSignOutController;
+namespace App\Auth\Infrastructure\Controllers;
 
 use App\Auth\Application\UseCases\SignOutUseCase;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +15,7 @@ final class IlluminateSignOutController extends Controller
     public function __invoke(Request $request, SignOutUseCase $useCase): JsonResponse
     {
         $useCase->execute($request);
+
         return Response::json(status: JsonResponse::HTTP_OK);
     }
 }

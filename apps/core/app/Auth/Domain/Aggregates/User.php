@@ -19,8 +19,18 @@ final class User extends AggregateRoot
     private function __construct(
         private Id $id,
         private Email $email,
-        private PasswordRaw | PasswordHash $password
+        private PasswordRaw|PasswordHash $password
     ) {}
+
+    public static function signUp(Id $id, Email $email, PasswordRaw $password): self
+    {
+        return new self($id, $email, $password);
+    }
+
+    public static function reconstitute(Id $id, Email $email, PasswordHash $password): self
+    {
+        return new self($id, $email, $password);
+    }
 
     public function id(): Id
     {
@@ -32,7 +42,7 @@ final class User extends AggregateRoot
         return $this->email;
     }
 
-    public function password(): PasswordRaw | PasswordHash
+    public function password(): PasswordRaw|PasswordHash
     {
         return $this->password;
     }

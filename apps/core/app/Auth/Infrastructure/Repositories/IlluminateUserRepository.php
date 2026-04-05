@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 namespace App\Auth\Infrastructure\Repositories;
 
-use App\Auth\Infrastructure\Models\IlluminateUserModel;
-use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Aggregates\User;
+use App\Auth\Domain\Repositories\UserRepository;
+use App\Auth\Domain\ValueObjects\PasswordHash;
+use App\Auth\Infrastructure\Models\IlluminateUserModel;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Id;
 
 final class IlluminateUserRepository implements UserRepository
 {
+    public function nextIdentity(): Id
+    {
+        return new Id(0);
+    }
+
     public function save(User $user): void
     {
         IlluminateUserModel::updateOrCreate(
-            ['id' => $user->id()],
+            ['id' => $user->id()->value()],
             [
                 'email' => (string) $user->email(),
                 'password' => (string) $user->password(),
@@ -25,7 +31,6 @@ final class IlluminateUserRepository implements UserRepository
 
     public function findById(Id $id): ?User
     {
-        /** @var User|null $model */
         $model = IlluminateUserModel::find($id->value());
 
         if (! $model) {
@@ -37,7 +42,6 @@ final class IlluminateUserRepository implements UserRepository
 
     public function findByEmail(Email $email): ?User
     {
-        /** @var User|null $model */
         $model = IlluminateUserModel::where('email', (string) $email)->first();
 
         if (! $model) {
@@ -47,12 +51,12 @@ final class IlluminateUserRepository implements UserRepository
         return $this->toDomain($model);
     }
 
-    private function toDomain(User $model): User
+    private function toDomain(IlluminateUserModel $model): User
     {
         return User::reconstitute(
-            new UserId((int) $model->id),
+            new Id((int) $model->id),
             new Email((string) $model->email),
-            Password::fromHash((string) $model->password)
+            PasswordHash::fromString((string) $model->password)
         );
     }
 }

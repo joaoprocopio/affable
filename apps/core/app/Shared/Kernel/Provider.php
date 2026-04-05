@@ -8,6 +8,8 @@ use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Services\AuthService;
 use App\Auth\Domain\Services\PasswordHashingService;
 use App\Auth\Infrastructure\Repositories\IlluminateUserRepository;
+use App\Auth\Infrastructure\Services\IlluminateAuthService;
+use App\Auth\Infrastructure\Services\IlluminatePasswordHashingService;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
