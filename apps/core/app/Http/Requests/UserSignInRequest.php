@@ -6,8 +6,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Email;
-use Illuminate\Validation\Rules\Password;
 
 class UserSignInRequest extends FormRequest
 {
