@@ -8,9 +8,11 @@ use App\Http\Controllers\UserSignUpController;
 use App\Http\Controllers\UserSignInController;
 use App\Http\Controllers\UserSignOutController;
 
-Route::prefix('v1/auth')->group(function () {
-    Route::get('/me', UserMeController::class);
-    Route::post('/signup', UserSignUpController::class);
-    Route::post('/signin', UserSignInController::class);
-    Route::post('/signout', UserSignOutController::class);
+Route::prefix('v1/')->group(function () {
+    Route::prefix('auth/')->group(function () {
+        Route::get('me', UserMeController::class);
+        Route::post('signup', UserSignUpController::class);
+        Route::post('signin', UserSignInController::class);
+        Route::post('signout', UserSignOutController::class);
+    });
 });
