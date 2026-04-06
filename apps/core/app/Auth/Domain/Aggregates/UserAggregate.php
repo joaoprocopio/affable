@@ -12,13 +12,18 @@ use App\Shared\Domain\AggregateRoot;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Id;
 
-final class User extends AggregateRoot
+final class UserAggregate extends AggregateRoot
 {
-    public function __construct(
+    private function __construct(
         readonly private Id $id,
         private Email $email,
         private PasswordHash $passwordHash
     ) {}
+
+    public static function reconstitute(Id $id, Email $email, PasswordHash $passwordHash)
+    {
+        return new self($id, $email, $passwordHash);
+    }
 
     public function id(): Id
     {

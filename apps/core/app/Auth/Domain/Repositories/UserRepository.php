@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Auth\Domain\Repositories;
 
-use App\Auth\Domain\Aggregates\User;
+use App\Auth\Domain\Aggregates\UserAggregate;
 use App\Shared\Application\Repository;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Id;
 
 interface UserRepository extends Repository
 {
-    public function save(User $user): User;
-    public function findById(Id $id): ?User;
-    public function findByEmail(Email $email): ?User;
+    public function save(UserAggregate $user): UserAggregate;
+    public function findById(Id $id): ?UserAggregate;
+    public function findByEmail(Email $email): ?UserAggregate;
 }

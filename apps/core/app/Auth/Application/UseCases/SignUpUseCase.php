@@ -6,12 +6,11 @@ namespace App\Auth\Application\UseCases;
 
 use App\Auth\Application\DTOs\SignUpDTO;
 use App\Auth\Application\DTOs\UserDTO;
-use App\Auth\Domain\Aggregates\User;
+use App\Auth\Domain\Aggregates\UserAggregate;
 use App\Auth\Domain\Exceptions\EmailAlreadyExistsException;
 use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Services\AuthService;
 use App\Auth\Domain\Services\PasswordHashingService;
-use App\Auth\Infrastructure\Mappers\UserMapper;
 use App\Shared\Application\UseCase;
 
 final class SignUpUseCase implements UseCase
@@ -31,7 +30,7 @@ final class SignUpUseCase implements UseCase
             throw new EmailAlreadyExistsException($dto->email->value());
         }
 
-        $user = new User(
+        $user = new UserAggregate(
             id: null,
             email: $dto->email,
             passwordHash: $this->passwordHashingService->hash($dto->passwordRaw),
@@ -41,6 +40,10 @@ final class SignUpUseCase implements UseCase
         $this->userRepository->save($user);
         $user->markAsSignedUp();
 
-        return UserMapper::entityToDTO($user);
+        return new UserDTO(
+            id: $user->id(),
+            email: $user->email(),
+            passwordHash: $user->passwordHash(),
+        );
     }
 }
