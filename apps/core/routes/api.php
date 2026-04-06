@@ -13,5 +13,4 @@ Route::prefix('v1/auth')->group(function () {
     Route::post('/signup', UserSignUpController::class);
     Route::post('/signin', UserSignInController::class);
     Route::post('/signout', UserSignOutController::class);
-    // Route::middleware('auth:sanctum')->group(function () {});
 });
