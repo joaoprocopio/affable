@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserSignInRequest;
+use App\Http\Requests\UserSignUpRequest;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\JsonResponse;
@@ -12,12 +12,12 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserSignInController extends Controller
+class UserSignUpController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function __invoke(UserSignInRequest $request)
+    public function __invoke(UserSignUpRequest $request)
     {
         $user = User::query()->where("email", $request->email)->first();
 
