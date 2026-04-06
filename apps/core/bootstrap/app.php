@@ -6,13 +6,20 @@ use App\Shared\Kernel\Provider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Session\Middleware\AuthenticateSession;
-
-
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Http\Middleware\FrameGuard;
+use Illuminate\Http\Middleware\HandleCors;
+use Illuminate\Http\Middleware\ValidatePostSize;
+use Illuminate\Http\Middleware\ValidatePathEncoding;
+use Illuminate\Http\Middleware\SetCacheHeaders;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\TrimStrings;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withProviders([Provider::class])
@@ -22,10 +29,19 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->api([
+            HandleCors::class,
+            ValidatePostSize::class,
+            ValidatePathEncoding::class,
+            TrimStrings::class,
+            ConvertEmptyStringsToNull::class,
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             AuthenticateSession::class,
+            PreventRequestForgery::class,
+            FrameGuard::class,
+            SetCacheHeaders::class,
+            ThrottleRequests::class,
             SubstituteBindings::class,
         ]);
     })
