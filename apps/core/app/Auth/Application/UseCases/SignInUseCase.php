@@ -11,6 +11,7 @@ use App\Auth\Domain\Exceptions\InvalidCredentialsException;
 use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Services\AuthService;
 use App\Auth\Domain\Services\PasswordHashingService;
+use App\Auth\Infrastructure\Mappers\UserMapper;
 use App\Shared\Application\UseCase;
 
 final class SignInUseCase implements UseCase
@@ -25,13 +26,13 @@ final class SignInUseCase implements UseCase
     {
         $user = $this->userRepository->findByEmail($dto->email);
 
-        if (!$user || !$this->passwordHashingService->verify($dto->passwordRaw, $user->password())) {
+        if (!$user || !$this->passwordHashingService->verify($dto->passwordRaw, $user->passwordHash())) {
             throw new InvalidCredentialsException();
         }
 
         $this->authService->signIn($user);
         $user->markAsSignedIn();
 
-        return $user;
+        return UserMapper::entityToDTO($user);
     }
 }

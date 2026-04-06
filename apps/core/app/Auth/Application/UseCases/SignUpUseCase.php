@@ -11,6 +11,7 @@ use App\Auth\Domain\Exceptions\EmailAlreadyExistsException;
 use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Services\AuthService;
 use App\Auth\Domain\Services\PasswordHashingService;
+use App\Auth\Infrastructure\Mappers\UserMapper;
 use App\Shared\Application\UseCase;
 
 final class SignUpUseCase implements UseCase
@@ -36,6 +37,10 @@ final class SignUpUseCase implements UseCase
             passwordHash: $this->passwordHashingService->hash($dto->passwordRaw),
         );
 
+        $this->authService->signUp($user);
         $this->userRepository->save($user);
+        $user->markAsSignedUp();
+
+        return UserMapper::entityToDTO($user);
     }
 }

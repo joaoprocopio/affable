@@ -30,7 +30,7 @@ final class User extends AggregateRoot
         return $this->email;
     }
 
-    public function password(): PasswordHash
+    public function passwordHash(): PasswordHash
     {
         return $this->passwordHash;
     }
