@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Shared\Kernel;
+namespace App\Providers;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
@@ -10,16 +8,20 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
-final class Provider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
-    public function register(): void {}
-
-    public function boot(): void
+    /**
+     * Register services.
+     */
+    public function register(): void
     {
-        $this->configureDefaults();
+        //
     }
 
-    protected function configureDefaults(): void
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
     {
         Date::use(CarbonImmutable::class);
 

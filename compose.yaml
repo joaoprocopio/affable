@@ -12,14 +12,14 @@ services:
       MYSQL_DATABASE: affable
       MYSQL_ROOT_PASSWORD: root
 
-  laravel:
-    build:
-      context: ./apps/core
-      dockerfile: dockerfile
-    working_dir: /var/www
-    volumes:
-      - ./apps/core:/var/www
-    command: ["php-fpm"]
+  # laravel:
+  #   build:
+  #     context: ./apps/core
+  #     dockerfile: dockerfile
+  #   working_dir: /var/www
+  #   volumes:
+  #     - ./apps/core:/var/www
+  #   command: ["php-fpm"]
 
 volumes:
   mysql_data:
