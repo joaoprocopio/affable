@@ -8,6 +8,7 @@ use App\Auth\Application\DTOs\SignUpDTO;
 use App\Auth\Application\UseCases\SignUpUseCase;
 use App\Auth\Domain\ValueObjects\PasswordRaw;
 use App\Auth\Presentation\Requests\IlluminateSignUpRequest;
+use App\Auth\Presentation\Resources\IlluminateUserResource;
 use App\Shared\Domain\ValueObjects\Email;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -26,6 +27,6 @@ final class IlluminateSignUpController extends Controller
 
         $output = $this->useCase->execute($input);
 
-        return Response::json($output, status: JsonResponse::HTTP_CREATED);
+        return Response::json(new IlluminateUserResource($output), status: JsonResponse::HTTP_CREATED);
     }
 }

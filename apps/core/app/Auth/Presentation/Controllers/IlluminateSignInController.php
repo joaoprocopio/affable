@@ -8,6 +8,7 @@ use App\Auth\Application\DTOs\SignInDTO;
 use App\Auth\Application\UseCases\SignInUseCase;
 use App\Auth\Domain\ValueObjects\PasswordRaw;
 use App\Auth\Presentation\Requests\IlluminateSignInRequest;
+use App\Auth\Presentation\Resources\IlluminateUserResource;
 use App\Shared\Domain\ValueObjects\Email;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -26,6 +27,6 @@ final class IlluminateSignInController extends Controller
 
         $output = $this->useCase->execute($input);
 
-        return Response::json($output);
+        return Response::json(new IlluminateUserResource($output), status: JsonResponse::HTTP_OK);
     }
 }

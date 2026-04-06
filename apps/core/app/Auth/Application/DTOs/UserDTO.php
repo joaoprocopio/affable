@@ -9,7 +9,7 @@ use App\Shared\Application\DTO;
 use App\Shared\Domain\ValueObjects\Email;
 use App\Shared\Domain\ValueObjects\Id;
 
-final class UserDTO extends DTO
+final class UserDTO implements DTO
 {
     public function __construct(
         public readonly Id $id,

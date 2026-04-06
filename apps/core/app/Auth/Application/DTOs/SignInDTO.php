@@ -8,7 +8,7 @@ use App\Auth\Domain\ValueObjects\PasswordRaw;
 use App\Shared\Application\DTO;
 use App\Shared\Domain\ValueObjects\Email;
 
-final class SignInDTO extends DTO
+final class SignInDTO implements DTO
 {
     public function __construct(
         public readonly Email $email,
