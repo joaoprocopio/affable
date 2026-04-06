@@ -10,7 +10,6 @@ use App\Auth\Domain\ValueObjects\PasswordRaw;
 use App\Auth\Presentation\Requests\IlluminateSignUpRequest;
 use App\Shared\Domain\ValueObjects\Email;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
 

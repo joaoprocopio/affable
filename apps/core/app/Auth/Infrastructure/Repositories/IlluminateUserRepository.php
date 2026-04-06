@@ -13,15 +13,12 @@ use App\Shared\Domain\ValueObjects\Id;
 
 final class IlluminateUserRepository implements UserRepository
 {
-    public function save(UserAggregate $user): UserAggregate
+    public function create(Email $email, PasswordHash $passwordHash): UserAggregate
     {
-        $model = IlluminateUserModel::query()->updateOrCreate(
-            ['id' => (int)(string) $user->id()],
-            [
-                'email' => (string) $user->email(),
-                'password' => (string) $user->passwordHash(),
-            ]
-        );
+        $model = IlluminateUserModel::query()->create([
+            'email' => (string) $email,
+            'password' => (string) $passwordHash,
+        ]);
 
         return UserAggregate::reconstitute(
             id: new Id($model->id),

@@ -31,14 +31,12 @@ final class SignUpUseCase implements UseCase
             throw new EmailAlreadyExistsException($dto->email->value());
         }
 
-        $user = UserAggregate::reconstitute(
-            id: new Id(114),
+        $user = $this->userRepository->create(
             email: $dto->email,
             passwordHash: $this->passwordHashingService->hash($dto->passwordRaw),
         );
 
         $this->authService->signUp($user);
-        $this->userRepository->save($user);
         $user->markAsSignedUp();
 
         return new UserDTO(
