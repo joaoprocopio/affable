@@ -13,5 +13,6 @@ export const authQueries = defineQueries<TAuthNamespace>()({
     queryOptions({
       queryKey: authQueryKeys.token(),
       queryFn: (context) => authServices.getToken(context),
+      staleTime: Infinity,
     }),
 })

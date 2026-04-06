@@ -8,8 +8,8 @@ export type TFetcherConfig = {
 }
 
 export function createFetcher(config: TFetcherConfig) {
-  return async function fetcher(endpoint: string, options?: TFetcherOptions): Promise<Response> {
-    const url = new URL(endpoint, config.baseURL)
+  return async function fetcher(pathname: string, options?: TFetcherOptions): Promise<Response> {
+    const url = new URL(`${config.baseURL}${pathname}`)
 
     const resolvedOptions = isFn(config.resolveDefaultOptions)
       ? config.resolveDefaultOptions(options || {})

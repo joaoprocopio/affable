@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query"
 import { Eye, EyeOff } from "lucide-react"
 import * as React from "react"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
@@ -10,9 +11,12 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "~/lib/ui/input-group"
+import { authQueries } from "~/state/auth/query"
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = React.useState(false)
+
+  const query = useQuery(authQueries.token())
 
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">

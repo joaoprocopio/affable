@@ -6,6 +6,8 @@ import { createFetcher } from "~/lib/fetcher"
 const coreFetch = createFetcher({
   baseURL: env.API_URL,
   resolveDefaultOptions(options) {
+    options.credentials = "include"
+
     const xsrfCookieName = "X-XSRF-TOKEN"
     const xsrfCookie = cookie.get("XSRF-TOKEN")
 
@@ -21,7 +23,9 @@ const coreFetch = createFetcher({
 })
 
 export async function getToken(context: QueryFunctionContext) {
-  await coreFetch("/v1/auth/token", {
+  const response = await coreFetch("/v1/auth/token", {
     signal: context.signal,
   })
+
+  return await response.text()
 }

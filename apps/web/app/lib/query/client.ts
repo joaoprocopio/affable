@@ -12,6 +12,10 @@ const makeQueryClient = React.cache(() => {
     defaultOptions: {
       queries: {
         staleTime: STALE_TIME_IN_MS,
+        throwOnError: true,
+      },
+      mutations: {
+        throwOnError: true,
       },
     },
   })
