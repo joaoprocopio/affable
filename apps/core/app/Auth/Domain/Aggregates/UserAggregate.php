@@ -20,6 +20,7 @@ final class UserAggregate extends AggregateRoot
         private PasswordHash $passwordHash
     ) {}
 
+
     public static function reconstitute(Id $id, Email $email, PasswordHash $passwordHash)
     {
         return new self($id, $email, $passwordHash);

@@ -30,7 +30,7 @@ final class SignUpUseCase implements UseCase
             throw new EmailAlreadyExistsException($dto->email->value());
         }
 
-        $user = new UserAggregate(
+        $user = UserAggregate::reconstitute(
             id: null,
             email: $dto->email,
             passwordHash: $this->passwordHashingService->hash($dto->passwordRaw),

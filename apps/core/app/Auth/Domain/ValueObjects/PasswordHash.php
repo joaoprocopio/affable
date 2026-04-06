@@ -8,7 +8,7 @@ use App\Shared\Domain\ValueObject;
 
 final readonly class PasswordHash extends ValueObject
 {
-    private function __construct(private string $value) {}
+    public function __construct(private string $value) {}
 
     public function __toString(): string
     {
