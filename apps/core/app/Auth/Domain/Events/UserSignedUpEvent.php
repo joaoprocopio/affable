@@ -25,8 +25,8 @@ final class UserSignedUpEvent extends Event
     public function toArray(): array
     {
         return [
-            'user_id' => $this->id->value(),
-            'email' => $this->email->value(),
+            'user_id' => (int) $this->id,
+            'email' => (string) $this->email,
             'occurred_at' => $this->occurredAt->format('c'),
         ];
     }

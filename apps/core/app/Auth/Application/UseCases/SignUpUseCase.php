@@ -28,7 +28,7 @@ final class SignUpUseCase implements UseCase
         $existingUser = $this->userRepository->findByEmail($dto->email);
 
         if ($existingUser !== null) {
-            throw new EmailAlreadyExistsException($dto->email->value());
+            throw new EmailAlreadyExistsException((string) $dto->email);
         }
 
         $user = $this->userRepository->create(

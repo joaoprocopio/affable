@@ -22,7 +22,7 @@ final class UserSignedOutEvent extends Event
     public function toArray(): array
     {
         return [
-            'user_id' => $this->id->value(),
+            'user_id' => (int) $this->id,
             'occurred_at' => $this->occurredAt->format('c'),
         ];
     }
