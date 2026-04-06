@@ -14,11 +14,11 @@ Route::prefix('v1')->group(function () {
         Route::get('token', UserTokenController::class);
 
         Route::post('signup', UserSignUpController::class)
-            // ->middleware('throttle:3,60')
+            ->middleware('throttle:3,60')
         ;
 
         Route::post('signin', UserSignInController::class)
-            // ->middleware('throttle:5,1')
+            ->middleware('throttle:5,1')
         ;
 
         Route::middleware('auth')->group(function () {
