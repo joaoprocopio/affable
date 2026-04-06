@@ -19,13 +19,13 @@ final class IlluminateSignInController extends Controller
 
     public function __invoke(IlluminateSignInRequest $request): JsonResponse
     {
-        $dto = new SignInDTO(
+        $input = new SignInDTO(
             email: new Email($request->email),
             passwordRaw: new PasswordRaw($request->password),
         );
 
-        $user = $this->useCase->execute($dto);
+        $output = $this->useCase->execute($input);
 
-        return Response::json($user);
+        return Response::json($output);
     }
 }
