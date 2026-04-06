@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Auth\Infrastructure\Models;
+namespace App;
 
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -13,7 +13,7 @@ use Illuminate\Notifications\Notifiable;
 #[Table('users')]
 #[Fillable(['email', 'password'])]
 #[Hidden(['password'])]
-final class IlluminateUserModel extends Authenticatable
+class User extends Authenticatable
 {
     use Notifiable;
 }
