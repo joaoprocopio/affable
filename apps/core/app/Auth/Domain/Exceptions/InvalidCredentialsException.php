@@ -13,7 +13,6 @@ final class InvalidCredentialsException extends Exception
         parent::__construct(
             'Invalid credentials',
             'INVALID_CREDENTIALS',
-            401
         );
     }
 }

@@ -8,7 +8,7 @@ abstract class Exception extends \Exception
 {
     public function __construct(string $message, protected string $domainErrorCode)
     {
-        parent::__construct($message, $domainErrorCode);
+        parent::__construct($message);
         $this->domainErrorCode = $domainErrorCode;
     }
 

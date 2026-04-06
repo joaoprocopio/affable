@@ -13,7 +13,6 @@ final class EmailAlreadyExistsException extends Exception
         parent::__construct(
             "Email already exists: {$email}",
             'EMAIL_ALREADY_EXISTS',
-            409
         );
     }
 }
