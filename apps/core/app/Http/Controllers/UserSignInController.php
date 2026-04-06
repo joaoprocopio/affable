@@ -32,7 +32,6 @@ class UserSignInController extends Controller
         }
 
         Auth::login($user);
-
         $request->session()->regenerate();
 
         return new JsonResponse(new UserResource($user), status: JsonResponse::HTTP_OK);
