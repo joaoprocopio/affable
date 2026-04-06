@@ -4,72 +4,18 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "php": "^8.3",
-        "laravel/framework": "^13.0",
-        "laravel/tinker": "^3.0"
+        "php": "^8.5",
+        "laravel/framework": "^13.0"
     },
     "require-dev": {
-        "driftingly/rector-laravel": "^2.0",
-        "fakerphp/faker": "^1.23",
-        "larastan/larastan": "^3.7",
-        "laravel/pail": "^1.2.2",
-        "laravel/pint": "^1.24",
-        "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^4.0",
-        "pestphp/pest-plugin-laravel": "^4.0",
-        "rector/rector": "^2.2"
-    },
-    "suggest": {
-        "grazulex/laravel-api-idempotency": "RFC-compliant API idempotency with response caching and multiple storage drivers",
-        "grazulex/laravel-api-throttle-smart": "Plan-aware smart rate limiting with quotas, multiple algorithms and multi-tenant support"
+        "laravel/pail": "^1.2",
+        "laravel/tinker": "^3.0",
+        "nunomaduro/collision": "^8.9"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/"
         }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "lint": [
-            "rector",
-            "pint"
-        ],
-        "test:lint": [
-            "pint --test",
-            "rector --dry-run"
-        ],
-        "test:types": [
-            "phpstan"
-        ],
-        "test:unit": [
-            "@php artisan config:clear --ansi",
-            "@php artisan test"
-        ],
-        "test": [
-            "@test:lint",
-            "@test:types",
-            "@test:unit"
-        ],
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi",
-            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi"
-        ]
     },
     "extra": {
         "laravel": {
@@ -85,7 +31,7 @@
             "php-http/discovery": true
         },
         "platform": {
-            "php": "8.3.0"
+            "php": "8.5.0"
         }
     },
     "minimum-stability": "stable",

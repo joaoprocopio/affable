@@ -11,29 +11,23 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
-class UserSignInController extends Controller
+final class UserSignInController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(UserSignInRequest $request)
+    public function __invoke(UserSignInRequest $request): JsonResponse
     {
-        $user = User::query()->where("email", $request->email)->first();
+        $user = User::query()->where('email', $request->string('email')->value())->first();
 
-        if (!$user) {
-            return new JsonResponse(status: JsonResponse::HTTP_BAD_REQUEST);
-        }
-
-        $match = Hash::check($request->password, $user->password);
-
-        if (!$match) {
-            return new JsonResponse(status: JsonResponse::HTTP_BAD_REQUEST);
+        if (! $user || ! Hash::check($request->string('password')->value(), (string) $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => [__('auth.failed')],
+            ]);
         }
 
         Auth::login($user);
         $request->session()->regenerate();
 
-        return new JsonResponse(new UserResource($user), status: JsonResponse::HTTP_OK);
+        return new JsonResponse(new UserResource($user), JsonResponse::HTTP_OK);
     }
 }

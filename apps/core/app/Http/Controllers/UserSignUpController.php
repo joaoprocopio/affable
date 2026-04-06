@@ -11,28 +11,28 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
-class UserSignUpController extends Controller
+final class UserSignUpController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(UserSignUpRequest $request)
+    public function __invoke(UserSignUpRequest $request): JsonResponse
     {
-        $user = User::query()->where("email", $request->email)->first();
+        $user = User::query()->where('email', $request->string('email')->value())->first();
 
         if ($user) {
-            return new JsonResponse(status: JsonResponse::HTTP_BAD_REQUEST);
+            throw ValidationException::withMessages([
+                'email' => [__('auth.email_already_exists')],
+            ]);
         }
 
         $user = User::query()->create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'email' => $request->string('email')->value(),
+            'password' => Hash::make($request->string('password')->value()),
         ]);
 
         Auth::login($user);
         $request->session()->regenerate();
 
-        return new JsonResponse(new UserResource($user), status: JsonResponse::HTTP_OK);
+        return new JsonResponse(new UserResource($user), JsonResponse::HTTP_OK);
     }
 }

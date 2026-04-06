@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserSignUpRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class UserSignOutController extends Controller
+final class UserSignOutController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(UserSignUpRequest $request)
+    public function __invoke(Request $request): JsonResponse
     {
         Auth::logout();
         $request->session()->invalidate();

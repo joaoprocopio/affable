@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+/**
+ * @property User $resource
+ */
+final class UserResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
      * @return array<string, mixed>
      */
     public function toArray(Request $request): array
     {
         return [
-            'email' => $this->email,
+            'email' => $this->resource->email,
         ];
     }
 }

@@ -9,13 +9,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-class UserMeController extends Controller
+final class UserMeController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): JsonResponse
     {
-        return new JsonResponse(new UserResource($request->user()), status: JsonResponse::HTTP_OK);
+        return new JsonResponse(new UserResource($request->user()), JsonResponse::HTTP_OK);
     }
 }
