@@ -1,15 +1,26 @@
+import { isFn } from "~/utils/is"
+
+export type TFetcherOptions = RequestInit
+
 export type TFetcherConfig = {
   baseURL?: string
+  resolveDefaultOptions?: (options: TFetcherOptions) => TFetcherOptions
 }
 
 export function createFetcher(config: TFetcherConfig) {
-  return async function fetcher<T>(endpoint: string, options?: RequestInit): Promise<T> {
-    const response = await fetch(`${config.baseURL}${endpoint}`, options)
+  return async function fetcher(endpoint: string, options?: TFetcherOptions): Promise<Response> {
+    const url = new URL(endpoint, config.baseURL)
+
+    const resolvedOptions = isFn(config.resolveDefaultOptions)
+      ? config.resolveDefaultOptions(options || {})
+      : options
+
+    const response = await fetch(url, resolvedOptions)
 
     if (!response.ok) {
-      throw new Error(`[fetcher]: ${response.status} ${response.statusText} `)
+      throw new Error(`${response.url}: ${response.status} ${response.statusText}`)
     }
 
-    return await response.json()
+    return response
   }
 }

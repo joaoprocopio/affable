@@ -1,6 +1,7 @@
 import type { Route } from "./+types/root"
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
 import "~/assets/theme.css"
+import { QueryProvider } from "~/lib/query/provider"
 import { ThemeProvider } from "~/lib/theme/provider"
 import { TooltipProvider } from "~/lib/ui/tooltip"
 
@@ -21,9 +22,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
 
       <body>
-        <ThemeProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </ThemeProvider>
+        </QueryProvider>
 
         <ScrollRestoration />
         <Scripts />
