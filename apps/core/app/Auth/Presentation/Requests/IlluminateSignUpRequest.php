@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Auth\Presentation\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Email;
+use Illuminate\Validation\Rules\Password;
 
 final class IlluminateSignUpRequest extends FormRequest
 {
@@ -16,8 +18,8 @@ final class IlluminateSignUpRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'email' => ['required', Email::default()],
+            'password' => ['required', Password::defaults()],
         ];
     }
 }
