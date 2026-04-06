@@ -12,6 +12,7 @@ use App\Auth\Domain\Repositories\UserRepository;
 use App\Auth\Domain\Services\AuthService;
 use App\Auth\Domain\Services\PasswordHashingService;
 use App\Shared\Application\UseCase;
+use App\Shared\Domain\ValueObjects\Id;
 
 final class SignUpUseCase implements UseCase
 {
@@ -31,7 +32,7 @@ final class SignUpUseCase implements UseCase
         }
 
         $user = UserAggregate::reconstitute(
-            id: null,
+            id: new Id(114),
             email: $dto->email,
             passwordHash: $this->passwordHashingService->hash($dto->passwordRaw),
         );

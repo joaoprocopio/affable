@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Auth\Infrastructure\Persistence\User;
+use App\Auth\Infrastructure\Models\IlluminateUserModel as User;
 
 return [
 
