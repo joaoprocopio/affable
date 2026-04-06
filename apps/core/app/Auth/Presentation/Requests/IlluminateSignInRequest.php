@@ -19,7 +19,7 @@ final class IlluminateSignInRequest extends FormRequest
     {
         return [
             'email' => ['required', Email::default()],
-            'password' => ['required', Password::defaults()],
+            'password' => ['required', Password::default()],
         ];
     }
 }
