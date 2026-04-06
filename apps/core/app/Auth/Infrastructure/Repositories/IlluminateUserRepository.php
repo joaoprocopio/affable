@@ -20,6 +20,8 @@ final class IlluminateUserRepository implements UserRepository
             'password' => (string) $passwordHash,
         ]);
 
+        $abc = new IlluminateUserModel();
+
         return UserAggregate::reconstitute(
             id: new Id($model->id),
             email: new Email($model->email),
