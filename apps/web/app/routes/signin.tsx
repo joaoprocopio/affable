@@ -16,7 +16,8 @@ import { authQueries } from "~/state/auth/query"
 export default function SignInPage() {
   const [showPassword, setShowPassword] = React.useState(false)
 
-  const query = useQuery(authQueries.token())
+  useQuery(authQueries.token())
+  useQuery(authQueries.me())
 
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">

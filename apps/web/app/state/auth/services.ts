@@ -29,3 +29,11 @@ export async function getToken(context: QueryFunctionContext) {
 
   return await response.text()
 }
+
+export async function getMe(context: QueryFunctionContext) {
+  const response = await coreFetch("/v1/auth/me", {
+    signal: context.signal,
+  })
+
+  return await response.json()
+}
