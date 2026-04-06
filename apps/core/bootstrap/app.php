@@ -12,11 +12,9 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Routing\Middleware\ThrottleRequests;
-use Illuminate\Http\Middleware\FrameGuard;
 use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Middleware\ValidatePostSize;
 use Illuminate\Http\Middleware\ValidatePathEncoding;
-use Illuminate\Http\Middleware\SetCacheHeaders;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -39,8 +37,6 @@ return Application::configure(basePath: dirname(__DIR__))
             StartSession::class,
             AuthenticateSession::class,
             PreventRequestForgery::class,
-            FrameGuard::class,
-            SetCacheHeaders::class,
             ThrottleRequests::class,
             SubstituteBindings::class,
         ]);
