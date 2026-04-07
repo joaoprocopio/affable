@@ -3,6 +3,8 @@ export class HttpError extends Error {
 
   constructor(response: Response) {
     super(`${response.url}: ${response.status} ${response.statusText}`)
+
+    this.name = "HttpError"
     this.response = response
   }
 

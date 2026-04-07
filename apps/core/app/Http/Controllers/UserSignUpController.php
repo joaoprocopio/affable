@@ -17,17 +17,9 @@ final class UserSignUpController extends Controller
 {
     public function __invoke(UserSignUpRequest $request): JsonResponse
     {
-        $user = User::query()->where('email', $request->string('email')->value())->first();
-
-        if ($user) {
-            throw ValidationException::withMessages([
-                'email' => [__('auth.email_already_exists')],
-            ]);
-        }
-
         $user = User::query()->create([
-            'email' => $request->string('email')->value(),
-            'password' => Hash::make($request->string('password')->value()),
+            'email' => (string) $request->string('email'),
+            'password' => Hash::make((string) $request->string('password')),
         ]);
 
         Auth::login($user);

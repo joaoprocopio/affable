@@ -1,25 +1,5 @@
 import { inInclusiveRange } from "~/utils/is"
 
-export function isInformationalStatus(status: number): boolean {
-  return inInclusiveRange(status, 100, 199)
-}
-
-export function isSuccessStatus(status: number): boolean {
-  return inInclusiveRange(status, 200, 299)
-}
-
-export function isRedirectionStatus(status: number): boolean {
-  return inInclusiveRange(status, 300, 399)
-}
-
-export function isClientErrorStatus(status: number): boolean {
-  return inInclusiveRange(status, 400, 499)
-}
-
-export function isServerErrorStatus(status: number): boolean {
-  return inInclusiveRange(status, 500, 599)
-}
-
 export const HttpStatus = {
   /**
    * Informational Responses (100 - 199)
@@ -103,4 +83,27 @@ export const HttpStatus = {
   LoopDetected: 508,
   NotExtended: 510,
   NetworkAuthenticationRequired: 511,
+
+  /**
+   * Utils
+   */
+  isInformational(status: number): boolean {
+    return inInclusiveRange(status, 100, 199)
+  },
+
+  isSuccess(status: number): boolean {
+    return inInclusiveRange(status, 200, 299)
+  },
+
+  isRedirection(status: number): boolean {
+    return inInclusiveRange(status, 300, 399)
+  },
+
+  isClientError(status: number): boolean {
+    return inInclusiveRange(status, 400, 499)
+  },
+
+  isServerError(status: number): boolean {
+    return inInclusiveRange(status, 500, 599)
+  },
 } as const

@@ -1,6 +1,6 @@
 import { QueryClient } from "@tanstack/react-query"
 import { HttpError } from "~/lib/http/errors"
-import { isServerErrorStatus } from "~/lib/http/status"
+import { HttpStatus } from "~/lib/http/status"
 import { defineKey, defineKeys, defineMutations, defineQueries } from "~/lib/query/utils/define"
 import { mutationOptions, queryOptions } from "~/lib/query/utils/options"
 import * as authServices from "~/state/auth/services"
@@ -20,7 +20,7 @@ export const authQueries = defineQueries<TAuthNamespace>()({
       staleTime: Infinity,
       retry(failureCount, error) {
         if (HttpError.is(error)) {
-          return isServerErrorStatus(error.response.status)
+          return HttpStatus.isServerError(error.response.status)
         }
 
         return failureCount < 3

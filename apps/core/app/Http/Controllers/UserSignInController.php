@@ -17,9 +17,9 @@ final class UserSignInController extends Controller
 {
     public function __invoke(UserSignInRequest $request): JsonResponse
     {
-        $user = User::query()->where('email', $request->string('email')->value())->first();
+        $user = User::query()->where('email', (string) $request->string('email'))->first();
 
-        if (! $user || ! Hash::check($request->string('password')->value(), (string) $user->password)) {
+        if (!$user || !Hash::check((string) $request->string('password'), (string) $user->password)) {
             throw ValidationException::withMessages([
                 'email' => [__('auth.failed')],
             ]);
