@@ -1,3 +1,4 @@
+import { HttpError } from "~/lib/http/errors"
 import { isFn } from "~/utils/is"
 
 export type TFetcherOptions = RequestInit
@@ -18,7 +19,7 @@ export function createFetcher(config: TFetcherConfig) {
     const response = await fetch(url, resolvedOptions)
 
     if (!response.ok) {
-      throw new Error(`${response.url}: ${response.status} ${response.statusText}`)
+      throw new HttpError(response)
     }
 
     return response

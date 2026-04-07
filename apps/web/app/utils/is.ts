@@ -79,3 +79,7 @@ export function isEmpty(value: unknown): boolean {
 export function hasOwnProperty<T extends object, K extends PropertyKey>(obj: T, key: K): boolean {
   return Object.hasOwn(obj, key)
 }
+
+export function inInclusiveRange(v: number, start: number, end: number): boolean {
+  return v >= start && v <= end
+}

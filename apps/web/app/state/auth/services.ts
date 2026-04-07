@@ -1,12 +1,12 @@
 import type { QueryFunctionContext } from "@tanstack/react-query"
 import cookie from "js-cookie"
 import { env } from "~/env"
-import { createFetcher } from "~/lib/fetcher"
+import { createFetcher } from "~/lib/http/fetcher"
 
 const coreFetch = createFetcher({
   baseURL: env.API_URL,
   resolveDefaultOptions(options) {
-    options.credentials = "include"
+    options.credentials = "same-origin"
 
     const headers = new Headers(options.headers)
 
@@ -32,9 +32,12 @@ export async function getToken(context: QueryFunctionContext) {
 }
 
 export async function getMe(context: QueryFunctionContext) {
+  console.log("fiz")
+
   const response = await coreFetch("/v1/auth/me", {
     signal: context.signal,
   })
+  console.log("fiz")
 
   return await response.json()
 }
