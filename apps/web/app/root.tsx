@@ -1,5 +1,13 @@
 import type { Route } from "./+types/root"
-import { Links, Meta, Outlet, redirect, Scripts, ScrollRestoration } from "react-router"
+import {
+  Links,
+  Meta,
+  Outlet,
+  redirect,
+  Scripts,
+  ScrollRestoration,
+  useLocation,
+} from "react-router"
 import "~/assets/theme.css"
 import { HttpError } from "~/lib/http/errors"
 import { HttpStatus } from "~/lib/http/status"
@@ -7,11 +15,14 @@ import { getQueryClient } from "~/lib/query/client"
 import { QueryDevtools } from "~/lib/query/devtools"
 import { QueryProvider } from "~/lib/query/provider"
 import { ThemeProvider } from "~/lib/theme/provider"
+import { Empty } from "~/lib/ui/empty"
+import { Sidebar, SidebarInset, SidebarProvider } from "~/lib/ui/sidebar"
 import { Toaster } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
 import { authRoutes } from "~/routes"
 import { authQueries, authQueryKeys } from "~/state/auth/query"
+import { delay } from "~/utils/async"
 
 export async function clientLoader(args: Route.ClientLoaderArgs) {
   const queryClient = getQueryClient()
@@ -78,9 +89,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export function HydrateFallback() {
+  const location = useLocation()
+
+  if (!authRoutes.has(location.pathname)) {
+    return (
+      <SidebarProvider>
+        <Sidebar variant="inset" />
+        <SidebarInset>
+          <Empty className="size-full">
+            <Spinner className="size-16" />
+          </Empty>
+        </SidebarInset>
+      </SidebarProvider>
+    )
+  }
+
   return (
-    <div className="flex size-full items-center justify-center">
-      <Spinner className="size-36" />
-    </div>
+    <Empty className="size-full">
+      <Spinner className="size-24" />
+    </Empty>
   )
 }
