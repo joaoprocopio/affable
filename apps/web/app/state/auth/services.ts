@@ -18,6 +18,9 @@ const coreFetch = createFetcher({
       headers.set(xsrfCookieName, xsrfCookie)
     }
 
+    headers.set("Accept", "application/json")
+    headers.set("Content-Type", "application/json")
+
     options.headers = headers
 
     return options
