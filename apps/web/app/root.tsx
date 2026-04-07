@@ -5,6 +5,7 @@ import { getQueryClient } from "~/lib/query/client"
 import { QueryDevtools } from "~/lib/query/devtools"
 import { QueryProvider } from "~/lib/query/provider"
 import { ThemeProvider } from "~/lib/theme/provider"
+import { Toaster } from "~/lib/ui/sonner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
 import { authQueries } from "~/state/auth/query"
 
@@ -35,6 +36,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <QueryProvider>
           <ThemeProvider>
             <TooltipProvider>{children}</TooltipProvider>
+
+            <Toaster />
           </ThemeProvider>
 
           <QueryDevtools />
