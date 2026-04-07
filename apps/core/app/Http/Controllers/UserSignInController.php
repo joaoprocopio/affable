@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UserInvalidCredentialsException;
 use App\Http\Requests\UserSignInRequest;
 use App\Http\Resources\UserResource;
 use App\User;
@@ -11,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 final class UserSignInController extends Controller
 {
@@ -23,9 +23,7 @@ final class UserSignInController extends Controller
         $user = User::query()->where('email', $email)->first();
 
         if (!$user || !Hash::check($password, (string) $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => [__('auth.failed')],
-            ]);
+            throw new UserInvalidCredentialsException();
         }
 
         Auth::login($user);

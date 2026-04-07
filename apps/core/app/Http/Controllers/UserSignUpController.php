@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\UserEmailTakenException;
 use App\Http\Requests\UserSignUpRequest;
 use App\Http\Resources\UserResource;
 use App\User;
@@ -19,6 +20,12 @@ final class UserSignUpController extends Controller
     {
         $email = (string) $request->string('email');
         $password = (string) $request->string('password');
+
+        $user = User::query()->where("email", $email)->first();
+
+        if ($user) {
+            throw new UserEmailTakenException();
+        }
 
         $user = User::query()->create([
             'email' => $email,
