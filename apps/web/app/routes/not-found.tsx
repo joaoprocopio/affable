@@ -1,4 +1,4 @@
-export default function NotFoundPage() {
+export default function NotFoundRoute() {
   return (
     <div className="flex size-full flex-col items-center justify-center text-center">
       <h1 className="text-3xl font-bold">404</h1>

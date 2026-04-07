@@ -14,6 +14,7 @@ import { authQueries } from "~/state/auth/query"
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const queryClient = getQueryClient()
+
   const url = new URL(request.url)
   const pathname = url.pathname
 
@@ -34,15 +35,12 @@ export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   } catch (error) {
     if (HttpError.is(error)) {
       const status = error.response.status
-      
-      if (
-        status === HttpStatus.Unauthorized ||
-        HttpStatus.isClientError(status)
-      ) {
+
+      if (status === HttpStatus.Unauthorized || HttpStatus.isClientError(status)) {
         if (isPublicRoute) {
           return null
         }
-        
+
         return redirect("/signin")
       }
 

@@ -19,7 +19,7 @@ import { Spinner } from "~/lib/ui/spinner"
 import { authMutationKeys, authMutations } from "~/state/auth/query"
 import { SignIn } from "~/state/auth/schemas"
 
-export default function SignInPage() {
+export default function SignInRoute() {
   const [showPassword, setShowPassword] = React.useState(false)
 
   const queryClient = useQueryClient()
@@ -56,104 +56,100 @@ export default function SignInPage() {
   const isLoading = Boolean(isMutating)
 
   return (
-    <div className="bg-background flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <div className="flex flex-col gap-6">
-          <form
-            noValidate
-            onSubmit={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              form.handleSubmit()
-            }}>
-            <FieldGroup>
-              <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-xl font-bold">Sign in to Affable</h1>
-                <FieldDescription>
-                  Don&apos;t have an account? <Link to="/signup">Sign up</Link>
-                </FieldDescription>
-              </div>
+    <>
+      <form
+        noValidate
+        onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
+        }}>
+        <FieldGroup>
+          <div className="flex flex-col items-center gap-2 text-center">
+            <h1 className="text-xl font-bold">Sign in to Affable</h1>
+            <FieldDescription>
+              Don&apos;t have an account? <Link to="/signup">Sign up</Link>
+            </FieldDescription>
+          </div>
 
-              <form.Field
-                name="email"
-                children={(field) => {
-                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+          <form.Field
+            name="email"
+            children={(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Email</FieldLabel>
 
-                      <Input
-                        id={field.name}
-                        value={field.state.value}
-                        aria-invalid={isInvalid}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        type="email"
-                        placeholder="Enter your email address..."
-                        autoComplete="email"
-                      />
+                  <Input
+                    id={field.name}
+                    value={field.state.value}
+                    aria-invalid={isInvalid}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    type="email"
+                    placeholder="Enter your email address..."
+                    autoComplete="email"
+                  />
 
-                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                    </Field>
-                  )
-                }}
-              />
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+            }}
+          />
 
-              <form.Field
-                name="password"
-                children={(field) => {
-                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+          <form.Field
+            name="password"
+            children={(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
-                  return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Password</FieldLabel>
 
-                      <InputGroup>
-                        <InputGroupInput
-                          id={field.name}
-                          value={field.state.value}
-                          aria-invalid={isInvalid}
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          type={showPassword ? "text" : "password"}
-                          placeholder="Enter your password..."
-                          autoComplete="current-password"
-                        />
+                  <InputGroup>
+                    <InputGroupInput
+                      id={field.name}
+                      value={field.state.value}
+                      aria-invalid={isInvalid}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password..."
+                      autoComplete="current-password"
+                    />
 
-                        <InputGroupAddon align="inline-end">
-                          <InputGroupButton
-                            variant="outline"
-                            size="icon-xs"
-                            onClick={() => setShowPassword(!showPassword)}
-                            tabIndex={-1}>
-                            {showPassword ? (
-                              <Eye className="size-3.5" />
-                            ) : (
-                              <EyeOff className="size-3.5" />
-                            )}
-                          </InputGroupButton>
-                        </InputGroupAddon>
-                      </InputGroup>
+                    <InputGroupAddon align="inline-end">
+                      <InputGroupButton
+                        variant="outline"
+                        size="icon-xs"
+                        onClick={() => setShowPassword(!showPassword)}
+                        tabIndex={-1}>
+                        {showPassword ? (
+                          <Eye className="size-3.5" />
+                        ) : (
+                          <EyeOff className="size-3.5" />
+                        )}
+                      </InputGroupButton>
+                    </InputGroupAddon>
+                  </InputGroup>
 
-                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                    </Field>
-                  )
-                }}
-              />
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+            }}
+          />
 
-              <Button type="submit" disabled={isLoading}>
-                Continue
-                {isLoading && <Spinner strokeWidth={3} />}
-              </Button>
-            </FieldGroup>
-          </form>
+          <Button type="submit" disabled={isLoading}>
+            Continue
+            {isLoading && <Spinner strokeWidth={3} />}
+          </Button>
+        </FieldGroup>
+      </form>
 
-          <FieldDescription className="px-6 text-center">
-            <TosAndPPAgreementLink />
-          </FieldDescription>
-        </div>
-      </div>
-    </div>
+      <FieldDescription className="px-6 text-center">
+        <TosAndPPAgreementLink />
+      </FieldDescription>
+    </>
   )
 }
