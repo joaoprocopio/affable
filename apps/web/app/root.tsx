@@ -22,7 +22,6 @@ import { Spinner } from "~/lib/ui/spinner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
 import { authRoutes } from "~/routes"
 import { authQueries, authQueryKeys } from "~/state/auth/query"
-import { delay } from "~/utils/async"
 
 export async function clientLoader(args: Route.ClientLoaderArgs) {
   const queryClient = getQueryClient()
