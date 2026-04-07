@@ -2,7 +2,7 @@ import { useForm } from "@tanstack/react-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Eye, EyeOff } from "lucide-react"
 import * as React from "react"
-import { Link } from "react-router"
+import { Link, useRevalidator } from "react-router"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
@@ -20,10 +20,11 @@ import { SignUp } from "~/state/auth/schemas"
 export default function SignUpRoute() {
   const [showPassword, setShowPassword] = React.useState(false)
 
+  const revalidator = useRevalidator()
   const queryClient = useQueryClient()
 
   const mutation = useMutation({
-    ...authMutations.signup(queryClient),
+    ...authMutations.signup(queryClient, revalidator.revalidate),
   })
 
   const form = useForm({

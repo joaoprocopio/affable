@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useRevalidator } from "react-router"
 import { authMutations } from "~/state/auth/query"
 
 export default function HomeRoute() {
+  const revalidator = useRevalidator()
   const queryClient = useQueryClient()
-  const signout = useMutation(authMutations.signout(queryClient))
+  const signout = useMutation(authMutations.signout(queryClient, revalidator.revalidate))
 
   return (
     <div>
