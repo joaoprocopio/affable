@@ -11,6 +11,7 @@ import {
 } from "~/lib/ui/dropdown-menu"
 import {
   Sidebar,
+  SidebarContent,
   SidebarHeader,
   SidebarInset,
   SidebarMenuButton,
@@ -58,6 +59,13 @@ export default function AppRoute() {
             </DropdownMenu>
           </SidebarHeader>
         )}
+
+        <SidebarContent>
+          <p>home</p>
+          <p>properties</p>
+          <p>reservations</p>
+          <p>calendar</p>
+        </SidebarContent>
       </Sidebar>
 
       <SidebarInset>
