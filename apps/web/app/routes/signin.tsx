@@ -30,6 +30,7 @@ export default function SignInPage() {
         toast.message("Something went wrong", {
           description: <code>{error.toString()}</code>,
         })
+
         return undefined
       }
 

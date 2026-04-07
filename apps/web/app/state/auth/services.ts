@@ -2,7 +2,7 @@ import type { QueryFunctionContext } from "@tanstack/react-query"
 import cookie from "js-cookie"
 import { env } from "~/env"
 import { createFetcher } from "~/lib/http/fetcher"
-import { User, type TSignInOut } from "~/state/auth/schemas"
+import { User, type TSignInOut, type TSignUpOut } from "~/state/auth/schemas"
 
 const coreFetch = createFetcher({
   baseURL: env.API_URL,
@@ -47,6 +47,16 @@ export async function me(context: QueryFunctionContext) {
 
 export async function signin(body: TSignInOut) {
   const response = await coreFetch("/v1/auth/signin", {
+    method: "POST",
+    body: JSON.stringify(body),
+  })
+  const json = await response.json()
+
+  return User.parse(json)
+}
+
+export async function signup(body: TSignUpOut) {
+  const response = await coreFetch("/v1/auth/signup", {
     method: "POST",
     body: JSON.stringify(body),
   })
