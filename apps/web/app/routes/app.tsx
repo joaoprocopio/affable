@@ -4,7 +4,7 @@ import { Sidebar, SidebarInset, SidebarProvider } from "~/lib/ui/sidebar"
 export default function AppRoute() {
   return (
     <SidebarProvider>
-      <Sidebar variant="sidebar"></Sidebar>
+      <Sidebar variant="inset"></Sidebar>
 
       <SidebarInset>
         <Outlet />

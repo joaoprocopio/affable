@@ -1,8 +1,18 @@
+import { NotepadTextDashed } from "lucide-react"
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "~/lib/ui/empty"
+
 export default function CatchallRoute() {
   return (
-    <div className="flex size-full flex-col items-center justify-center text-center">
-      <h1 className="text-3xl font-bold">404</h1>
-      <p className="text-muted-foreground mt-2">Page not found</p>
-    </div>
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <NotepadTextDashed />
+        </EmptyMedia>
+      </EmptyHeader>
+      <EmptyTitle>Not found</EmptyTitle>
+      <EmptyDescription className="max-w-xs">
+        We could not find the page you were looking for
+      </EmptyDescription>
+    </Empty>
   )
 }
