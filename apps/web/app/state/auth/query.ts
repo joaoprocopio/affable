@@ -37,6 +37,7 @@ export const authQueries = defineQueries<TAuthNamespace>()({
 export const authMutationKeys = defineKeys<TAuthNamespace>()({
   signin: () => defineKey("auth", "signin"),
   signup: () => defineKey("auth", "signup"),
+  signout: () => defineKey("auth", "signout"),
 })
 
 export const authMutations = defineMutations<TAuthNamespace>()({
@@ -54,6 +55,14 @@ export const authMutations = defineMutations<TAuthNamespace>()({
       mutationFn: authServices.signup,
       onSuccess(data) {
         client.setQueryData(authQueryKeys.me(), data)
+      },
+    }),
+  signout: (client: QueryClient) =>
+    mutationOptions({
+      mutationKey: authMutationKeys.signout(),
+      mutationFn: authServices.signout,
+      onSuccess() {
+        client.removeQueries({ queryKey: authQueryKeys.me() })
       },
     }),
 })

@@ -64,3 +64,12 @@ export async function signup(body: TSignUpOut) {
 
   return User.parse(json)
 }
+
+export async function signout() {
+  const response = await coreFetch("/v1/auth/signout", {
+    method: "POST",
+  })
+  const text = await response.text()
+
+  return text
+}
