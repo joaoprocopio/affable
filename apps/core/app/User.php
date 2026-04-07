@@ -10,6 +10,6 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 #[Table('users')]
-#[Fillable(['email', 'password'])]
+#[Fillable(['email', 'name', 'password'])]
 #[Hidden(['password'])]
 class User extends Authenticatable {}

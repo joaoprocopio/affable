@@ -18,6 +18,7 @@ final class UserSignUpController extends Controller
 {
     public function __invoke(UserSignUpRequest $request): JsonResponse
     {
+        $name = (string) $request->string('name');
         $email = (string) $request->string('email');
         $password = (string) $request->string('password');
 
@@ -28,6 +29,7 @@ final class UserSignUpController extends Controller
         }
 
         $user = User::query()->create([
+            'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
         ]);
