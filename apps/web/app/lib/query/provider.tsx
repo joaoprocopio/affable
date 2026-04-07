@@ -2,8 +2,8 @@ import { QueryClientProvider, type QueryClientProviderProps } from "@tanstack/re
 import { getQueryClient } from "~/lib/query/client"
 
 export function QueryProvider({
-  children,
   client = getQueryClient(),
+  children,
 }: Partial<QueryClientProviderProps>) {
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }
