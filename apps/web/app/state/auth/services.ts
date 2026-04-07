@@ -32,12 +32,9 @@ export async function getToken(context: QueryFunctionContext) {
 }
 
 export async function getMe(context: QueryFunctionContext) {
-  console.log("fiz")
-
   const response = await coreFetch("/v1/auth/me", {
     signal: context.signal,
   })
-  console.log("fiz")
 
   return await response.json()
 }

@@ -28,6 +28,7 @@ const makeQueryClient = React.cache(() => {
 })
 
 export function getQueryClient() {
+  console.log(browserQueryClient)
   if (environmentManager.isServer()) {
     return makeQueryClient()
   }
