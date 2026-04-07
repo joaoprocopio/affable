@@ -8,15 +8,16 @@ const coreFetch = createFetcher({
   resolveDefaultOptions(options) {
     options.credentials = "include"
 
+    const headers = new Headers(options.headers)
+
     const xsrfCookieName = "X-XSRF-TOKEN"
     const xsrfCookie = cookie.get("XSRF-TOKEN")
 
     if (xsrfCookie) {
-      const headers = new Headers(options.headers)
       headers.set(xsrfCookieName, xsrfCookie)
-
-      options.headers = headers
     }
+
+    options.headers = headers
 
     return options
   },
