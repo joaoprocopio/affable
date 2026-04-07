@@ -7,7 +7,7 @@ import { User, type TSignInOut } from "~/state/auth/schemas"
 const coreFetch = createFetcher({
   baseURL: env.API_URL,
   resolveDefaultOptions(options) {
-    options.credentials = "same-origin"
+    options.credentials = "include"
 
     const headers = new Headers(options.headers)
 
