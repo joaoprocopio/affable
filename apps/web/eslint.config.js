@@ -1,11 +1,11 @@
-import pluginJS from "@eslint/js";
-import globals from "globals";
-import pluginTSEslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import { defineConfig } from "eslint/config";
-import pluginQuery from "@tanstack/eslint-plugin-query";
-import pluginReactHooks from "eslint-plugin-react-hooks";
-import pkgJSON from "./package.json" with { type: "json" };
+import pkgJSON from "./package.json" with { type: "json" }
+import pluginJS from "@eslint/js"
+import pluginQuery from "@tanstack/eslint-plugin-query"
+import pluginReact from "eslint-plugin-react"
+import pluginReactHooks from "eslint-plugin-react-hooks"
+import { defineConfig } from "eslint/config"
+import globals from "globals"
+import pluginTSEslint from "typescript-eslint"
 
 export default defineConfig([
   {
@@ -15,9 +15,9 @@ export default defineConfig([
     languageOptions: { globals: { ...globals.browser, ...globals.node } },
   },
   pluginTSEslint.configs.strict.map((config) => {
-    config.files = ["**/*.{ts,tsx}"];
+    config.files = ["**/*.{ts,tsx}"]
 
-    return config;
+    return config
   }),
   {
     ...pluginReact.configs.flat.recommended,
@@ -45,7 +45,8 @@ export default defineConfig([
   {
     rules: {
       "@typescript-eslint/no-non-null-assertion": "off",
+      "react/no-children-prop": "off",
       "react/prop-types": "off",
     },
   },
-]);
+])
