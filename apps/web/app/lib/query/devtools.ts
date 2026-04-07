@@ -1,7 +1,10 @@
 import * as React from "react"
+import { env } from "~/env"
 
-export const QueryDevtools = React.lazy(async () => {
-  const { ReactQueryDevtools } = await import("@tanstack/react-query-devtools")
+export const QueryDevtools = env.DEV
+  ? React.lazy(async () => {
+      const { ReactQueryDevtools } = await import("@tanstack/react-query-devtools")
 
-  return { default: ReactQueryDevtools }
-})
+      return { default: ReactQueryDevtools }
+    })
+  : () => undefined
