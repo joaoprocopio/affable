@@ -1,7 +1,8 @@
+import { QueryClient } from "@tanstack/react-query"
 import { HttpError } from "~/lib/http/errors"
 import { isServerErrorStatus } from "~/lib/http/status"
-import { defineKey, defineKeys, defineQueries } from "~/lib/query/utils/define"
-import { queryOptions } from "~/lib/query/utils/options"
+import { defineKey, defineKeys, defineMutations, defineQueries } from "~/lib/query/utils/define"
+import { mutationOptions, queryOptions } from "~/lib/query/utils/options"
 import * as authServices from "~/state/auth/services"
 
 export type TAuthNamespace = "auth"
@@ -15,7 +16,7 @@ export const authQueries = defineQueries<TAuthNamespace>()({
   me: () =>
     queryOptions({
       queryKey: authQueryKeys.me(),
-      queryFn: (context) => authServices.me(context),
+      queryFn: authServices.me,
       staleTime: Infinity,
       retry(failureCount, error) {
         if (HttpError.is(error)) {
@@ -28,7 +29,22 @@ export const authQueries = defineQueries<TAuthNamespace>()({
   token: () =>
     queryOptions({
       queryKey: authQueryKeys.token(),
-      queryFn: (context) => authServices.token(context),
+      queryFn: authServices.token,
       staleTime: Infinity,
+    }),
+})
+
+export const authMutationKeys = defineKeys<TAuthNamespace>()({
+  signin: () => defineKey("auth", "signin"),
+})
+
+export const authMutations = defineMutations<TAuthNamespace>()({
+  signin: (client: QueryClient) =>
+    mutationOptions({
+      mutationKey: authMutationKeys.signin(),
+      mutationFn: authServices.signin,
+      onSuccess(data) {
+        client.setQueryData(authQueryKeys.me(), data)
+      },
     }),
 })
