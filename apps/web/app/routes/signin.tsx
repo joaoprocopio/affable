@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Eye, EyeOff } from "lucide-react"
 import * as React from "react"
+import { Link } from "react-router"
 import { toast } from "sonner"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
 import { HttpError } from "~/lib/http/errors"
@@ -69,7 +70,7 @@ export default function SignInPage() {
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-xl font-bold">Sign in to Affable</h1>
                 <FieldDescription>
-                  Don&apos;t have an account? <a href="/signup">Sign up</a>
+                  Don&apos;t have an account? <Link to="/signup">Sign up</Link>
                 </FieldDescription>
               </div>
 

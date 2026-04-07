@@ -1,4 +1,4 @@
-import { Circle, type LucideProps } from "lucide-react"
+import { Loader, type LucideProps } from "lucide-react"
 import { cn } from "~/lib/ui/utils"
 
 const BLADES_BASE_CLASS =
@@ -22,7 +22,7 @@ function Spinner({ className, ...props }: SpinnerProps) {
     <div className={cn("relative size-4 overflow-hidden", className)}>
       {Array.from({ length: BLADES_CLASSES.length }).map((_, index) => {
         return (
-          <Circle
+          <Loader
             key={index}
             role="status"
             aria-label="Loading"

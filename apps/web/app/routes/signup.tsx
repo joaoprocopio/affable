@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Eye, EyeOff } from "lucide-react"
 import * as React from "react"
+import { Link } from "react-router"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
@@ -57,7 +58,7 @@ export default function SignUpPage() {
               <div className="flex flex-col items-center gap-2 text-center">
                 <h1 className="text-xl font-bold">Sign up to Affable</h1>
                 <FieldDescription>
-                  Already have an account? <a href="/signin">Sign in</a>
+                  Already have an account? <Link to="/signin">Sign in</Link>
                 </FieldDescription>
               </div>
 
