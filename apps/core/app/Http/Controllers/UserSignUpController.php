@@ -8,7 +8,6 @@ use App\Exceptions\UserEmailTakenException;
 use App\Http\Requests\UserSignUpRequest;
 use App\Http\Resources\UserResource;
 use App\User;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
