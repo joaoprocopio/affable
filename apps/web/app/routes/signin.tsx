@@ -56,7 +56,7 @@ export default function SignInPage() {
   const isLoading = Boolean(isMutating)
 
   return (
-    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+    <div className="bg-background flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
           <form
@@ -148,6 +148,7 @@ export default function SignInPage() {
               </Button>
             </FieldGroup>
           </form>
+
           <FieldDescription className="px-6 text-center">
             <TosAndPPAgreementLink />
           </FieldDescription>

@@ -4,4 +4,5 @@ export default [
   route("/signin", "routes/signin.tsx"),
   route("/signup", "routes/signup.tsx"),
   route("/home", "routes/home.tsx"),
+  route("*", "routes/not-found.tsx"),
 ] satisfies RouteConfig

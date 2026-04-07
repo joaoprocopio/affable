@@ -1,6 +1,8 @@
 import type { Route } from "./+types/root"
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router"
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, redirect } from "react-router"
 import "~/assets/theme.css"
+import { HttpError } from "~/lib/http/errors"
+import { HttpStatus } from "~/lib/http/status"
 import { getQueryClient } from "~/lib/query/client"
 import { QueryDevtools } from "~/lib/query/devtools"
 import { QueryProvider } from "~/lib/query/provider"
@@ -10,13 +12,47 @@ import { Spinner } from "~/lib/ui/spinner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
 import { authQueries } from "~/state/auth/query"
 
-export async function clientLoader() {
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const queryClient = getQueryClient()
+  const url = new URL(request.url)
+  const pathname = url.pathname
 
-  const [me] = await Promise.all([
-    queryClient.ensureQueryData(authQueries.me()),
-    queryClient.ensureQueryData(authQueries.token()),
-  ])
+  const publicRoutes = ["/signin", "/signup"]
+  const isPublicRoute = publicRoutes.includes(pathname)
+
+  try {
+    const [me] = await Promise.all([
+      queryClient.ensureQueryData(authQueries.me()),
+      queryClient.ensureQueryData(authQueries.token()),
+    ])
+
+    if (isPublicRoute) {
+      return redirect("/home")
+    }
+
+    return { me }
+  } catch (error) {
+    if (HttpError.is(error)) {
+      const status = error.response.status
+      
+      if (
+        status === HttpStatus.Unauthorized ||
+        HttpStatus.isClientError(status)
+      ) {
+        if (isPublicRoute) {
+          return null
+        }
+        
+        return redirect("/signin")
+      }
+
+      if (HttpStatus.isServerError(status)) {
+        throw error
+      }
+    }
+
+    throw error
+  }
 }
 
 export const meta: Route.MetaFunction = () => [
