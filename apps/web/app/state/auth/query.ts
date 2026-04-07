@@ -15,7 +15,7 @@ export const authQueries = defineQueries<TAuthNamespace>()({
   me: () =>
     queryOptions({
       queryKey: authQueryKeys.me(),
-      queryFn: (context) => authServices.getMe(context),
+      queryFn: (context) => authServices.me(context),
       staleTime: Infinity,
       retry(failureCount, error) {
         if (HttpError.is(error)) {
@@ -28,7 +28,7 @@ export const authQueries = defineQueries<TAuthNamespace>()({
   token: () =>
     queryOptions({
       queryKey: authQueryKeys.token(),
-      queryFn: (context) => authServices.getToken(context),
+      queryFn: (context) => authServices.token(context),
       staleTime: Infinity,
     }),
 })

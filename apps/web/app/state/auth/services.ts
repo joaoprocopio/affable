@@ -23,18 +23,29 @@ const coreFetch = createFetcher({
   },
 })
 
-export async function getToken(context: QueryFunctionContext) {
+export async function token(context: QueryFunctionContext) {
   const response = await coreFetch("/v1/auth/token", {
     signal: context.signal,
   })
+  const json = await response.json()
 
-  return await response.text()
+  return json
 }
 
-export async function getMe(context: QueryFunctionContext) {
+export async function me(context: QueryFunctionContext) {
   const response = await coreFetch("/v1/auth/me", {
     signal: context.signal,
   })
+  const json = await response.json()
 
-  return await response.json()
+  return json
+}
+
+export async function signin(body: BodyInit) {
+  const response = await coreFetch("/v1/auth/signin", {
+    body,
+  })
+  const json = await response.json()
+
+  return json
 }
