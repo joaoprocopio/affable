@@ -12,6 +12,7 @@ import { Toaster } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
 import { authQueries } from "~/state/auth/query"
+import { delay } from "~/utils/async"
 
 export async function clientLoader({ request }: Route.ClientLoaderArgs) {
   const queryClient = getQueryClient()
