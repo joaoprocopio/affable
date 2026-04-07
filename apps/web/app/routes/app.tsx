@@ -13,9 +13,7 @@ import {
   Sidebar,
   SidebarHeader,
   SidebarInset,
-  SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
   SidebarProvider,
 } from "~/lib/ui/sidebar"
 import { authMutations, authQueries } from "~/state/auth/query"
