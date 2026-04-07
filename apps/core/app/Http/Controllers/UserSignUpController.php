@@ -7,20 +7,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserSignUpRequest;
 use App\Http\Resources\UserResource;
 use App\User;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 final class UserSignUpController extends Controller
 {
     public function __invoke(UserSignUpRequest $request): JsonResponse
     {
+        $email = (string) $request->string('email');
+        $password = (string) $request->string('password');
+
         $user = User::query()->create([
-            'email' => (string) $request->string('email'),
-            'password' => Hash::make((string) $request->string('password')),
+            'email' => $email,
+            'password' => Hash::make($password),
         ]);
+
 
         Auth::login($user);
         $request->session()->regenerate();
