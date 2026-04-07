@@ -1,4 +1,6 @@
-import { layout, route, type RouteConfig } from "@react-router/dev/routes"
+import { index, layout, route, type RouteConfig } from "@react-router/dev/routes"
+
+export const authRoutes = new Set(["/signin", "/signup"])
 
 export default [
   layout("routes/auth.tsx", [
@@ -6,7 +8,5 @@ export default [
     route("signup", "routes/signup.tsx"),
   ]),
 
-  layout("routes/app.tsx", [route("home", "routes/home.tsx")]),
-
-  route("*", "routes/not-found.tsx"),
+  layout("routes/app.tsx", [index("routes/home.tsx"), route("*", "routes/catchall.tsx")]),
 ] satisfies RouteConfig

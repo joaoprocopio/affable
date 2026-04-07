@@ -30,7 +30,6 @@ export default function SignUpRoute() {
     ...authMutations.signup(queryClient, revalidator.revalidate),
     async onError(error) {
       if (HttpError.is(error)) {
-        console.log(error)
         if (error.response.status === HttpStatus.Conflict) {
           form.setErrorMap({
             onSubmit: {
