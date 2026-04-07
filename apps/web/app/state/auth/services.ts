@@ -31,9 +31,9 @@ export async function token(context: QueryFunctionContext) {
   const response = await coreFetch("/v1/auth/token", {
     signal: context.signal,
   })
-  const json = await response.json()
+  const text = await response.text()
 
-  return json
+  return text
 }
 
 export async function me(context: QueryFunctionContext) {
