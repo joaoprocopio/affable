@@ -2,8 +2,10 @@ import { useForm } from "@tanstack/react-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Eye, EyeOff } from "lucide-react"
 import * as React from "react"
-import { Link, useRevalidator } from "react-router"
+import { data, Link, useRevalidator } from "react-router"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
+import { HttpError } from "~/lib/http/errors"
+import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -16,6 +18,7 @@ import {
 import { Spinner } from "~/lib/ui/spinner"
 import { authMutationKeys, authMutations } from "~/state/auth/query"
 import { SignUp } from "~/state/auth/schemas"
+import { transformLaravelValidationError } from "~/utils/laravel"
 
 export default function SignUpRoute() {
   const [showPassword, setShowPassword] = React.useState(false)
@@ -25,6 +28,30 @@ export default function SignUpRoute() {
 
   const mutation = useMutation({
     ...authMutations.signup(queryClient, revalidator.revalidate),
+    async onError(error) {
+      if (HttpError.is(error)) {
+        console.log(error)
+        if (error.response.status === HttpStatus.Conflict) {
+          form.setErrorMap({
+            onSubmit: {
+              fields: {
+                email: {
+                  message: "This email is already taken",
+                },
+              },
+            },
+          })
+        }
+
+        if (error.response.status === HttpStatus.UnprocessableEntity) {
+          form.setErrorMap({
+            onSubmit: {
+              fields: transformLaravelValidationError(await error.response.json()),
+            },
+          })
+        }
+      }
+    },
   })
 
   const form = useForm({
@@ -62,31 +89,6 @@ export default function SignUpRoute() {
           </div>
 
           <form.Field
-            name="name"
-            children={(field) => {
-              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-
-                  <Input
-                    id={field.name}
-                    value={field.state.value}
-                    aria-invalid={isInvalid}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="Enter your name..."
-                    autoComplete="name"
-                  />
-
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              )
-            }}
-          />
-
-          <form.Field
             name="email"
             children={(field) => {
               const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
@@ -104,6 +106,31 @@ export default function SignUpRoute() {
                     type="email"
                     placeholder="Enter your email address..."
                     autoComplete="email"
+                  />
+
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+            }}
+          />
+
+          <form.Field
+            name="name"
+            children={(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+
+                  <Input
+                    id={field.name}
+                    value={field.state.value}
+                    aria-invalid={isInvalid}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="Enter your name..."
+                    autoComplete="name"
                   />
 
                   {isInvalid && <FieldError errors={field.state.meta.errors} />}
