@@ -10,7 +10,7 @@ export const handle: Handle = {
 export default function PropertiesRoute() {
   return (
     <div>
-      <AppHeader className="px-6 py-2">
+      <AppHeader className="px-5 py-2">
         <AppHeaderBreadcrumb />
 
         <Button size="sm" render={<Link to="/add" />}>
@@ -19,7 +19,7 @@ export default function PropertiesRoute() {
         </Button>
       </AppHeader>
 
-      <div className="px-6 py-4">
+      <div className="px-5 py-4">
         <Outlet />
       </div>
     </div>
