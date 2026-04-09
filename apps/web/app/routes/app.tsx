@@ -1,12 +1,29 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { Calendar, ChevronDown, DoorOpen, Home, LogOut, type LucideIcon } from "lucide-react"
+import {
+  Calendar,
+  ChevronDown,
+  Computer,
+  DoorOpen,
+  Home,
+  LogOut,
+  Moon,
+  Palette,
+  Sun,
+  type LucideIcon,
+} from "lucide-react"
 import { Link, Outlet, useLocation, useRevalidator, type To } from "react-router"
+import { useTheme } from "~/lib/theme"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/lib/ui/dropdown-menu"
 import {
@@ -46,6 +63,8 @@ const links = [
 }[]
 
 export default function AppRoute() {
+  const { theme, setTheme } = useTheme()
+
   const location = useLocation()
   const revalidator = useRevalidator()
 
@@ -76,10 +95,36 @@ export default function AppRoute() {
                 }
               />
 
-              <DropdownMenuContent side="bottom">
+              <DropdownMenuContent side="bottom" className="w-36">
                 <DropdownMenuGroup>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <Palette className="text-muted-foreground" />
+                      Theme
+                    </DropdownMenuSubTrigger>
+
+                    <DropdownMenuSubContent className="w-48">
+                      <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+                        <DropdownMenuRadioItem value="system">
+                          <Computer className="text-muted-foreground" />
+                          <span>Match system</span>
+                        </DropdownMenuRadioItem>
+
+                        <DropdownMenuRadioItem value="light">
+                          <Sun className="text-muted-foreground" />
+                          <span>Light theme</span>
+                        </DropdownMenuRadioItem>
+
+                        <DropdownMenuRadioItem value="dark">
+                          <Moon className="text-muted-foreground" />
+                          <span>Dark theme</span>
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+
                   <DropdownMenuItem onClick={() => signout.mutate()}>
-                    <LogOut />
+                    <LogOut className="text-muted-foreground" />
                     Sign out
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
