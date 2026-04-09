@@ -1,13 +1,5 @@
 import type { Route } from "./+types/root"
-import {
-  Links,
-  Meta,
-  Outlet,
-  redirect,
-  Scripts,
-  ScrollRestoration,
-  useLocation,
-} from "react-router"
+import { Links, Meta, Outlet, redirect, Scripts, ScrollRestoration } from "react-router"
 import "~/assets/theme.css"
 import { HttpError } from "~/lib/http/errors"
 import { HttpStatus } from "~/lib/http/status"
@@ -16,7 +8,6 @@ import { QueryDevtools } from "~/lib/query/devtools"
 import { QueryProvider } from "~/lib/query/provider"
 import { ThemeProvider } from "~/lib/theme/provider"
 import { Empty } from "~/lib/ui/empty"
-import { Sidebar, SidebarInset, SidebarProvider } from "~/lib/ui/sidebar"
 import { Toaster } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
@@ -88,20 +79,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export function HydrateFallback() {
-  const location = useLocation()
-
-  if (!authRoutes.has(location.pathname)) {
-    return (
-      <SidebarProvider>
-        <Sidebar variant="inset" />
-        <SidebarInset />
-      </SidebarProvider>
-    )
-  }
-
   return (
     <Empty className="size-full">
-      <Spinner className="size-24" />
+      <Spinner className="size-16" />
     </Empty>
   )
 }
