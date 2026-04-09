@@ -180,7 +180,7 @@ export default function SignUpRoute() {
             }}
           />
 
-          <Button type="submit">
+          <Button type="submit" disabled={isLoading}>
             Continue
             {isLoading && <Spinner strokeWidth={3} />}
           </Button>

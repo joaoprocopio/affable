@@ -17,7 +17,7 @@ services:
     ports:
       - published: 11300
         target: 11300
-    command: ["beanstalk", "-b", "/var/lib/beanstalkd"]
+    command: ["-b", "/var/lib/beanstalkd"]
     volumes:
       - type: volume
         source: beanstalkd_data
