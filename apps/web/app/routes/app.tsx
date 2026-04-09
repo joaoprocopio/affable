@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ChevronDown, LogOut } from "lucide-react"
-import { Outlet, useRevalidator } from "react-router"
+import { Calendar, ChevronDown, DoorOpen, Home, LogOut, type LucideIcon } from "lucide-react"
+import { Link, Outlet, useLocation, useRevalidator, type To } from "react-router"
 import { Avatar, AvatarFallback } from "~/lib/ui/avatar"
 import {
   DropdownMenu,
@@ -12,17 +12,45 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarGroup,
   SidebarHeader,
   SidebarInset,
+  SidebarMenu,
   SidebarMenuButton,
+  SidebarMenuItem,
   SidebarProvider,
 } from "~/lib/ui/sidebar"
 import { authMutations, authQueries } from "~/state/auth/query"
 import { composeInitials } from "~/utils/avatar"
 
+const links = [
+  {
+    icon: Home,
+    label: "Properties",
+    to: "/",
+  },
+  {
+    icon: DoorOpen,
+    label: "Reservations",
+    to: "/reservations",
+  },
+  {
+    icon: Calendar,
+    label: "Calendar",
+    to: "/calendar",
+  },
+] as const satisfies {
+  label: string
+  icon: LucideIcon
+  to: To
+}[]
+
 export default function AppRoute() {
-  const queryClient = useQueryClient()
+  const location = useLocation()
   const revalidator = useRevalidator()
+
+  const queryClient = useQueryClient()
+
   const me = useQuery(authQueries.me())
   const signout = useMutation(authMutations.signout(queryClient, revalidator.revalidate))
 
@@ -43,7 +71,7 @@ export default function AppRoute() {
 
                     <span className="truncate"> {me.data!.name} </span>
 
-                    <ChevronDown className="text-sidebar-muted-foreground size-4" />
+                    <ChevronDown className="text-muted-foreground size-4" />
                   </SidebarMenuButton>
                 }
               />
@@ -61,10 +89,20 @@ export default function AppRoute() {
         )}
 
         <SidebarContent>
-          <p>home</p>
-          <p>properties</p>
-          <p>reservations</p>
-          <p>calendar</p>
+          <SidebarGroup>
+            <SidebarMenu className="text-muted-foreground">
+              {links.map((link, index) => (
+                <SidebarMenuItem key={index}>
+                  <SidebarMenuButton
+                    isActive={link.to === location.pathname}
+                    render={<Link to={link.to} />}>
+                    <link.icon />
+                    <span>{link.label}</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroup>
         </SidebarContent>
       </Sidebar>
 
