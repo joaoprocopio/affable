@@ -133,7 +133,7 @@
 
   html,
   body {
-    @apply h-full min-h-full scroll-smooth font-sans;
+    @apply relative isolate h-full min-h-full scroll-smooth font-sans;
   }
 
   body {

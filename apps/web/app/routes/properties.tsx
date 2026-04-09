@@ -7,7 +7,9 @@ export const handle: Handle = {
 export default function PropertiesRoute() {
   return (
     <div>
-      <HandleBreadcrumb />
+      <header className="border-b px-6 py-4">
+        <HandleBreadcrumb />
+      </header>
     </div>
   )
 }
