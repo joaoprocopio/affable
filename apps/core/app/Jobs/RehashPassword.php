@@ -15,26 +15,22 @@ class RehashPassword implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        private readonly User $user,
+        private readonly string $password,
+    ) {}
 
     /**
      * Execute the job.
      */
     public function handle(): void
     {
-        $name = Uuid::uuid4()->toString();
-        $email = Uuid::uuid4()->toString();
-        $email .= "@gmail.com";
-        $password = Hash::make($name);
-        $user = new User([
-            'name' => $name,
-            'password' => $password,
-            'email' => $email,
-        ]);
+        if (Hash::needsRehash($this->user->password)) {
+            return;
+        }
 
-        $user->save();
+        $this->user->update([
+            'password' => Hash::make($this->password)
+        ]);
     }
 }

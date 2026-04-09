@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\UserInvalidCredentialsException;
 use App\Http\Requests\UserSignInRequest;
 use App\Http\Resources\UserResource;
+use App\Jobs\RehashPassword;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -28,6 +29,8 @@ final class UserSignInController extends Controller
 
         Auth::login($user);
         $request->session()->regenerate();
+
+        RehashPassword::dispatch($user, $password)->onQueue('lowpq');
 
         return new JsonResponse(new UserResource($user), JsonResponse::HTTP_OK);
     }
