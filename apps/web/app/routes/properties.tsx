@@ -1,4 +1,6 @@
-import { HandleBreadcrumb } from "~/components/handle-breadcrumb"
+import { Plus } from "lucide-react"
+import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
+import { Button } from "~/lib/ui/button"
 
 export const handle: Handle = {
   breadcrumb: "Properties",
@@ -7,9 +9,14 @@ export const handle: Handle = {
 export default function PropertiesRoute() {
   return (
     <div>
-      <header className="border-b px-6 py-4">
-        <HandleBreadcrumb />
-      </header>
+      <AppHeader>
+        <AppHeaderBreadcrumb />
+
+        <Button size="sm">
+          <Plus />
+          <span>Add a property</span>
+        </Button>
+      </AppHeader>
     </div>
   )
 }

@@ -7,9 +7,20 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "~/lib/ui/breadcrumb"
+import { cn } from "~/lib/ui/utils"
 import { isNil } from "~/utils/is"
 
-export function HandleBreadcrumb() {
+export function AppHeader({ className, children, ...props }: React.ComponentProps<"header">) {
+  return (
+    <header
+      className={cn("flex items-center justify-between border-b px-6 py-2", className)}
+      {...props}>
+      {children}
+    </header>
+  )
+}
+
+export function AppHeaderBreadcrumb() {
   const matches = useMatches()
   const breadcrumbs = matches
     .map((match) => (match.handle as Handle)?.breadcrumb)
