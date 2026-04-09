@@ -12,6 +12,12 @@ services:
       MYSQL_DATABASE: affable
       MYSQL_ROOT_PASSWORD: root
 
+  beanstalk:
+    image: schickling/beanstalkd:latest
+    ports:
+      - published: 11300
+        target: 11300
+
   # laravel:
   #   build:
   #     context: ./apps/core

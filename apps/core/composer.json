@@ -5,7 +5,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.5",
-        "laravel/framework": "^13.0"
+        "laravel/framework": "^13.0",
+        "pda/pheanstalk": "^8.0"
     },
     "require-dev": {
         "laravel/pail": "^1.2",
