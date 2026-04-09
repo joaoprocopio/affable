@@ -33,7 +33,6 @@ final class UserSignUpController extends Controller
             'password' => Hash::make($password),
         ]);
 
-
         Auth::login($user);
         $request->session()->regenerate();
 

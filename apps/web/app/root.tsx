@@ -94,11 +94,7 @@ export function HydrateFallback() {
     return (
       <SidebarProvider>
         <Sidebar variant="inset" />
-        <SidebarInset>
-          <Empty className="size-full">
-            <Spinner className="size-16" />
-          </Empty>
-        </SidebarInset>
+        <SidebarInset />
       </SidebarProvider>
     )
   }
