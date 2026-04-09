@@ -6,6 +6,11 @@ declare global {
     // All B items are deep merged into A.
     [K in keyof A | keyof B]: K extends keyof B ? B[K] : K extends keyof A ? A[K] : never
   }
+  type Handle =
+    | {
+        breadcrumb?: string
+      }
+    | undefined
 }
 
 export {}
