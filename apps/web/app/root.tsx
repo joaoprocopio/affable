@@ -8,6 +8,7 @@ import { QueryDevtools } from "~/lib/query/devtools"
 import { QueryProvider } from "~/lib/query/provider"
 import { ThemeProvider } from "~/lib/theme/provider"
 import { Empty } from "~/lib/ui/empty"
+import { SidebarProvider } from "~/lib/ui/sidebar"
 import { Toaster } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
@@ -63,7 +64,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <QueryProvider>
           <ThemeProvider>
-            <TooltipProvider>{children}</TooltipProvider>
+            <TooltipProvider>
+              <SidebarProvider>{children}</SidebarProvider>
+            </TooltipProvider>
 
             <Toaster />
           </ThemeProvider>
@@ -80,7 +83,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export function HydrateFallback() {
   return (
-    <Empty className="size-full">
+    <Empty className="min-h-svh">
       <Spinner className="size-16" />
     </Empty>
   )

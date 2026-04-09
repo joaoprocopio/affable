@@ -35,7 +35,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
+  SidebarTrigger,
+  useSidebar,
 } from "~/lib/ui/sidebar"
 import { authMutations, authQueries } from "~/state/auth/query"
 import { composeInitials } from "~/utils/avatar"
@@ -63,6 +64,7 @@ const links = [
 }[]
 
 export default function AppRoute() {
+  const sidebar = useSidebar()
   const { theme, setTheme } = useTheme()
 
   const location = useLocation()
@@ -74,10 +76,10 @@ export default function AppRoute() {
   const signout = useMutation(authMutations.signout(queryClient, revalidator.revalidate))
 
   return (
-    <SidebarProvider>
+    <>
       <Sidebar variant="inset">
-        {me.isSuccess && (
-          <SidebarHeader>
+        <SidebarHeader className="flex-row">
+          {me.isSuccess && (
             <DropdownMenu>
               <DropdownMenuTrigger
                 render={
@@ -130,8 +132,10 @@ export default function AppRoute() {
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
-          </SidebarHeader>
-        )}
+          )}
+
+          {sidebar.open && <SidebarTrigger className="ml-auto" />}
+        </SidebarHeader>
 
         <SidebarContent>
           <SidebarGroup>
@@ -154,6 +158,6 @@ export default function AppRoute() {
       <SidebarInset>
         <Outlet />
       </SidebarInset>
-    </SidebarProvider>
+    </>
   )
 }

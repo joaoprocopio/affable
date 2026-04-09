@@ -238,7 +238,7 @@ function SidebarTrigger({ className, onClick, ...props }: React.ComponentProps<t
       data-slot="sidebar-trigger"
       variant="ghost"
       size="icon-sm"
-      className={cn(className)}
+      className={cn("text-muted-foreground", className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
