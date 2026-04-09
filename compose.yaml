@@ -13,10 +13,15 @@ services:
       MYSQL_ROOT_PASSWORD: root
 
   beanstalk:
-    image: schickling/beanstalkd:latest
+    image: ghcr.io/beanstalkd/beanstalkd:latest
     ports:
       - published: 11300
         target: 11300
+    command: ["beanstalk", "-b", "/var/lib/beanstalkd"]
+    volumes:
+      - type: volume
+        source: beanstalkd_data
+        target: /var/lib/beanstalkd
 
   # laravel:
   #   build:
@@ -29,3 +34,4 @@ services:
 
 volumes:
   mysql_data:
+  beanstalkd_data:
