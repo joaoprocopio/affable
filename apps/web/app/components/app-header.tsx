@@ -1,8 +1,8 @@
 import * as React from "react"
-import { useMatches } from "react-router"
+import { Link, useMatches, type UIMatch } from "react-router"
 import {
   Breadcrumb,
-  BreadcrumbItem,
+  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -21,20 +21,21 @@ export function AppHeader({ className, children, ...props }: React.ComponentProp
 }
 
 export function AppHeaderBreadcrumb() {
-  const matches = useMatches()
-  const breadcrumbs = matches
-    .map((match) => (match.handle as Handle)?.breadcrumb)
-    .filter((breadcrumb) => !isNil(breadcrumb))
+  const matches = (useMatches() as UIMatch<unknown, Handle>[]).filter(
+    (match) => !isNil(match.handle?.breadcrumb),
+  )
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {breadcrumbs.map((breadcrumb, index) =>
-          index === breadcrumbs.length - 1 ? (
-            <BreadcrumbPage key={breadcrumb}>{breadcrumb}</BreadcrumbPage>
+        {matches.map((match, index) =>
+          index === matches.length - 1 ? (
+            <BreadcrumbPage key={match.pathname}>{match.handle!.breadcrumb}</BreadcrumbPage>
           ) : (
-            <React.Fragment key={breadcrumb}>
-              <BreadcrumbItem>{breadcrumb}</BreadcrumbItem>
+            <React.Fragment key={match.pathname}>
+              <BreadcrumbLink render={<Link to={match.pathname} />}>
+                {match.handle!.breadcrumb}
+              </BreadcrumbLink>
               <BreadcrumbSeparator />
             </React.Fragment>
           ),

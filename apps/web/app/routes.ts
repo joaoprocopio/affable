@@ -8,5 +8,11 @@ export default [
     route("signup", "routes/signup.tsx"),
   ]),
 
-  layout("routes/app.tsx", [index("routes/properties.tsx"), route("*", "routes/catchall.tsx")]),
+  layout("routes/app.tsx", [
+    layout("routes/properties.tsx", [
+      index("routes/properties-list.tsx"),
+      route("add", "routes/properties-add.tsx"),
+    ]),
+    route("*", "routes/catchall.tsx"),
+  ]),
 ] satisfies RouteConfig
