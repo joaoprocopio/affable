@@ -30,7 +30,7 @@ final class UserSignInController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        RehashPassword::dispatch($user, $password)->onQueue('lowpq');
+        RehashPassword::dispatch($user, $password);
 
         return new JsonResponse(new UserResource($user), JsonResponse::HTTP_OK);
     }
