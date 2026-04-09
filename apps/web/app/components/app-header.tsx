@@ -12,7 +12,9 @@ import { isNil } from "~/utils/is"
 
 export function AppHeader({ className, children, ...props }: React.ComponentProps<"header">) {
   return (
-    <header className={cn("flex items-center justify-between border-b", className)} {...props}>
+    <header
+      className={cn("flex h-12 items-center justify-between border-b px-6", className)}
+      {...props}>
       {children}
     </header>
   )
