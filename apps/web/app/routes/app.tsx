@@ -35,6 +35,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarProvider,
   SidebarTrigger,
   useSidebar,
 } from "~/lib/ui/sidebar"
@@ -64,6 +65,14 @@ const links = [
 }[]
 
 export default function AppRoute() {
+  return (
+    <SidebarProvider>
+      <AppRouteInner />
+    </SidebarProvider>
+  )
+}
+
+function AppRouteInner() {
   const sidebar = useSidebar()
   const { theme, setTheme } = useTheme()
 

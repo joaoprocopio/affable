@@ -64,9 +64,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <QueryProvider>
           <ThemeProvider>
-            <TooltipProvider>
-              <SidebarProvider>{children}</SidebarProvider>
-            </TooltipProvider>
+            <TooltipProvider>{children}</TooltipProvider>
 
             <Toaster />
           </ThemeProvider>
@@ -83,7 +81,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export function HydrateFallback() {
   return (
-    <Empty className="min-h-svh">
+    <Empty className="size-full">
       <Spinner className="size-16" />
     </Empty>
   )
