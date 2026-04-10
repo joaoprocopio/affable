@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
-  Calendar,
+  ChartNoAxesCombined,
   ChevronDown,
   Computer,
   DoorOpen,
@@ -52,9 +52,9 @@ const links = [
     to: "/reservations",
   },
   {
-    icon: Calendar,
-    label: "Calendar",
-    to: "/calendar",
+    icon: ChartNoAxesCombined,
+    label: "Metrics",
+    to: "/metrics",
   },
 ] as const satisfies {
   label: string
