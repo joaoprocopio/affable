@@ -1,0 +1,12 @@
+- deploy pra produção em https://affable.cc
+  - nginx
+  - api
+  - webapp
+  - mysql
+  - beanstalk
+  - worker
+    - talvez pra bulk import?
+
+- ui
+  - ter tabelas
+  - ter gráficos

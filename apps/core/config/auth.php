@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
+use App\User;
 
 return [
 
@@ -12,8 +12,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | This option defines the default authentication "guard" and password
-    | reset "broker" for your application. You may change these values
-    | as required, but they're a perfect start for most applications.
+    | reset "broker" for your application. You may change these values as
+    | required, but they're a perfect start for most applications.
     |
     */
 
@@ -66,7 +66,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', User::class),
+            'model' => User::class,
         ],
 
         // 'users' => [

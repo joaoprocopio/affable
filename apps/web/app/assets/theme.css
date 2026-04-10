@@ -5,6 +5,10 @@
 
 @import "./typography.css";
 
+@import "./colors/gray.css";
+@import "./colors/red.css";
+@import "./colors/indigo.css";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -52,7 +56,7 @@
 }
 
 :root {
-  --radius: 0;
+  --radius: 0rem;
   --font-inter: "Inter Variable", sans-serif;
 
   --background: oklch(1 0 0);
@@ -129,11 +133,11 @@
 
   html,
   body {
-    @apply h-full min-h-full scroll-smooth font-sans;
+    @apply relative isolate h-full min-h-full scroll-smooth font-sans;
   }
 
   body {
-    @apply text-base antialiased bg-background text-foreground;
+    @apply bg-background text-foreground text-base antialiased;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }

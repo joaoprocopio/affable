@@ -2,19 +2,22 @@
 
 declare(strict_types=1);
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| API routes are versioned using grazulex/laravel-apiroute v2.x.
-| Versions are defined in config/apiroute.php and route files are
-| located in routes/api/{version}.php
-|
-| Supports URI path, header, query, and Accept header detection.
-| See config/apiroute.php for configuration options.
-|
-*/
+use App\Http\Controllers\UserMeController;
+use App\Http\Controllers\UserSignInController;
+use App\Http\Controllers\UserSignOutController;
+use App\Http\Controllers\UserSignUpController;
+use App\Http\Controllers\UserTokenController;
+use Illuminate\Support\Facades\Route;
 
-// Routes are now loaded automatically from config/apiroute.php
-// See routes/api/v1.php for version 1 routes
+Route::prefix('v1')->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::get('token', UserTokenController::class);
+        Route::post('signup', UserSignUpController::class);
+        Route::post('signin', UserSignInController::class);
+
+        Route::middleware('auth')->group(function () {
+            Route::get('me', UserMeController::class);
+            Route::post('signout', UserSignOutController::class);
+        });
+    });
+});

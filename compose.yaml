@@ -12,14 +12,26 @@ services:
       MYSQL_DATABASE: affable
       MYSQL_ROOT_PASSWORD: root
 
-  laravel:
-    build:
-      context: ./apps/core
-      dockerfile: dockerfile
-    working_dir: /var/www
+  beanstalk:
+    image: ghcr.io/beanstalkd/beanstalkd:latest
+    ports:
+      - published: 11300
+        target: 11300
+    command: ["-b", "/var/lib/beanstalkd"]
     volumes:
-      - ./apps/core:/var/www
-    command: ["php-fpm"]
+      - type: volume
+        source: beanstalkd_data
+        target: /var/lib/beanstalkd
+
+  # laravel:
+  #   build:
+  #     context: ./apps/core
+  #     dockerfile: dockerfile
+  #   working_dir: /var/www
+  #   volumes:
+  #     - ./apps/core:/var/www
+  #   command: ["php-fpm"]
 
 volumes:
   mysql_data:
+  beanstalkd_data:
