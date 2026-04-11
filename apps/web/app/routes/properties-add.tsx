@@ -10,6 +10,8 @@ export default function PropertiesAddRoute() {
       <AppHeader>
         <AppHeaderBreadcrumb />
       </AppHeader>
+
+      <div className="px-6 py-4">abc</div>
     </div>
   )
 }

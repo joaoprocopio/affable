@@ -10,7 +10,7 @@ export default function PropertiesListRoute() {
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
 
-        <Button className="ml-auto" size="sm" render={<Link to="/add" />}>
+        <Button className="ml-auto" size="sm" nativeButton={false} render={<Link to="/add" />}>
           <Plus />
           <span>Add a property</span>
         </Button>

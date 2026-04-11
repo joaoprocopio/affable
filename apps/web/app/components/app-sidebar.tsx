@@ -141,7 +141,7 @@ export function AppSidebar() {
             {links.map((link, index) => (
               <SidebarMenuItem key={index}>
                 <SidebarMenuButton
-                  isActive={link.to === location.pathname}
+                  isActive={location.pathname === link.to}
                   render={<Link to={link.to} />}>
                   <link.icon />
                   <span>{link.label}</span>
