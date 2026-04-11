@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\StringRule;
 use Illuminate\Validation\Rules\Numeric;
 use Illuminate\Validation\Rules\RequiredIf;
 
-class UserSignInRequest extends FormRequest
+final class PropertyAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,20 +21,6 @@ class UserSignInRequest extends FormRequest
         return true;
     }
 
-    /*
-    type TAddPropertyOut = {
-        name: string;
-        baseRate: number;
-        coverPhoto: z.core.File;
-        country: string;
-        city: string;
-        street: string;
-        description?: string | undefined;
-        state?: string | undefined;
-        postalCode?: string | undefined;
-        unit?: string | undefined;
-    }
-    */
     /**
      * Get the validation rules that apply to the request.
      *

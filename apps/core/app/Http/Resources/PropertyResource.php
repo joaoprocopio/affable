@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\User;
+use App\Property;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property User $resource
+ * @property Property $resource
  */
-final class UserResource extends JsonResource
+final class PropertyResource extends JsonResource
 {
     /**
      * @return array<string, mixed>

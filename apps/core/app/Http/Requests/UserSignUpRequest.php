@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rules\StringRule;
 use Illuminate\Validation\Rules\RequiredIf;
 
-class UserSignUpRequest extends FormRequest
+final class UserSignUpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
