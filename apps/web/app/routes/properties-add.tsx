@@ -190,7 +190,7 @@ export default function PropertiesAddRoute() {
                           </ItemHeader>
                         </Item>
                       ) : (
-                        <label className="cursor-pointer">
+                        <label className="relative block cursor-pointer">
                           <Empty className="border border-dashed">
                             <EmptyHeader>
                               <EmptyMedia variant="icon">
@@ -207,7 +207,7 @@ export default function PropertiesAddRoute() {
                             id={field.name}
                             type="file"
                             accept="image/*"
-                            className="hidden"
+                            className="absolute inset-0 opacity-0"
                             aria-invalid={isInvalid}
                             onChange={(e) =>
                               field.handleChange(

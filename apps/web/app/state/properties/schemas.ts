@@ -22,7 +22,7 @@ export type TPropertyDescriptionIn = z.input<typeof PropertyDescription>
 export type TPropertyDescriptionOut = z.output<typeof PropertyDescription>
 
 export const PropertyBaseRate = z
-  .int("Base rate is required")
+  .int("Base rate should be a valid number")
   .positive("Base rate must be 0 or greater")
 
 export type TPropertyBaseRateIn = z.input<typeof PropertyBaseRate>
