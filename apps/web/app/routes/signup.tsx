@@ -10,6 +10,7 @@ import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
 import {
   Field,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
@@ -94,8 +95,8 @@ export default function SignUpRoute() {
           e.stopPropagation()
           form.handleSubmit()
         }}>
-        <FieldSet className="items-center text-center">
-          <FieldLegend>Sign up to Affable</FieldLegend>
+        <FieldSet className="items-center">
+          <FieldLegend className="text-center">Sign up to Affable</FieldLegend>
 
           <FieldDescription>
             Already have an account? <Link to="/signin">Sign in</Link>
@@ -109,10 +110,10 @@ export default function SignUpRoute() {
 
                 return (
                   <Field data-invalid={isInvalid}>
-                    <div>
+                    <FieldContent>
                       <FieldLabel htmlFor={field.name}>Email</FieldLabel>
                       <FieldDescription>Use your preferred email address</FieldDescription>
-                    </div>
+                    </FieldContent>
 
                     <Input
                       id={field.name}
@@ -138,10 +139,10 @@ export default function SignUpRoute() {
 
                 return (
                   <Field data-invalid={isInvalid}>
-                    <div>
+                    <FieldContent>
                       <FieldLabel htmlFor={field.name}>Name</FieldLabel>
                       <FieldDescription>How should we call you?</FieldDescription>
-                    </div>
+                    </FieldContent>
 
                     <Input
                       id={field.name}

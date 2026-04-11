@@ -76,8 +76,8 @@ export default function SignInRoute() {
           e.stopPropagation()
           form.handleSubmit()
         }}>
-        <FieldSet className="items-center text-center">
-          <FieldLegend>Sign in to Affable</FieldLegend>
+        <FieldSet className="items-center">
+          <FieldLegend className="text-center">Sign in to Affable</FieldLegend>
 
           <FieldDescription>
             Don&apos;t have an account? <Link to="/signup">Sign up</Link>
