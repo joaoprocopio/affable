@@ -93,7 +93,10 @@ export default function PropertiesAddRoute() {
     },
     onSubmitInvalid() {
       const el = document.querySelector('[aria-invalid="true"]') as HTMLElement | undefined
-      el?.focus()
+
+      if (el) {
+        el.focus()
+      }
     },
   })
   const coverPhoto = useStore(form.store, (snap) => snap.values.coverPhoto)
@@ -160,7 +163,7 @@ export default function PropertiesAddRoute() {
 
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel>Cover photo</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>Cover photo</FieldLabel>
 
                       {coverPhoto && coverPhotoURL ? (
                         <Item variant="outline">
@@ -204,7 +207,7 @@ export default function PropertiesAddRoute() {
                             id={field.name}
                             type="file"
                             accept="image/*"
-                            className="opacity-0"
+                            className="hidden"
                             aria-invalid={isInvalid}
                             onChange={(e) =>
                               field.handleChange(
