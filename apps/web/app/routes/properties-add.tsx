@@ -105,10 +105,10 @@ export default function PropertiesAddRoute() {
         <AppHeaderBreadcrumb />
       </AppHeader>
 
-      <div className="mx-auto px-6 pt-8 pb-64">
+      <div className="mx-auto max-w-2xl px-6 pt-8 pb-64">
         <form
           noValidate
-          className="mx-auto flex max-w-xl flex-col gap-16"
+          className="flex flex-col gap-16"
           onSubmit={(e) => {
             e.preventDefault()
             e.stopPropagation()
