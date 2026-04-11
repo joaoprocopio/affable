@@ -1,7 +1,6 @@
 import { useForm, useStore } from "@tanstack/react-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Image, X } from "lucide-react"
-import * as React from "react"
 import { toast } from "sonner"
 import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
 import { HttpError } from "~/lib/http/errors"
@@ -36,6 +35,7 @@ import {
 import { Spinner } from "~/lib/ui/spinner"
 import { propertiesMutationKeys, propertiesMutations } from "~/state/properties/query"
 import { AddProperty, type TAddPropertyIn, type TAddPropertyOut } from "~/state/properties/schemas"
+import { formatBytes } from "~/utils/format"
 import { isFile } from "~/utils/is"
 import { transformLaravelValidationError } from "~/utils/laravel"
 
@@ -74,7 +74,7 @@ export default function PropertiesAddRoute() {
 
   const form = useForm({
     defaultValues: {
-      baseRate: NaN,
+      baseRate: undefined as unknown as number,
       city: "",
       country: "",
       name: "",
@@ -167,11 +167,16 @@ export default function PropertiesAddRoute() {
 
                           <ItemContent>
                             <ItemTitle>{coverPhoto.name}</ItemTitle>
-                            <ItemDescription>{coverPhoto.size / 100_000} bytes</ItemDescription>
+                            <ItemDescription>{formatBytes(coverPhoto.size)}</ItemDescription>
                           </ItemContent>
 
                           <ItemActions>
-                            <X className="size-4" />
+                            <Button
+                              variant="outline"
+                              size="icon-sm"
+                              onClick={() => field.handleChange(undefined)}>
+                              <X className="size-4" />
+                            </Button>
                           </ItemActions>
                         </Item>
                       ) : (
