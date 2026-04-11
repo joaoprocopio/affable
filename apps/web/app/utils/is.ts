@@ -7,6 +7,10 @@ export function isNil(value: unknown): value is null | undefined {
   return value == null
 }
 
+export function isFile(value: unknown): value is File {
+  return value instanceof File
+}
+
 export function isString(value: unknown): value is string {
   return typeof value === "string" || value instanceof String
 }

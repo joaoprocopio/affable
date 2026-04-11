@@ -26,7 +26,7 @@ import {
 } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
 import { authMutationKeys, authMutations } from "~/state/auth/query"
-import { SignIn } from "~/state/auth/schemas"
+import { SignIn, type TSignInIn } from "~/state/auth/schemas"
 
 export default function SignInRoute() {
   const [showPassword, setShowPassword] = React.useState(false)
@@ -60,7 +60,7 @@ export default function SignInRoute() {
     defaultValues: {
       email: "",
       password: "",
-    },
+    } satisfies TSignInIn,
     validators: {
       onSubmit: SignIn,
     },

@@ -26,7 +26,7 @@ import {
 } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
 import { authMutationKeys, authMutations } from "~/state/auth/query"
-import { SignUp } from "~/state/auth/schemas"
+import { SignUp, type TSignUpIn } from "~/state/auth/schemas"
 import { transformLaravelValidationError } from "~/utils/laravel"
 
 export default function SignUpRoute() {
@@ -78,7 +78,7 @@ export default function SignUpRoute() {
       name: "",
       email: "",
       password: "",
-    },
+    } satisfies TSignUpIn,
     validators: {
       onSubmit: SignUp,
     },
@@ -168,16 +168,16 @@ export default function SignUpRoute() {
                     <FieldLabel htmlFor={field.name}>Password</FieldLabel>
 
                     <InputGroup>
-<InputGroupInput
-                      id={field.name}
-                      value={field.state.value}
-                      aria-invalid={isInvalid}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Minimum 8 characters"
-                      autoComplete="current-password"
-                    />
+                      <InputGroupInput
+                        id={field.name}
+                        value={field.state.value}
+                        aria-invalid={isInvalid}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Minimum 8 characters"
+                        autoComplete="current-password"
+                      />
 
                       <InputGroupAddon align="inline-end">
                         <InputGroupButton

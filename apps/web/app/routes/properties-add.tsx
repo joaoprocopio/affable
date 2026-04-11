@@ -1,8 +1,17 @@
+import { useForm, useStore } from "@tanstack/react-form"
+import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
+import { Image, X } from "lucide-react"
+import * as React from "react"
+import { toast } from "sonner"
 import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
+import { HttpError } from "~/lib/http/errors"
+import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "~/lib/ui/empty"
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldLegend,
@@ -16,12 +25,79 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from "~/lib/ui/input-group"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "~/lib/ui/item"
+import { Spinner } from "~/lib/ui/spinner"
+import { propertiesMutationKeys, propertiesMutations } from "~/state/properties/query"
+import { AddProperty, type TAddPropertyIn, type TAddPropertyOut } from "~/state/properties/schemas"
+import { isFile } from "~/utils/is"
+import { transformLaravelValidationError } from "~/utils/laravel"
 
 export const handle: Handle = {
   breadcrumb: "Add",
 }
 
 export default function PropertiesAddRoute() {
+  const queryClient = useQueryClient()
+
+  const options = propertiesMutations.add(queryClient)
+  const mutation = useMutation({
+    ...options,
+    async onError(error) {
+      if (HttpError.is(error)) {
+        if (error.response.status === HttpStatus.UnprocessableEntity) {
+          form.setErrorMap({
+            onSubmit: {
+              fields: transformLaravelValidationError(await error.response.json()),
+            },
+          })
+        }
+
+        return undefined
+      }
+
+      toast.error("Unexpected error occurred", {
+        description: <code>{error.toString()}</code>,
+      })
+    },
+    onSuccess: (...args) => {
+      options.onSuccess?.(...args)
+      toast.dismiss()
+    },
+  })
+
+  const form = useForm({
+    defaultValues: {
+      baseRate: NaN,
+      city: "",
+      country: "",
+      name: "",
+      street: "",
+      coverPhoto: undefined,
+      description: "",
+      postalCode: "",
+      state: "",
+      unit: "",
+    } satisfies TAddPropertyIn as TAddPropertyIn,
+    validators: {
+      onSubmit: AddProperty,
+    },
+    onSubmit(props) {
+      mutation.mutate(props.value as unknown as TAddPropertyOut)
+    },
+  })
+  const coverPhoto = useStore(form.store, (snap) => snap.values.coverPhoto)
+  const coverPhotoURL = isFile(coverPhoto) ? URL.createObjectURL(coverPhoto) : undefined
+
+  const isMutating = useIsMutating({ mutationKey: propertiesMutationKeys.add() })
+  const isLoading = Boolean(isMutating)
+
   return (
     <div>
       <AppHeader>
@@ -30,48 +106,161 @@ export default function PropertiesAddRoute() {
 
       <div className="mx-auto max-w-2xl px-6 py-8">
         <form
+          noValidate
           className="flex flex-col gap-16"
           onSubmit={(e) => {
             e.preventDefault()
             e.stopPropagation()
+            form.handleSubmit()
           }}>
           <FieldSet>
             <FieldLegend>Property</FieldLegend>
             <FieldDescription>Visible to guests on all platforms</FieldDescription>
 
             <FieldGroup>
-              <Field>
-                <FieldLabel>Name</FieldLabel>
-                <InputGroup>
-                  <InputGroupTextarea placeholder="Guests will see this on listings" />
-                  <InputGroupAddon align="block-end">
-                    <InputGroupText>0/50</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </Field>
+              <form.Field
+                name="name"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                  const characterCount = field.state.value.length
 
-              <Field>
-                <FieldLabel>Description</FieldLabel>
-                <InputGroup>
-                  <InputGroupTextarea placeholder="What makes your place unique..." />
-                  <InputGroupAddon align="block-end">
-                    <InputGroupText>0/500</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </Field>
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                      <InputGroup>
+                        <InputGroupTextarea
+                          id={field.name}
+                          value={field.state.value}
+                          aria-invalid={isInvalid}
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          placeholder="Guests will see this on listings"
+                        />
+                        <InputGroupAddon align="block-end">
+                          <InputGroupText>{characterCount}/50</InputGroupText>
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
 
-              <Field>
-                <FieldLabel>Base rate</FieldLabel>
-                <InputGroup>
-                  <InputGroupAddon align="inline-start">
-                    <InputGroupText>$</InputGroupText>
-                  </InputGroupAddon>
-                  <InputGroupInput placeholder="0" />
-                  <InputGroupAddon align="inline-end">
-                    <InputGroupText>/night</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </Field>
+              <form.Field
+                name="coverPhoto"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel>Cover photo</FieldLabel>
+
+                      {coverPhoto && coverPhotoURL ? (
+                        <Item variant="outline" className="justify-center">
+                          <ItemMedia variant="image">
+                            <img
+                              src={coverPhotoURL}
+                              alt="Cover preview"
+                              className="size-full object-cover"
+                            />
+                          </ItemMedia>
+
+                          <ItemContent>
+                            <ItemTitle>{coverPhoto.name}</ItemTitle>
+                            <ItemDescription>{coverPhoto.size / 100_000} bytes</ItemDescription>
+                          </ItemContent>
+
+                          <ItemActions>
+                            <X className="size-4" />
+                          </ItemActions>
+                        </Item>
+                      ) : (
+                        <label className="cursor-pointer">
+                          <Empty className="border border-dashed">
+                            <EmptyHeader>
+                              <EmptyMedia variant="icon">
+                                <Image className="text-muted-foreground size-6" />
+                              </EmptyMedia>
+                              <EmptyTitle>Add cover photo</EmptyTitle>
+                              <EmptyDescription>
+                                Any image format is accepted. Max 5MB.
+                              </EmptyDescription>
+                            </EmptyHeader>
+                          </Empty>
+
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => field.handleChange(e.target.files?.[0])}
+                          />
+                        </label>
+                      )}
+
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
+
+              <form.Field
+                name="description"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                  const characterCount = field.state.value?.length || 0
+
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Description</FieldLabel>
+                      <InputGroup>
+                        <InputGroupTextarea
+                          id={field.name}
+                          value={field.state.value ?? ""}
+                          aria-invalid={isInvalid}
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          placeholder="What makes your place unique..."
+                        />
+                        <InputGroupAddon align="block-end">
+                          <InputGroupText>{characterCount}/500</InputGroupText>
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
+
+              <form.Field
+                name="baseRate"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Base rate</FieldLabel>
+                      <InputGroup>
+                        <InputGroupAddon align="inline-start">
+                          <InputGroupText>$</InputGroupText>
+                        </InputGroupAddon>
+                        <InputGroupInput
+                          id={field.name}
+                          value={field.state.value}
+                          aria-invalid={isInvalid}
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.valueAsNumber)}
+                          type="number"
+                          placeholder="0"
+                        />
+                        <InputGroupAddon align="inline-end">
+                          <InputGroupText>/night</InputGroupText>
+                        </InputGroupAddon>
+                      </InputGroup>
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
             </FieldGroup>
           </FieldSet>
 
@@ -80,41 +269,143 @@ export default function PropertiesAddRoute() {
             <FieldDescription>Full address for guests and platforms</FieldDescription>
 
             <FieldGroup>
-              <Field>
-                <FieldLabel>Country</FieldLabel>
-                <Input placeholder="Where is your property?" />
-              </Field>
+              <form.Field
+                name="country"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
-              <Field>
-                <FieldLabel>City</FieldLabel>
-                <Input />
-              </Field>
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Country</FieldLabel>
+                      <Input
+                        id={field.name}
+                        value={field.state.value}
+                        aria-invalid={isInvalid}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder="Where is your property?"
+                      />
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
 
-              <Field>
-                <FieldLabel>State</FieldLabel>
-                <Input />
-              </Field>
+              <form.Field
+                name="city"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
-              <Field>
-                <FieldLabel>Postal code</FieldLabel>
-                <Input />
-              </Field>
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>City</FieldLabel>
+                      <Input
+                        id={field.name}
+                        value={field.state.value}
+                        aria-invalid={isInvalid}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
 
-              <Field>
-                <FieldLabel>Street</FieldLabel>
-                <Input placeholder="Street address" />
-              </Field>
+              <form.Field
+                name="state"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
-              <Field>
-                <FieldLabel>Unit</FieldLabel>
-                <Input placeholder="Optional" />
-              </Field>
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>State</FieldLabel>
+                      <Input
+                        id={field.name}
+                        value={field.state.value ?? ""}
+                        aria-invalid={isInvalid}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
+
+              <form.Field
+                name="postalCode"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Postal code</FieldLabel>
+                      <Input
+                        id={field.name}
+                        value={field.state.value ?? ""}
+                        aria-invalid={isInvalid}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
+
+              <form.Field
+                name="street"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Street</FieldLabel>
+                      <Input
+                        id={field.name}
+                        value={field.state.value}
+                        aria-invalid={isInvalid}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder="Street address"
+                      />
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
+
+              <form.Field
+                name="unit"
+                children={(field) => {
+                  const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Unit</FieldLabel>
+                      <Input
+                        id={field.name}
+                        value={field.state.value ?? ""}
+                        aria-invalid={isInvalid}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder="Optional"
+                      />
+                      {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                    </Field>
+                  )
+                }}
+              />
             </FieldGroup>
           </FieldSet>
 
           <FieldSet>
             <FieldGroup>
-              <Button type="submit">Continue</Button>
+              <Button type="submit" disabled={isLoading}>
+                Continue
+                {isLoading && <Spinner strokeWidth={3} />}
+              </Button>
             </FieldGroup>
           </FieldSet>
         </form>
