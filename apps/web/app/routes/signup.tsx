@@ -3,6 +3,7 @@ import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-quer
 import { Eye, EyeOff } from "lucide-react"
 import * as React from "react"
 import { Link, useRevalidator } from "react-router"
+import { toast } from "sonner"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
 import { HttpError } from "~/lib/http/errors"
 import { HttpStatus } from "~/lib/http/status"
@@ -30,6 +31,14 @@ export default function SignUpRoute() {
     ...authMutations.signup(queryClient, revalidator.revalidate),
     async onError(error) {
       if (HttpError.is(error)) {
+        if (error.response.status === HttpStatus.UnprocessableEntity) {
+          form.setErrorMap({
+            onSubmit: {
+              fields: transformLaravelValidationError(await error.response.json()),
+            },
+          })
+        }
+
         if (error.response.status === HttpStatus.Conflict) {
           form.setErrorMap({
             onSubmit: {
@@ -42,14 +51,12 @@ export default function SignUpRoute() {
           })
         }
 
-        if (error.response.status === HttpStatus.UnprocessableEntity) {
-          form.setErrorMap({
-            onSubmit: {
-              fields: transformLaravelValidationError(await error.response.json()),
-            },
-          })
-        }
+        return undefined
       }
+
+      toast.error("Unexpected error occurred", {
+        description: <code>{error.toString()}</code>,
+      })
     },
   })
 
