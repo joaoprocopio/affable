@@ -2,7 +2,6 @@ import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
 import { Button } from "~/lib/ui/button"
 import {
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldLegend,
@@ -36,16 +35,13 @@ export default function PropertiesAddRoute() {
             e.stopPropagation()
           }}>
           <FieldSet>
-            <FieldLegend>About</FieldLegend>
-            <FieldDescription>
-              This information will help you easily identify your property
-            </FieldDescription>
+            <FieldLegend>Property details</FieldLegend>
 
             <FieldGroup>
               <Field>
-                <FieldLabel>Title</FieldLabel>
+                <FieldLabel>Name</FieldLabel>
                 <InputGroup>
-                  <InputGroupTextarea />
+                  <InputGroupTextarea placeholder="What guests will see first..." />
                   <InputGroupAddon align="block-end">
                     <InputGroupText>0/50</InputGroupText>
                   </InputGroupAddon>
@@ -55,7 +51,7 @@ export default function PropertiesAddRoute() {
               <Field>
                 <FieldLabel>Description</FieldLabel>
                 <InputGroup>
-                  <InputGroupTextarea />
+                  <InputGroupTextarea placeholder="Tell guests about your place..." />
                   <InputGroupAddon align="block-end">
                     <InputGroupText>0/500</InputGroupText>
                   </InputGroupAddon>
@@ -63,14 +59,14 @@ export default function PropertiesAddRoute() {
               </Field>
 
               <Field>
-                <FieldLabel>Price per night</FieldLabel>
+                <FieldLabel>Price</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon align="inline-start">
                     <InputGroupText>$</InputGroupText>
                   </InputGroupAddon>
-                  <InputGroupInput />
+                  <InputGroupInput placeholder="0" />
                   <InputGroupAddon align="inline-end">
-                    <InputGroupText>USD</InputGroupText>
+                    <InputGroupText>/night</InputGroupText>
                   </InputGroupAddon>
                 </InputGroup>
               </Field>
@@ -78,15 +74,12 @@ export default function PropertiesAddRoute() {
           </FieldSet>
 
           <FieldSet>
-            <FieldLegend>Address</FieldLegend>
-            <FieldDescription>
-              Your property address is required and is only used for identification purposes
-            </FieldDescription>
+            <FieldLegend>Location</FieldLegend>
 
             <FieldGroup>
               <Field>
                 <FieldLabel>Country</FieldLabel>
-                <Input />
+                <Input placeholder="Where is your property?" />
               </Field>
 
               <Field>
@@ -95,37 +88,23 @@ export default function PropertiesAddRoute() {
               </Field>
 
               <Field>
-                <FieldLabel>
-                  State <FieldDescription>(if applicable)</FieldDescription>
-                </FieldLabel>
+                <FieldLabel>State</FieldLabel>
                 <Input />
               </Field>
 
               <Field>
-                <FieldLabel>
-                  Postal code
-                  <FieldDescription>(if applicable)</FieldDescription>
-                </FieldLabel>
+                <FieldLabel>Postal code</FieldLabel>
                 <Input />
               </Field>
 
               <Field>
-                <FieldLabel>Address line 1</FieldLabel>
-                <Input />
+                <FieldLabel>Street</FieldLabel>
+                <Input placeholder="Street address" />
               </Field>
 
               <Field>
-                <FieldLabel>
-                  Address line 2 <FieldDescription>(if applicable)</FieldDescription>
-                </FieldLabel>
-                <Input />
-              </Field>
-
-              <Field>
-                <FieldLabel>
-                  Address line 3 <FieldDescription>(if applicable)</FieldDescription>
-                </FieldLabel>
-                <Input />
+                <FieldLabel>Apt, suite, etc.</FieldLabel>
+                <Input placeholder="Optional" />
               </Field>
             </FieldGroup>
           </FieldSet>

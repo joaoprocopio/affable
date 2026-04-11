@@ -34,8 +34,9 @@ export default function SignInRoute() {
   const revalidator = useRevalidator()
   const queryClient = useQueryClient()
 
+  const options = authMutations.signin(queryClient, revalidator.revalidate)
   const mutation = useMutation({
-    ...authMutations.signin(queryClient, revalidator.revalidate),
+    ...options,
     onError: (error) => {
       if (HttpError.is(error) && error.response.status === HttpStatus.Unauthorized) {
         toast.error("Email or password may be incorrect.", {
@@ -48,6 +49,10 @@ export default function SignInRoute() {
       toast.error("Unexpected error occurred", {
         description: <code>{error.toString()}</code>,
       })
+    },
+    onSuccess: (...args) => {
+      options.onSuccess?.(...args)
+      toast.dismiss()
     },
   })
 

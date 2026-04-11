@@ -36,8 +36,9 @@ export default function SignUpRoute() {
   const revalidator = useRevalidator()
   const queryClient = useQueryClient()
 
+  const options = authMutations.signup(queryClient, revalidator.revalidate)
   const mutation = useMutation({
-    ...authMutations.signup(queryClient, revalidator.revalidate),
+    ...options,
     async onError(error) {
       if (HttpError.is(error)) {
         if (error.response.status === HttpStatus.UnprocessableEntity) {
@@ -66,6 +67,10 @@ export default function SignUpRoute() {
       toast.error("Unexpected error occurred", {
         description: <code>{error.toString()}</code>,
       })
+    },
+    onSuccess: (...args) => {
+      options.onSuccess?.(...args)
+      toast.dismiss()
     },
   })
 
