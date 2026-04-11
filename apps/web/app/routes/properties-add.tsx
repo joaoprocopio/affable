@@ -79,7 +79,7 @@ export default function PropertiesAddRoute() {
       country: "",
       name: "",
       street: "",
-      coverPhoto: undefined,
+      coverPhoto: undefined as unknown as File,
       description: "",
       postalCode: "",
       state: "",
@@ -90,6 +90,10 @@ export default function PropertiesAddRoute() {
     },
     onSubmit(props) {
       mutation.mutate(props.value as unknown as TAddPropertyOut)
+    },
+    onSubmitInvalid() {
+      const el = document.querySelector('[aria-invalid="true"]') as HTMLElement | undefined
+      el?.focus()
     },
   })
   const coverPhoto = useStore(form.store, (snap) => snap.values.coverPhoto)
@@ -167,7 +171,7 @@ export default function PropertiesAddRoute() {
                             <Button
                               variant="outline"
                               size="icon"
-                              onClick={() => field.handleChange(undefined)}>
+                              onClick={() => field.handleChange(undefined as unknown as File)}>
                               <X />
                             </Button>
                           </ItemActions>
@@ -195,10 +199,17 @@ export default function PropertiesAddRoute() {
                           </Empty>
 
                           <Input
+                            id={field.name}
                             type="file"
                             accept="image/*"
-                            className="hidden"
-                            onChange={(e) => field.handleChange(e.target.files?.[0])}
+                            className="opacity-0"
+                            aria-invalid={isInvalid}
+                            onChange={(e) =>
+                              field.handleChange(
+                                (e.target.files?.[0] ?? undefined) as unknown as File,
+                              )
+                            }
+                            onBlur={field.handleBlur}
                           />
                         </label>
                       )}

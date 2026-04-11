@@ -21,7 +21,9 @@ export const PropertyDescription = z
 export type TPropertyDescriptionIn = z.input<typeof PropertyDescription>
 export type TPropertyDescriptionOut = z.output<typeof PropertyDescription>
 
-export const PropertyBaseRate = z.int().positive("Base rate must be 0 or greater")
+export const PropertyBaseRate = z
+  .int("Base rate is required")
+  .positive("Base rate must be 0 or greater")
 
 export type TPropertyBaseRateIn = z.input<typeof PropertyBaseRate>
 export type TPropertyBaseRateOut = z.output<typeof PropertyBaseRate>
@@ -60,7 +62,7 @@ export const AddProperty = z.object({
   name: PropertyName,
   description: PropertyDescription,
   baseRate: PropertyBaseRate,
-  coverPhoto: z.file().optional(),
+  coverPhoto: z.file("Cover photo is required"),
   country: PropertyCountry,
   city: PropertyCity,
   state: PropertyState,
