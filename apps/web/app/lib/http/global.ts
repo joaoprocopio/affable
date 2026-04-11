@@ -16,8 +16,13 @@ export const globalFetcher = createFetcher({
       headers.set(xsrfCookieName, xsrfCookie)
     }
 
-    headers.set("Accept", "application/json")
-    headers.set("Content-Type", "application/json")
+    if (!headers.has("Accept")) {
+      headers.set("Accept", "application/json")
+    }
+
+    if (!headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json")
+    }
 
     options.headers = headers
 

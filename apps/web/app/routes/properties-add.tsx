@@ -74,12 +74,12 @@ export default function PropertiesAddRoute() {
 
   const form = useForm({
     defaultValues: {
-      baseRate: undefined as unknown as number,
+      baseRate: "" as unknown as number,
       city: "",
       country: "",
       name: "",
       street: "",
-      coverPhoto: undefined as unknown as File,
+      coverPhoto: "" as unknown as File,
       description: "",
       postalCode: "",
       state: "",
