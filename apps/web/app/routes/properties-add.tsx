@@ -2,6 +2,7 @@ import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
 import { Button } from "~/lib/ui/button"
 import {
   Field,
+  FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldLegend,
@@ -36,6 +37,7 @@ export default function PropertiesAddRoute() {
           }}>
           <FieldSet>
             <FieldLegend>Property</FieldLegend>
+            <FieldDescription>Visible to guests on all platforms</FieldDescription>
 
             <FieldGroup>
               <Field>
@@ -75,6 +77,7 @@ export default function PropertiesAddRoute() {
 
           <FieldSet>
             <FieldLegend>Location</FieldLegend>
+            <FieldDescription>Full address for guests and platforms</FieldDescription>
 
             <FieldGroup>
               <Field>
