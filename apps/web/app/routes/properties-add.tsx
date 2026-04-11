@@ -29,6 +29,7 @@ import {
   ItemActions,
   ItemContent,
   ItemDescription,
+  ItemHeader,
   ItemMedia,
   ItemTitle,
 } from "~/lib/ui/item"
@@ -156,15 +157,7 @@ export default function PropertiesAddRoute() {
                       <FieldLabel>Cover photo</FieldLabel>
 
                       {coverPhoto && coverPhotoURL ? (
-                        <Item variant="outline" className="justify-center">
-                          <ItemMedia variant="image">
-                            <img
-                              src={coverPhotoURL}
-                              alt="Cover preview"
-                              className="size-full object-cover"
-                            />
-                          </ItemMedia>
-
+                        <Item variant="outline">
                           <ItemContent>
                             <ItemTitle>{coverPhoto.name}</ItemTitle>
                             <ItemDescription>{formatBytes(coverPhoto.size)}</ItemDescription>
@@ -173,18 +166,26 @@ export default function PropertiesAddRoute() {
                           <ItemActions>
                             <Button
                               variant="outline"
-                              size="icon-sm"
+                              size="icon"
                               onClick={() => field.handleChange(undefined)}>
-                              <X className="size-4" />
+                              <X />
                             </Button>
                           </ItemActions>
+
+                          <ItemHeader>
+                            <img
+                              src={coverPhotoURL}
+                              alt="Cover preview"
+                              className="size-full object-cover"
+                            />
+                          </ItemHeader>
                         </Item>
                       ) : (
                         <label className="cursor-pointer">
                           <Empty className="border border-dashed">
                             <EmptyHeader>
                               <EmptyMedia variant="icon">
-                                <Image className="text-muted-foreground size-6" />
+                                <Image className="size-6" />
                               </EmptyMedia>
                               <EmptyTitle>Add cover photo</EmptyTitle>
                               <EmptyDescription>
