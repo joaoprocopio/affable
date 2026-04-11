@@ -33,15 +33,12 @@ export async function addProperty(body: TAddPropertyOut) {
     formData.append(entry, isNumber(value) ? value.toString() : value)
   })
 
-  console.log(body)
-  console.log(Object.fromEntries(formData.entries()))
-
   const response = await globalFetcher("/v1/properties", {
     method: "POST",
+    body: formData,
     headers: {
       "Content-Type": "multipart/form-data",
     },
-    body: formData,
   })
   const json = await response.json()
 
