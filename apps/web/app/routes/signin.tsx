@@ -105,7 +105,7 @@ export default function SignInRoute() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       type="email"
-                      placeholder="Enter your email address..."
+                      placeholder="your@email.com"
                       autoComplete="email"
                     />
 
@@ -132,7 +132,7 @@ export default function SignInRoute() {
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                         type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password..."
+                        placeholder="Your password"
                         autoComplete="current-password"
                       />
 

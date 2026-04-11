@@ -2,7 +2,6 @@ import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
 import { Button } from "~/lib/ui/button"
 import {
   Field,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldLegend,
@@ -36,13 +35,13 @@ export default function PropertiesAddRoute() {
             e.stopPropagation()
           }}>
           <FieldSet>
-            <FieldLegend>Details</FieldLegend>
+            <FieldLegend>Property</FieldLegend>
 
             <FieldGroup>
               <Field>
-                <FieldLabel>Title</FieldLabel>
+                <FieldLabel>Name</FieldLabel>
                 <InputGroup>
-                  <InputGroupTextarea placeholder="What guests will see first..." />
+                  <InputGroupTextarea placeholder="Guests will see this on listings" />
                   <InputGroupAddon align="block-end">
                     <InputGroupText>0/50</InputGroupText>
                   </InputGroupAddon>
@@ -52,7 +51,7 @@ export default function PropertiesAddRoute() {
               <Field>
                 <FieldLabel>Description</FieldLabel>
                 <InputGroup>
-                  <InputGroupTextarea placeholder="Tell guests about your place..." />
+                  <InputGroupTextarea placeholder="What makes your place unique..." />
                   <InputGroupAddon align="block-end">
                     <InputGroupText>0/500</InputGroupText>
                   </InputGroupAddon>
@@ -60,13 +59,15 @@ export default function PropertiesAddRoute() {
               </Field>
 
               <Field>
-                <FieldLabel>Price per stay</FieldLabel>
+                <FieldLabel>Base rate</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon align="inline-start">
-                    <InputGroupText>USD $</InputGroupText>
+                    <InputGroupText>$</InputGroupText>
                   </InputGroupAddon>
                   <InputGroupInput placeholder="0" />
-                  <InputGroupAddon align="inline-end"></InputGroupAddon>
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupText>/night</InputGroupText>
+                  </InputGroupAddon>
                 </InputGroup>
               </Field>
             </FieldGroup>
@@ -102,11 +103,8 @@ export default function PropertiesAddRoute() {
               </Field>
 
               <Field>
-                <FieldLabel>
-                  Apt, suite, etc.
-                  <FieldDescription>(if applicable)</FieldDescription>
-                </FieldLabel>
-                <Input />
+                <FieldLabel>Unit</FieldLabel>
+                <Input placeholder="Optional" />
               </Field>
             </FieldGroup>
           </FieldSet>

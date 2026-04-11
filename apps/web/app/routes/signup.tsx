@@ -10,7 +10,6 @@ import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
 import {
   Field,
-  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
@@ -115,10 +114,7 @@ export default function SignUpRoute() {
 
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldContent>
-                      <FieldLabel htmlFor={field.name}>Email</FieldLabel>
-                      <FieldDescription>Use your preferred email address</FieldDescription>
-                    </FieldContent>
+                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
 
                     <Input
                       id={field.name}
@@ -127,7 +123,7 @@ export default function SignUpRoute() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       type="email"
-                      placeholder="Enter your email address..."
+                      placeholder="For booking notifications"
                       autoComplete="email"
                     />
 
@@ -144,10 +140,7 @@ export default function SignUpRoute() {
 
                 return (
                   <Field data-invalid={isInvalid}>
-                    <FieldContent>
-                      <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-                      <FieldDescription>How should we call you?</FieldDescription>
-                    </FieldContent>
+                    <FieldLabel htmlFor={field.name}>Name</FieldLabel>
 
                     <Input
                       id={field.name}
@@ -155,7 +148,7 @@ export default function SignUpRoute() {
                       aria-invalid={isInvalid}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="Enter your name..."
+                      placeholder="Your display name"
                       autoComplete="name"
                     />
 
@@ -175,16 +168,16 @@ export default function SignUpRoute() {
                     <FieldLabel htmlFor={field.name}>Password</FieldLabel>
 
                     <InputGroup>
-                      <InputGroupInput
-                        id={field.name}
-                        value={field.state.value}
-                        aria-invalid={isInvalid}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password..."
-                        autoComplete="current-password"
-                      />
+<InputGroupInput
+                      id={field.name}
+                      value={field.state.value}
+                      aria-invalid={isInvalid}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Minimum 8 characters"
+                      autoComplete="current-password"
+                    />
 
                       <InputGroupAddon align="inline-end">
                         <InputGroupButton
@@ -201,11 +194,7 @@ export default function SignUpRoute() {
                       </InputGroupAddon>
                     </InputGroup>
 
-                    {isInvalid ? (
-                      <FieldError errors={field.state.meta.errors} />
-                    ) : (
-                      <FieldDescription>Choose a strong password</FieldDescription>
-                    )}
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
                   </Field>
                 )
               }}
