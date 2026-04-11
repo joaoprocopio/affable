@@ -2,6 +2,7 @@ import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
 import { Button } from "~/lib/ui/button"
 import {
   Field,
+  FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldLegend,
@@ -35,11 +36,11 @@ export default function PropertiesAddRoute() {
             e.stopPropagation()
           }}>
           <FieldSet>
-            <FieldLegend>Property details</FieldLegend>
+            <FieldLegend>Details</FieldLegend>
 
             <FieldGroup>
               <Field>
-                <FieldLabel>Name</FieldLabel>
+                <FieldLabel>Title</FieldLabel>
                 <InputGroup>
                   <InputGroupTextarea placeholder="What guests will see first..." />
                   <InputGroupAddon align="block-end">
@@ -59,15 +60,13 @@ export default function PropertiesAddRoute() {
               </Field>
 
               <Field>
-                <FieldLabel>Price</FieldLabel>
+                <FieldLabel>Price per stay</FieldLabel>
                 <InputGroup>
                   <InputGroupAddon align="inline-start">
-                    <InputGroupText>$</InputGroupText>
+                    <InputGroupText>USD $</InputGroupText>
                   </InputGroupAddon>
                   <InputGroupInput placeholder="0" />
-                  <InputGroupAddon align="inline-end">
-                    <InputGroupText>/night</InputGroupText>
-                  </InputGroupAddon>
+                  <InputGroupAddon align="inline-end"></InputGroupAddon>
                 </InputGroup>
               </Field>
             </FieldGroup>
@@ -103,8 +102,11 @@ export default function PropertiesAddRoute() {
               </Field>
 
               <Field>
-                <FieldLabel>Apt, suite, etc.</FieldLabel>
-                <Input placeholder="Optional" />
+                <FieldLabel>
+                  Apt, suite, etc.
+                  <FieldDescription>(if applicable)</FieldDescription>
+                </FieldLabel>
+                <Input />
               </Field>
             </FieldGroup>
           </FieldSet>
