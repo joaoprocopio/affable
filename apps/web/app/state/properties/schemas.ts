@@ -86,8 +86,6 @@ export const Property = z.object({
   postalCode: PropertyPostalCode,
   street: PropertyStreet,
   unit: PropertyUnit,
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime(),
 })
 
 export type TPropertyIn = z.input<typeof Property>

@@ -6,6 +6,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\StringRule;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class UserSignInRequest extends FormRequest
 {
@@ -25,8 +27,8 @@ class UserSignInRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string'],
-            'password' => ['required', 'string'],
+            'email' => [new RequiredIf(true), new StringRule()],
+            'password' => [new RequiredIf(true), new StringRule()],
         ];
     }
 }
