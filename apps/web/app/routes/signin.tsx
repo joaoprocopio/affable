@@ -6,6 +6,7 @@ import { Link, useRevalidator } from "react-router"
 import { toast } from "sonner"
 import { TosAndPPAgreementLink } from "~/components/tos-and-pp-agreement-link"
 import { HttpError } from "~/lib/http/errors"
+import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
@@ -28,15 +29,17 @@ export default function SignInRoute() {
   const mutation = useMutation({
     ...authMutations.signin(queryClient, revalidator.revalidate),
     onError: (error) => {
-      if (!HttpError.is(error)) {
-        toast.message("Something went wrong", {
-          description: <code>{error.toString()}</code>,
+      if (HttpError.is(error) && HttpStatus.isClientError(error.response.status)) {
+        toast.error("Email or password may be incorrect.", {
+          description: "Try using a different email or password combination.",
         })
 
         return undefined
       }
 
-      toast.message("Email or password may be invalid")
+      toast.message("Unexpected error occurred", {
+        description: <code>{error.toString()}</code>,
+      })
     },
   })
 

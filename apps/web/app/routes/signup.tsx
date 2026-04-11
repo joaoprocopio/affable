@@ -94,7 +94,10 @@ export default function SignUpRoute() {
 
               return (
                 <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                  <div>
+                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <FieldDescription>Use your preferred email address</FieldDescription>
+                  </div>
 
                   <Input
                     id={field.name}
@@ -120,7 +123,10 @@ export default function SignUpRoute() {
 
               return (
                 <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                  <div>
+                    <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                    <FieldDescription>How should we call you?</FieldDescription>
+                  </div>
 
                   <Input
                     id={field.name}
@@ -174,7 +180,11 @@ export default function SignUpRoute() {
                     </InputGroupAddon>
                   </InputGroup>
 
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                  {isInvalid ? (
+                    <FieldError errors={field.state.meta.errors} />
+                  ) : (
+                    <FieldDescription>Choose a strong password</FieldDescription>
+                  )}
                 </Field>
               )
             }}
