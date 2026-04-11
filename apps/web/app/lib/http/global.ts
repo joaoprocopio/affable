@@ -1,6 +1,7 @@
 import cookie from "js-cookie"
 import { env } from "~/env"
 import { createFetcher } from "~/lib/http/fetcher"
+import { isFormData } from "~/utils/is"
 
 export const globalFetcher = createFetcher({
   baseURL: env.API_URL,
@@ -20,7 +21,7 @@ export const globalFetcher = createFetcher({
       headers.set("Accept", "application/json")
     }
 
-    if (!headers.has("Content-Type")) {
+    if (!headers.has("Content-Type") && !isFormData(options.body)) {
       headers.set("Content-Type", "application/json")
     }
 

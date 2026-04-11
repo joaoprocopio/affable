@@ -36,9 +36,6 @@ export async function addProperty(body: TAddPropertyOut) {
   const response = await globalFetcher("/v1/properties", {
     method: "POST",
     body: formData,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
   })
   const json = await response.json()
 

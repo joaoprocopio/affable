@@ -11,6 +11,10 @@ export function isFile(value: unknown): value is File {
   return value instanceof File
 }
 
+export function isFormData(value: unknown): value is FormData {
+  return value instanceof FormData
+}
+
 export function isString(value: unknown): value is string {
   return typeof value === "string" || value instanceof String
 }
