@@ -142,7 +142,9 @@ export default function PropertiesAddRoute() {
                           placeholder="Guests will see this on listings"
                         />
                         <InputGroupAddon align="block-end">
-                          <InputGroupText>{characterCount}/50</InputGroupText>
+                          <InputGroupText>
+                            {characterCount}/{AddProperty.shape.name.maxLength}
+                          </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
                       {isInvalid && <FieldError errors={field.state.meta.errors} />}
@@ -242,7 +244,9 @@ export default function PropertiesAddRoute() {
                           placeholder="What makes your place unique..."
                         />
                         <InputGroupAddon align="block-end">
-                          <InputGroupText>{characterCount}/500</InputGroupText>
+                          <InputGroupText>
+                            {characterCount}/{AddProperty.shape.description.def.innerType.maxLength}
+                          </InputGroupText>
                         </InputGroupAddon>
                       </InputGroup>
                       {isInvalid && <FieldError errors={field.state.meta.errors} />}
