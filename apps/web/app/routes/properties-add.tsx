@@ -2,7 +2,7 @@ import { useForm, useStore } from "@tanstack/react-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Image, X } from "lucide-react"
 import { toast } from "sonner"
-import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
+import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
 import { HttpError } from "~/lib/http/errors"
 import { HttpStatus } from "~/lib/http/status"
 import { Button } from "~/lib/ui/button"
@@ -30,7 +30,6 @@ import {
   ItemContent,
   ItemDescription,
   ItemHeader,
-  ItemMedia,
   ItemTitle,
 } from "~/lib/ui/item"
 import { Spinner } from "~/lib/ui/spinner"
@@ -102,13 +101,14 @@ export default function PropertiesAddRoute() {
   return (
     <div>
       <AppHeader>
+        <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
       </AppHeader>
 
-      <div className="mx-auto max-w-2xl px-6 py-8">
+      <div className="mx-auto px-6 pt-8 pb-64">
         <form
           noValidate
-          className="flex flex-col gap-16"
+          className="mx-auto flex max-w-xl flex-col gap-16"
           onSubmit={(e) => {
             e.preventDefault()
             e.stopPropagation()
