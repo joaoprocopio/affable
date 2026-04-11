@@ -12,6 +12,7 @@ import { Input } from "~/lib/ui/input"
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
 } from "~/lib/ui/input-group"
@@ -19,8 +20,6 @@ import {
 export const handle: Handle = {
   breadcrumb: "Add",
 }
-
-// 1. address
 
 export default function PropertiesAddRoute() {
   return (
@@ -59,6 +58,19 @@ export default function PropertiesAddRoute() {
                   <InputGroupTextarea />
                   <InputGroupAddon align="block-end">
                     <InputGroupText>0/500</InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
+
+              <Field>
+                <FieldLabel>Price per night</FieldLabel>
+                <InputGroup>
+                  <InputGroupAddon align="inline-start">
+                    <InputGroupText>$</InputGroupText>
+                  </InputGroupAddon>
+                  <InputGroupInput />
+                  <InputGroupAddon align="inline-end">
+                    <InputGroupText>USD</InputGroupText>
                   </InputGroupAddon>
                 </InputGroup>
               </Field>
