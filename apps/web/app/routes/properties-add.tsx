@@ -217,7 +217,10 @@ export default function PropertiesAddRoute() {
 
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Description</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>
+                        Description
+                        <FieldDescription>(if applicable)</FieldDescription>
+                      </FieldLabel>
                       <InputGroup>
                         <InputGroupTextarea
                           id={field.name}
@@ -325,7 +328,10 @@ export default function PropertiesAddRoute() {
 
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>State</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>
+                        State
+                        <FieldDescription>(if applicable)</FieldDescription>
+                      </FieldLabel>
                       <Input
                         id={field.name}
                         value={field.state.value ?? ""}
@@ -346,7 +352,10 @@ export default function PropertiesAddRoute() {
 
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Postal code</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>
+                        Postal code
+                        <FieldDescription>(if applicable)</FieldDescription>
+                      </FieldLabel>
                       <Input
                         id={field.name}
                         value={field.state.value ?? ""}
@@ -389,7 +398,10 @@ export default function PropertiesAddRoute() {
 
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Unit</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>
+                        Unit
+                        <FieldDescription>(if applicable)</FieldDescription>
+                      </FieldLabel>
                       <Input
                         id={field.name}
                         value={field.state.value ?? ""}
