@@ -1,4 +1,5 @@
 import { AppHeader, AppHeaderBreadcrumb } from "~/components/app-header"
+import { Button } from "~/lib/ui/button"
 import {
   Field,
   FieldDescription,
@@ -8,6 +9,12 @@ import {
   FieldSet,
 } from "~/lib/ui/field"
 import { Input } from "~/lib/ui/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroupTextarea,
+} from "~/lib/ui/input-group"
 import { Textarea } from "~/lib/ui/textarea"
 
 export const handle: Handle = {
@@ -24,29 +31,46 @@ export default function PropertiesAddRoute() {
       </AppHeader>
 
       <div className="mx-auto max-w-2xl px-6 py-8">
-        <form className="flex flex-col gap-12">
+        <form
+          className="flex flex-col gap-16"
+          onSubmit={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+          }}>
           <FieldSet>
             <FieldLegend>About</FieldLegend>
             <FieldDescription>
-              This information will help you easily identify your property inside the platform.
+              This information will help you easily identify your property
             </FieldDescription>
 
             <FieldGroup>
               <Field>
-                <FieldLabel>Name</FieldLabel>
-                <Input />
+                <FieldLabel>Title</FieldLabel>
+                <InputGroup>
+                  <InputGroupTextarea />
+                  <InputGroupAddon align="block-end">
+                    <InputGroupText>0/50</InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
               </Field>
 
               <Field>
                 <FieldLabel>Description</FieldLabel>
-                <Textarea />
+                <InputGroup>
+                  <InputGroupTextarea />
+                  <InputGroupAddon align="block-end">
+                    <InputGroupText>0/500</InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
               </Field>
             </FieldGroup>
           </FieldSet>
 
           <FieldSet>
             <FieldLegend>Address</FieldLegend>
-            <FieldDescription>asd</FieldDescription>
+            <FieldDescription>
+              Your property address is required and is only used for identification purposes
+            </FieldDescription>
 
             <FieldGroup>
               <Field>
@@ -92,6 +116,12 @@ export default function PropertiesAddRoute() {
                 </FieldLabel>
                 <Input />
               </Field>
+            </FieldGroup>
+          </FieldSet>
+
+          <FieldSet>
+            <FieldGroup>
+              <Button type="submit">Continue</Button>
             </FieldGroup>
           </FieldSet>
         </form>
