@@ -16,7 +16,7 @@ services:
       - published: 80
         target: 80
     depends_on:
-      php-fpm:
+      laravel:
         condition: service_healthy
       reactrouter:
         condition: service_started
