@@ -1,0 +1,105 @@
+services:
+  nginx:
+    image: nginx:1.29
+    volumes:
+      - type: volume
+        read_only: true
+        source: laravel_storage_data
+        target: /var/www/public
+        volume:
+          subpath: app/public
+      - type: bind
+        read_only: true
+        source: ./docker/nginx/default.conf
+        target: /etc/nginx/conf.d/default.conf
+    ports:
+      - published: 80
+        target: 80
+    depends_on:
+      - laravel
+      - reactrouter
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:9.6
+    volumes:
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+    env_file:
+      - path: .env
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p $$MYSQL_ROOT_PASSWORD",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  beanstalk:
+    image: ghcr.io/beanstalkd/beanstalkd:latest
+    command: "-b /var/lib/beanstalkd"
+    volumes:
+      - type: volume
+        source: beanstalkd_data
+        target: /var/lib/beanstalkd
+    restart: unless-stopped
+
+  laravel:
+    build:
+      context: ./apps/core
+      dockerfile: dockerfile
+    command: php-fpm
+    env_file:
+      - path: .env
+    volumes:
+      - type: volume
+        source: laravel_storage_data
+        target: /var/www/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ./apps/core
+      dockerfile: dockerfile
+    entrypoint: ["/usr/local/bin/entrypoint-worker.sh"]
+    command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+    env_file:
+      - path: .env
+    volumes:
+      - type: volume
+        source: laravel_storage_data
+        target: /var/www/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+      beanstalk:
+        condition: service_started
+    restart: unless-stopped
+
+  reactrouter:
+    build:
+      context: ./apps/app
+      dockerfile: dockerfile
+    command: sh -c "env | grep '^VITE_' > .env && pnpm build && pnpm start"
+    env_file:
+      - path: .env
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  beanstalkd_data:
+  laravel_storage_data:

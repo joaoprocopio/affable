@@ -1,0 +1,10 @@
+FROM node:krypton-slim
+
+WORKDIR /var/www
+
+COPY . .
+
+RUN npm i -g pnpm && \
+    rm -rf node_modules && \
+    pnpm purge && \
+    pnpm install
