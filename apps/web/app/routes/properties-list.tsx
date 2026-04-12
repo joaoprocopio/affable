@@ -13,7 +13,6 @@ import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
 import { getQueryClient } from "~/lib/query/client"
 import { Button } from "~/lib/ui/button"
-import { Spinner } from "~/lib/ui/spinner"
 import {
   Table,
   TableBody,
@@ -91,8 +90,6 @@ export default function PropertiesListRoute() {
           </TableBody>
         </Table>
       </TableContainer>
-
-      {properties.isSuccess && <pre>{JSON.stringify(properties.data, null, 4)}</pre>}
     </div>
   )
 }

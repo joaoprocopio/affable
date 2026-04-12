@@ -8,7 +8,7 @@ export function formatBytes(bytes: number): string {
 
   return new Intl.NumberFormat(undefined, {
     style: "unit",
-    unit,
+    unit: unit,
     maximumFractionDigits: 1,
   }).format(bytes / 1000 ** index)
 }
@@ -17,5 +17,6 @@ export function formatCurrency(value: number, currency: string = "USD"): string 
   return new Intl.NumberFormat(undefined, {
     style: "currency",
     currency: currency,
+    maximumFractionDigits: 0,
   }).format(value)
 }
