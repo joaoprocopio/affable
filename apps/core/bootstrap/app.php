@@ -42,18 +42,16 @@ return Application::configure(basePath: dirname(__DIR__))
             TrimStrings::class,
             ConvertEmptyStringsToNull::class,
 
-            // cookies (must come before session)
-            EncryptCookies::class,
+            // session, auth
             AddQueuedCookiesToResponse::class,
-
-            // session (must come before csrf)
             StartSession::class,
+            AuthenticateSession::class,
 
-            // csrf (requires session)
+            // csrf
             PreventRequestForgery::class,
 
-            // auth
-            AuthenticateSession::class,
+            // encrypt
+            EncryptCookies::class,
 
             // dependency injection
             SubstituteBindings::class,
