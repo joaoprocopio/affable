@@ -1,13 +1,15 @@
 services:
   nginx:
     image: nginx:1.29
+    volumes:
+      - ./apps/core/public:/var/www/public:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - published: 80
         target: 80
-    volumes:
-      - type: bind
-        source: ./docker/nginx/default.conf
-        target: /etc/nginx/nginx.conf
+    depends_on:
+      - laravel
+      - reactrouter
     restart: unless-stopped
 
   mysql:
@@ -56,9 +58,6 @@ services:
       context: ./apps/core
       dockerfile: dockerfile.server
     command: sh -c "php artisan migrate --force && php-fpm"
-    ports:
-      - published: 9000
-        target: 9000
     env_file:
       - path: .env
     depends_on:
@@ -71,9 +70,6 @@ services:
       context: ./apps/app
       dockerfile: dockerfile
     command: sh -c "env | grep '^VITE_' > .env && pnpm build && pnpm start"
-    ports:
-      - published: 3000
-        target: 3000
     env_file:
       - path: .env
     restart: unless-stopped
