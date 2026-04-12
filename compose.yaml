@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql:9.6
+    volumes:
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+    ports:
+      - target: 3306
+        published: 3306
+    env_file:
+      - path: .env
+
+  beanstalk:
+    image: ghcr.io/beanstalkd/beanstalkd:latest
+    command: "-b /var/lib/beanstalkd"
+    ports:
+      - target: 11300
+        published: 11300
+    volumes:
+      - type: volume
+        source: beanstalkd_data
+        target: /var/lib/beanstalkd
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  beanstalkd_data:

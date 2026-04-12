@@ -7,12 +7,20 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { Plus } from "lucide-react"
+import { Home, Plus } from "lucide-react"
 import * as React from "react"
 import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
 import { getQueryClient } from "~/lib/query/client"
 import { Button } from "~/lib/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "~/lib/ui/empty"
 import {
   Table,
   TableBody,
@@ -25,6 +33,7 @@ import {
 import { propertiesQueries } from "~/state/properties/query"
 import type { TPropertyOut } from "~/state/properties/schemas"
 import { formatCurrency } from "~/utils/format"
+import { isEmpty } from "~/utils/is"
 
 export async function clientLoader() {
   const queryClient = getQueryClient()
@@ -32,6 +41,60 @@ export async function clientLoader() {
 }
 
 export default function PropertiesListRoute() {
+  const hasProperties = useQuery({
+    ...propertiesQueries.list(),
+    select(data) {
+      return !isEmpty(data)
+    },
+  })
+
+  return (
+    <>
+      <AppHeader>
+        <AppHeaderSidebarTrigger />
+        <AppHeaderBreadcrumb />
+
+        <Button
+          className="ml-auto"
+          variant="secondary"
+          size="sm"
+          nativeButton={false}
+          render={<Link to="/add" />}>
+          <Plus />
+          <span>Add a property</span>
+        </Button>
+      </AppHeader>
+
+      {hasProperties.data ? <PropertiesListTable /> : <PropertiesListEmpty />}
+    </>
+  )
+}
+
+function PropertiesListEmpty() {
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <Home />
+        </EmptyMedia>
+
+        <EmptyTitle>No properties yet</EmptyTitle>
+        <EmptyDescription>
+          You haven&apos;t created any properties yet. Get started by creating your first project.
+        </EmptyDescription>
+      </EmptyHeader>
+
+      <EmptyContent>
+        <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
+          <Plus />
+          <span>Add a property</span>
+        </Button>
+      </EmptyContent>
+    </Empty>
+  )
+}
+
+function PropertiesListTable() {
   const properties = useQuery(propertiesQueries.list())
 
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -42,55 +105,41 @@ export default function PropertiesListRoute() {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
-    state: {
-      sorting,
-    },
+    state: { sorting },
   })
 
   return (
-    <div>
-      <AppHeader>
-        <AppHeaderSidebarTrigger />
-        <AppHeaderBreadcrumb />
+    <TableContainer>
+      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-24 [&_tr]:hover:bg-[unset] [&_tr>*]:truncate">
+        <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
+        </TableHeader>
 
-        <Button className="ml-auto" size="sm" nativeButton={false} render={<Link to="/add" />}>
-          <Plus />
-          <span>Add a property</span>
-        </Button>
-      </AppHeader>
-
-      <TableContainer>
-        <Table>
-          <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </TableHead>
+        <TableBody>
+          {!properties.isLoading &&
+            properties.isSuccess &&
+            table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id} data-state={row.getIsSelected() ? "selected" : undefined}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}
-          </TableHeader>
-
-          <TableBody>
-            {!properties.isLoading &&
-              properties.isSuccess &&
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() ? "selected" : undefined}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+        </TableBody>
+      </Table>
+    </TableContainer>
   )
 }
 
@@ -111,9 +160,20 @@ const columns = [
     accessorKey: "name",
   },
   {
+    id: "baseRate",
+    header: "Base rate",
+    accessorKey: "baseRate",
+    cell: (props) => formatCurrency(props.getValue<number>()),
+  },
+  {
     id: "country",
     header: "Country",
     accessorKey: "country",
+  },
+  {
+    id: "state",
+    header: "State",
+    accessorKey: "state",
   },
   {
     id: "city",
@@ -129,11 +189,5 @@ const columns = [
     id: "unit",
     header: "Unit",
     accessorKey: "unit",
-  },
-  {
-    id: "baseRate",
-    header: "Base rate",
-    accessorKey: "baseRate",
-    cell: (props) => formatCurrency(props.getValue<number>()),
   },
 ] as const satisfies ColumnDef<TPropertyOut>[]

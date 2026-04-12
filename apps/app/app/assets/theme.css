@@ -15,6 +15,9 @@
   --font-heading: var(--font-inter);
   --font-sans: var(--font-inter);
 
+  --spacing-container: calc(var(--spacing) * 6);
+  --spacing-header: calc(var(--spacing) * 12);
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -156,4 +159,14 @@
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) transparent;
   }
+}
+
+@utility min-max-w-* {
+  width: --value([*]);
+  min-width: --value([*]);
+  max-width: --value([*]);
+
+  width: --spacing(--value(integer));
+  min-width: --spacing(--value(integer));
+  max-width: --spacing(--value(integer));
 }

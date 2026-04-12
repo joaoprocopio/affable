@@ -13,7 +13,9 @@ import { isNil } from "~/utils/is"
 
 export function AppHeader({ className, children, ...props }: React.ComponentProps<"header">) {
   return (
-    <header className={cn("flex h-12 items-center gap-x-2 border-b px-6", className)} {...props}>
+    <header
+      className={cn("px-container flex h-12 items-center gap-x-2 border-b", className)}
+      {...props}>
       {children}
     </header>
   )
