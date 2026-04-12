@@ -20,12 +20,15 @@ final class PropertiesAddController extends Controller
         $slug = Str::slug($name) . '-' . bin2hex(random_bytes(4)); // append random byte to prevent slug clashing
 
         $photo = $request->file('coverPhoto');
-        $disk = Storage::disk('local')->put('properties', $photo);
+        $disk = Storage::disk('public')->put('properties' . '/' . $slug, $photo);
         $url = Storage::url($disk);
+
+        $user_id = $request->user()->id;
 
         $property = Property::query()->create([
             'slug' => $slug,
             'name' => $name,
+            'user_id' => $user_id,
             'description' => $request->string('description')->toString() ?: null,
             'base_rate' => (int) $request->input('baseRate'),
             'cover_photo_url' => $url,

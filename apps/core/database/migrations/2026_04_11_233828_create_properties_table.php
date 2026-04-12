@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('name');
+            $table->foreignId('user_id')->constrained(table: 'users');
             $table->text('description')->nullable();
             $table->unsignedInteger('base_rate');
             $table->string('cover_photo_url');
