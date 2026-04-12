@@ -48,7 +48,7 @@ services:
     build:
       context: ./apps/app
       dockerfile: dockerfile
-    command: ["pnpm", "start"]
+    command: "env | grep '^VITE_' > .env && pnpm build && pnpm start"
     ports:
       - published: 3000
         target: 3000
