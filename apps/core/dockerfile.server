@@ -1,6 +1,6 @@
 FROM php:8.5-fpm
 
-WORKDIR /opt/server
+WORKDIR /var/www
 
 COPY . .
 
@@ -35,5 +35,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer install --optimize-autoloader --no-interaction --no-progress --prefer-dist
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 CMD ["php-fpm"]

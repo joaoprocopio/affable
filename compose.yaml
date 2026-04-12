@@ -1,10 +1,13 @@
 services:
   nginx:
     image: nginx:1.29
-    command: "nginx -g daemon off;"
     ports:
       - published: 80
         target: 80
+    volumes:
+      - type: bind
+        source: ./docker/nginx/default.conf
+        target: /etc/nginx/nginx.conf
     restart: unless-stopped
 
   mysql:
@@ -18,6 +21,22 @@ services:
         target: /var/lib/mysql
     env_file:
       - path: .env
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p $$MYSQL_ROOT_PASSWORD",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     restart: unless-stopped
 
   beanstalk:
@@ -36,19 +55,22 @@ services:
     build:
       context: ./apps/core
       dockerfile: dockerfile.server
-    command: "php artisan migrate --force && php-fpm"
+    command: sh -c "php artisan migrate --force && php-fpm"
     ports:
       - published: 9000
         target: 9000
     env_file:
       - path: .env
+    depends_on:
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
   reactrouter:
     build:
       context: ./apps/app
       dockerfile: dockerfile
-    command: "env | grep '^VITE_' > .env && pnpm build && pnpm start"
+    command: sh -c "env | grep '^VITE_' > .env && pnpm build && pnpm start"
     ports:
       - published: 3000
         target: 3000

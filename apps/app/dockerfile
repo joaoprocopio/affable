@@ -1,6 +1,6 @@
 FROM node:krypton-slim
 
-WORKDIR /opt/app
+WORKDIR /var/www
 
 COPY . .
 
