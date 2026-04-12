@@ -59,7 +59,7 @@ services:
     build:
       context: ./apps/core
       dockerfile: dockerfile.server
-    command: sh -c "php artisan migrate --force && php-fpm"
+    command: php-fpm
     env_file:
       - path: .env
     volumes:
@@ -69,6 +69,13 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    healthcheck:
+      test:
+        ["CMD", "php-fpm-healthcheck"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     restart: unless-stopped
 
   reactrouter:
