@@ -1,4 +1,12 @@
 services:
+  nginx:
+    image: nginx:1.29
+    command: ["nginx", "-g", "daemon off;"]
+    ports:
+      - published: 80
+        target: 80
+    restart: unless-stopped
+
   mysql:
     image: mysql:9.6
     ports:
@@ -34,13 +42,15 @@ services:
     command: ["php-fpm"]
     restart: unless-stopped
 
-  nginx:
+  reactrouter:
     build:
-      context: .
+      context: ./apps/app
       dockerfile: dockerfile
+    command: ["pnpm", "start"]
     ports:
-      - published: 80
-        target: 80
+      - published: 3000
+        target: 3000
+    restart: unless-stopped
 
 volumes:
   mysql_data:

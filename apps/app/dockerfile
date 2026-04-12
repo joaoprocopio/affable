@@ -1,0 +1,12 @@
+FROM node:krypton-slim
+
+WORKDIR /opt/app
+
+COPY . .
+
+RUN npm i -g pnpm && \
+    rm -rf node_modules && \
+    pnpm purge && \
+    pnpm install
+
+RUN pnpm build
