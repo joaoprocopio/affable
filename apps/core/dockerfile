@@ -53,8 +53,10 @@ RUN curl -o /usr/local/bin/php-fpm-healthcheck \
     https://raw.githubusercontent.com/renatomefi/php-fpm-healthcheck/master/php-fpm-healthcheck \
     && chmod +x /usr/local/bin/php-fpm-healthcheck
 
-COPY ./docker/server/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./docker/entrypoint-worker.sh /usr/local/bin/entrypoint-worker.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh /usr/local/bin/entrypoint-worker.sh
 
 COPY ./storage /var/www/storage-init
 
@@ -64,7 +66,7 @@ COPY --from=builder /usr/local/bin/docker-php-ext-* /usr/local/bin/
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-COPY ./docker/server/conf.d/*.conf /usr/local/etc/php-fpm.d/
+COPY ./docker/conf.d/*.conf /usr/local/etc/php-fpm.d/
 
 COPY --from=builder /var/www /var/www
 
