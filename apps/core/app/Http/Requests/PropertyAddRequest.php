@@ -6,10 +6,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Email;
-use Illuminate\Validation\Rules\Password;
 
-final class UserSignUpRequest extends FormRequest
+final class PropertyAddRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +26,15 @@ final class UserSignUpRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'email' => ['required', Email::default()],
-            'password' => ['required', Password::default()],
+            'baseRate' => ['required', 'integer'],
+            'coverPhoto' => ['required', 'image'],
+            'country' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'street' => ['required', 'string'],
+            'description' => ['nullable', 'string'],
+            'state' => ['nullable', 'string'],
+            'postalCode' => ['nullable', 'string'],
+            'unit' => ['nullable', 'string'],
         ];
     }
 }

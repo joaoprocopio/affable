@@ -5,7 +5,7 @@ export default function CatchallRoute() {
   return (
     <Empty>
       <EmptyHeader>
-        <EmptyMedia variant="icon" className="text-muted-foreground">
+        <EmptyMedia variant="icon">
           <NotepadTextDashed />
         </EmptyMedia>
       </EmptyHeader>

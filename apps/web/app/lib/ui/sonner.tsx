@@ -1,12 +1,7 @@
-import {
-  CircleCheckIcon,
-  InfoIcon,
-  TriangleAlertIcon,
-  OctagonXIcon,
-  Loader2Icon,
-} from "lucide-react"
+import { CheckIcon, CircleCheckIcon, CircleSlash, InfoIcon, TriangleAlertIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
+import { Spinner } from "~/lib/ui/spinner"
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
@@ -16,11 +11,11 @@ const Toaster = ({ ...props }: ToasterProps) => {
       theme={theme as ToasterProps["theme"]}
       className="toaster group font-sans!"
       icons={{
-        success: <CircleCheckIcon className="size-4" />,
-        info: <InfoIcon className="size-4" />,
-        warning: <TriangleAlertIcon className="size-4" />,
-        error: <OctagonXIcon className="size-4" />,
-        loading: <Loader2Icon className="size-4 animate-spin" />,
+        success: <CircleCheckIcon className="size-full" />,
+        info: <InfoIcon className="size-full" />,
+        warning: <TriangleAlertIcon className="size-full" />,
+        error: <CircleSlash className="size-full" />,
+        loading: <Spinner className="size-full" />,
       }}
       style={
         {
@@ -31,12 +26,12 @@ const Toaster = ({ ...props }: ToasterProps) => {
         } as React.CSSProperties
       }
       toastOptions={{
-        closeButton: true,
-        duration: 3_000,
         classNames: {
-          toast: "cn-toast",
+          toast: "gap-3.5!",
           title: "text-xs",
-          description: "text-2xs",
+          description: "text-xs",
+          loader: "size-5! m-0!",
+          icon: "size-5! m-0! text-muted-foreground!",
         },
       }}
       {...props}

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import {
-  Calendar,
+  ChartNoAxesCombined,
   ChevronDown,
   Computer,
   DoorOpen,
@@ -52,9 +52,9 @@ const links = [
     to: "/reservations",
   },
   {
-    icon: Calendar,
-    label: "Calendar",
-    to: "/calendar",
+    icon: ChartNoAxesCombined,
+    label: "Metrics",
+    to: "/metrics",
   },
 ] as const satisfies {
   label: string
@@ -141,9 +141,9 @@ export function AppSidebar() {
             {links.map((link, index) => (
               <SidebarMenuItem key={index}>
                 <SidebarMenuButton
-                  isActive={link.to === location.pathname}
+                  isActive={location.pathname === link.to}
                   render={<Link to={link.to} />}>
-                  <link.icon />
+                  <link.icon className="text-muted-foreground" />
                   <span>{link.label}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>

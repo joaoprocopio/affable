@@ -4,11 +4,11 @@ namespace App\Jobs;
 
 use App\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Contracts\Queue\ShouldBeEncrypted;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Hash;
-use Ramsey\Uuid\Uuid;
 
-class RehashPassword implements ShouldQueue
+class RehashPassword implements ShouldQueue, ShouldBeEncrypted
 {
     use Queueable;
 

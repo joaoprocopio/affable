@@ -36,6 +36,6 @@ final class UserSignUpController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return new JsonResponse(new UserResource($user), JsonResponse::HTTP_OK);
+        return new JsonResponse(new UserResource($user), JsonResponse::HTTP_CREATED);
     }
 }

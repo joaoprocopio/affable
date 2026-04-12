@@ -1,7 +1,10 @@
+import type { CookieStorage, CookieStorageEvent } from "~/lib/storage/providers/cookie"
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   type AnyFn = (...args: any[]) => any
   type AnyArray<T = any> = T[] | readonly T[]
+  type Nullable<T> = T | null | undefined
   type DeepMerge<A, B> = {
     // All B items are deep merged into A.
     [K in keyof A | keyof B]: K extends keyof B ? B[K] : K extends keyof A ? A[K] : never
@@ -11,6 +14,10 @@ declare global {
         breadcrumb?: string
       }
     | undefined
+
+  interface WindowEventMap {
+    [CookieStorage.eventType]: CookieStorageEvent<any>
+  }
 }
 
 export {}
