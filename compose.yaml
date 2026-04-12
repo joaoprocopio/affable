@@ -1,5 +1,4 @@
 services:
-  # TODO: healthchecks
   mysql:
     image: mysql:9.6
     ports:
@@ -38,8 +37,15 @@ services:
   vite:
     build:
       context: ./apps/app
+    command: pnpm build
+    volumes:
+      - type: volume
+        source: vite_data
+        target: /app
+    restart: no
 
 volumes:
   mysql_data:
   beanstalkd_data:
   laravel_data:
+  vite_data:
