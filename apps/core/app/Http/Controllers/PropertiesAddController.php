@@ -17,11 +17,11 @@ final class PropertiesAddController extends Controller
     public function __invoke(PropertyAddRequest $request): JsonResponse
     {
         $name = (string) $request->string('name');
-        $slug = Str::slug($name);
+        $slug = Str::slug($name) . '-' . bin2hex(random_bytes(4)); // append random byte to prevent slug clashing
 
         $photo = $request->file('coverPhoto');
-        $path = $photo->store('properties', 'public');
-        $url = Storage::url($path);
+        $disk = Storage::disk('local')->put('properties', $photo);
+        $url = Storage::url($disk);
 
         $property = Property::query()->create([
             'slug' => $slug,
