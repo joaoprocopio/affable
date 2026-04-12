@@ -10,6 +10,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Http\Middleware\ValidatePostSize;
@@ -41,13 +42,18 @@ return Application::configure(basePath: dirname(__DIR__))
             TrimStrings::class,
             ConvertEmptyStringsToNull::class,
 
-            // csrf
+            // cookies (must come before session)
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+
+            // session (must come before csrf)
+            StartSession::class,
+
+            // csrf (requires session)
             PreventRequestForgery::class,
 
             // auth
-            AddQueuedCookiesToResponse::class,
-            StartSession::class,
-            EncryptCookies::class,
+            AuthenticateSession::class,
 
             // dependency injection
             SubstituteBindings::class,
