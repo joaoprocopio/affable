@@ -16,7 +16,7 @@ export type TPropertyNameOut = z.output<typeof PropertyName>
 export const PropertyDescription = z
   .string()
   .max(500, "Description must be 500 characters or less")
-  .optional()
+  .nullable()
 
 export type TPropertyDescriptionIn = z.input<typeof PropertyDescription>
 export type TPropertyDescriptionOut = z.output<typeof PropertyDescription>
@@ -38,12 +38,12 @@ export const PropertyCity = z.string().nonempty("City is required")
 export type TPropertyCityIn = z.input<typeof PropertyCity>
 export type TPropertyCityOut = z.output<typeof PropertyCity>
 
-export const PropertyState = z.string().optional()
+export const PropertyState = z.string().nullable()
 
 export type TPropertyStateIn = z.input<typeof PropertyState>
 export type TPropertyStateOut = z.output<typeof PropertyState>
 
-export const PropertyPostalCode = z.string().optional()
+export const PropertyPostalCode = z.string().nullable()
 
 export type TPropertyPostalCodeIn = z.input<typeof PropertyPostalCode>
 export type TPropertyPostalCodeOut = z.output<typeof PropertyPostalCode>
@@ -53,7 +53,7 @@ export const PropertyStreet = z.string().nonempty("Street is required")
 export type TPropertyStreetIn = z.input<typeof PropertyStreet>
 export type TPropertyStreetOut = z.output<typeof PropertyStreet>
 
-export const PropertyUnit = z.string().optional()
+export const PropertyUnit = z.string().nullable()
 
 export type TPropertyUnitIn = z.input<typeof PropertyUnit>
 export type TPropertyUnitOut = z.output<typeof PropertyUnit>
@@ -79,7 +79,7 @@ export const Property = z.object({
   name: PropertyName,
   description: PropertyDescription,
   baseRate: PropertyBaseRate,
-  coverPhotoUrl: z.url().optional(),
+  coverPhotoUrl: z.url().nullable(),
   country: PropertyCountry,
   city: PropertyCity,
   state: PropertyState,

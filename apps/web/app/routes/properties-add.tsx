@@ -1,6 +1,7 @@
 import { useForm, useStore } from "@tanstack/react-form"
 import { useIsMutating, useMutation, useQueryClient } from "@tanstack/react-query"
 import { Image, X } from "lucide-react"
+import { useNavigate } from "react-router"
 import { toast } from "sonner"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
 import { HttpError } from "~/lib/http/errors"
@@ -44,6 +45,7 @@ export const handle: Handle = {
 }
 
 export default function PropertiesAddRoute() {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
 
   const options = propertiesMutations.add(queryClient)
@@ -67,6 +69,7 @@ export default function PropertiesAddRoute() {
     onSuccess: (...args) => {
       options.onSuccess?.(...args)
       toast.dismiss()
+      navigate("/")
     },
   })
 

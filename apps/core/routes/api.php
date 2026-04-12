@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\PropertiesListController;
 use App\Http\Controllers\PropertiesAddController;
 use App\Http\Controllers\UserMeController;
 use App\Http\Controllers\UserSignInController;
@@ -24,6 +25,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth')->group(function () {
         Route::prefix('properties')->group(function () {
+            Route::get('', PropertiesListController::class);
             Route::post('', PropertiesAddController::class);
         });
     });
