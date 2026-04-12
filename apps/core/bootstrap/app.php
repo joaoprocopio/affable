@@ -45,9 +45,9 @@ return Application::configure(basePath: dirname(__DIR__))
             PreventRequestForgery::class,
 
             // auth
-            EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
+            EncryptCookies::class,
 
             // dependency injection
             SubstituteBindings::class,

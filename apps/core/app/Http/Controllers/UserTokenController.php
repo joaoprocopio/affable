@@ -12,7 +12,7 @@ final class UserTokenController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        $request->session()->token();
+        $request->session()->regenerateToken();
 
         return new Response(status: Response::HTTP_OK);
     }
