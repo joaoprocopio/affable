@@ -8,8 +8,6 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Email;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Validation\Rules\StringRule;
-use Illuminate\Validation\Rules\RequiredIf;
 
 final class UserSignUpRequest extends FormRequest
 {
@@ -29,9 +27,9 @@ final class UserSignUpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [new RequiredIf(true), new StringRule()],
-            'email' => [new RequiredIf(true), Email::default()],
-            'password' => [new RequiredIf(true), Password::default()],
+            'name' => ['required', 'string'],
+            'email' => ['required', Email::default()],
+            'password' => ['required', Password::default()],
         ];
     }
 }
