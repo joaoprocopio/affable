@@ -34,18 +34,15 @@ services:
     command: ["php-fpm"]
     restart: unless-stopped
 
-  vite:
+  nginx:
     build:
-      context: ./apps/app
-    command: pnpm build
-    volumes:
-      - type: volume
-        source: vite_data
-        target: /app
-    restart: no
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - published: 80
+        target: 80
 
 volumes:
   mysql_data:
   beanstalkd_data:
   laravel_data:
-  vite_data:
