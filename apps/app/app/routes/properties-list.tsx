@@ -12,6 +12,7 @@ import * as React from "react"
 import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
 import { getQueryClient } from "~/lib/query/client"
+import { Badge } from "~/lib/ui/badge"
 import { Button } from "~/lib/ui/button"
 import {
   Empty,
@@ -41,18 +42,16 @@ export async function clientLoader() {
 }
 
 export default function PropertiesListRoute() {
-  const hasProperties = useQuery({
-    ...propertiesQueries.list(),
-    select(data) {
-      return !isEmpty(data)
-    },
-  })
+  const properties = useQuery(propertiesQueries.list())
 
   return (
     <>
       <AppHeader>
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
+        <Badge variant="secondary" className="tabular-nums">
+          {properties.data?.length}
+        </Badge>
 
         <Button
           className="ml-auto"
@@ -65,32 +64,8 @@ export default function PropertiesListRoute() {
         </Button>
       </AppHeader>
 
-      {hasProperties.data ? <PropertiesListTable /> : <PropertiesListEmpty />}
+      {!isEmpty(properties.data) ? <PropertiesListTable /> : <PropertiesListEmpty />}
     </>
-  )
-}
-
-function PropertiesListEmpty() {
-  return (
-    <Empty>
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <Home />
-        </EmptyMedia>
-
-        <EmptyTitle>No properties yet</EmptyTitle>
-        <EmptyDescription>
-          You haven&apos;t created any properties yet. Get started by creating your first project.
-        </EmptyDescription>
-      </EmptyHeader>
-
-      <EmptyContent>
-        <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
-          <Plus />
-          <span>Add a property</span>
-        </Button>
-      </EmptyContent>
-    </Empty>
   )
 }
 
@@ -140,6 +115,30 @@ function PropertiesListTable() {
         </TableBody>
       </Table>
     </TableContainer>
+  )
+}
+
+function PropertiesListEmpty() {
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <Home />
+        </EmptyMedia>
+
+        <EmptyTitle>No properties yet</EmptyTitle>
+        <EmptyDescription>
+          You haven&apos;t created any properties yet. Get started by creating your first project.
+        </EmptyDescription>
+      </EmptyHeader>
+
+      <EmptyContent>
+        <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
+          <Plus />
+          <span>Add a property</span>
+        </Button>
+      </EmptyContent>
+    </Empty>
   )
 }
 
