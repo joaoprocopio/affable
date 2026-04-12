@@ -7,7 +7,7 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { Home, Plus } from "lucide-react"
+import { Home, MoveDown, MoveUp, Plus } from "lucide-react"
 import * as React from "react"
 import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
@@ -22,9 +22,11 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "~/lib/ui/empty"
+import { FieldDescription } from "~/lib/ui/field"
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableContainer,
   TableHead,
@@ -85,17 +87,46 @@ function PropertiesListTable() {
 
   return (
     <TableContainer>
-      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-24 [&_tr]:hover:bg-[unset] [&_tr>*]:truncate">
+      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-24 table-fixed [&_tr]:hover:bg-[unset] [&_tr>*]:truncate">
+        <TableCaption>{table.getRowModel().rows.length.toLocaleString()} rows</TableCaption>
+
         <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
+              {headerGroup.headers.map((header) => {
+                const canSort = header.column.getCanSort()
+                const isSorted = header.column.getIsSorted()
+                const sortingOrder = header.column.getNextSortingOrder()
+                const title = canSort
+                  ? sortingOrder === "asc"
+                    ? "Sort ascending"
+                    : sortingOrder === "desc"
+                      ? "Sort descending"
+                      : "Clear sort"
+                  : undefined
+
+                return (
+                  <TableHead key={header.id} colSpan={header.colSpan}>
+                    <Button
+                      disabled={!canSort}
+                      className="[&_svg]:text-muted-foreground"
+                      variant="ghost"
+                      size="sm"
+                      title={title}
+                      onClick={header.column.getToggleSortingHandler()}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+
+                      {isSorted === "asc" ? (
+                        <MoveUp />
+                      ) : isSorted === "desc" ? (
+                        <MoveDown />
+                      ) : undefined}
+                    </Button>
+                  </TableHead>
+                )
+              })}
             </TableRow>
           ))}
         </TableHeader>
@@ -147,6 +178,7 @@ const columns = [
     id: "thumbnail",
     header: "",
     accessorKey: "coverPhotoUrl",
+    enableSorting: false,
     cell: (props) => (
       <div className="relative size-16 overflow-hidden rounded-lg border">
         <img className="absolute inset-0 size-full" src={props.getValue<string>()} />
