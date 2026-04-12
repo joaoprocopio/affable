@@ -1,9 +1,10 @@
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
-import cookie from "js-cookie"
 import { PanelLeftIcon } from "lucide-react"
 import * as React from "react"
+import { useStorage } from "~/lib/storage/hooks"
+import { defaultCookieStorage } from "~/lib/storage/providers/cookie"
 import { Button } from "~/lib/ui/button"
 import { useIsMobile } from "~/lib/ui/hooks"
 import { Input } from "~/lib/ui/input"
@@ -12,10 +13,8 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "
 import { Skeleton } from "~/lib/ui/skeleton"
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/lib/ui/tooltip"
 import { cn } from "~/lib/ui/utils"
-import { coerceBooleanish } from "~/utils/coerce"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
-const SIDEBAR_COOKIE_EXPIRES_IN_DAYS = 7
 const SIDEBAR_WIDTH = "20rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
 const SIDEBAR_WIDTH_ICON = "3rem"
@@ -56,9 +55,12 @@ function SidebarProvider({
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
-  const [_open, _setOpen] = React.useState(
-    defaultOpen ?? coerceBooleanish(cookie.get(SIDEBAR_COOKIE_NAME)),
-  )
+  const [_open, _setOpen] = useStorage<boolean>({
+    storage: defaultCookieStorage,
+    storageInitialValue: defaultOpen ?? true,
+    storageKey: SIDEBAR_COOKIE_NAME,
+  })
+
   const open = openProp ?? _open
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
@@ -69,14 +71,8 @@ function SidebarProvider({
       } else {
         _setOpen(openState)
       }
-
-      // This sets the cookie to keep the sidebar state.
-      cookie.set(SIDEBAR_COOKIE_NAME, String(openState), {
-        path: "/",
-        expires: SIDEBAR_COOKIE_EXPIRES_IN_DAYS,
-      })
     },
-    [setOpenProp, open],
+    [setOpenProp, _setOpen, open],
   )
 
   // Helper to toggle the sidebar.

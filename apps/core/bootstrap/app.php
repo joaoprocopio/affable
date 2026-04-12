@@ -30,6 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->api([
+            // cors
             HandleCors::class,
 
             // validation
@@ -40,13 +41,13 @@ return Application::configure(basePath: dirname(__DIR__))
             TrimStrings::class,
             ConvertEmptyStringsToNull::class,
 
+            // csrf
+            PreventRequestForgery::class,
+
             // auth
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
-
-            // csrf
-            PreventRequestForgery::class,
 
             // dependency injection
             SubstituteBindings::class,
