@@ -12,3 +12,10 @@ export function formatBytes(bytes: number): string {
     maximumFractionDigits: 1,
   }).format(bytes / 1000 ** index)
 }
+
+export function formatCurrency(value: number, currency: string = "USD"): string {
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency: currency,
+  }).format(value)
+}

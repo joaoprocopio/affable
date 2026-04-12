@@ -113,7 +113,7 @@ export default function PropertiesAddRoute() {
         <AppHeaderBreadcrumb />
       </AppHeader>
 
-      <div className="mx-auto max-w-2xl px-6 pt-8 pb-64">
+      <div className="mx-auto max-w-2xl px-6 pt-8 pb-32">
         <form
           noValidate
           className="flex flex-col gap-16"

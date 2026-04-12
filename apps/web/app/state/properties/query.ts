@@ -17,6 +17,7 @@ export const propertiesQueries = defineQueries<TPropertiesNamespace>()({
     queryOptions({
       queryKey: propertiesQueryKeys.list(),
       queryFn: propertiesServices.listProperties,
+      placeholderData: [],
     }),
   detail: (slug: TPropertySlugOut) =>
     queryOptions({

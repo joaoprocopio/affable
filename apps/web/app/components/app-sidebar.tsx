@@ -143,7 +143,7 @@ export function AppSidebar() {
                 <SidebarMenuButton
                   isActive={location.pathname === link.to}
                   render={<Link to={link.to} />}>
-                  <link.icon />
+                  <link.icon className="text-muted-foreground" />
                   <span>{link.label}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
