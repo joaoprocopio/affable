@@ -8,7 +8,7 @@ import {
 } from "~/state/properties/schemas"
 import { isNumber } from "~/utils/is"
 
-export async function getProperties(context: QueryFunctionContext) {
+export async function listProperties(context: QueryFunctionContext) {
   const response = await globalFetcher("/v1/properties", {
     signal: context.signal,
   })
@@ -30,7 +30,7 @@ export async function addProperty(body: TAddPropertyOut) {
   const formData = new FormData()
 
   Object.entries(body).forEach(([entry, value]) => {
-    formData.append(entry, isNumber(value) ? value.toString() : value)
+    formData.append(entry, isNumber(value) ? value.toString() : value!)
   })
 
   const response = await globalFetcher("/v1/properties", {

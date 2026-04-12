@@ -23,7 +23,7 @@ final class PropertyResource extends JsonResource
             'name' => $this->resource->name,
             'description' => $this->resource->description,
             'baseRate' => $this->resource->base_rate,
-            'coverPhotoUrl' => $this->resource->cover_photo_url,
+            'coverPhotoUrl' => config('app.url') . $this->resource->cover_photo_url,
             'country' => $this->resource->country,
             'city' => $this->resource->city,
             'state' => $this->resource->state,

@@ -8,14 +8,15 @@ export type TPropertiesNamespace = "properties"
 
 export const propertiesQueryKeys = defineKeys<TPropertiesNamespace>()({
   all: () => defineKey("properties"),
+  list: () => defineKey("properties", "list"),
   detail: (slug: TPropertySlugOut) => defineKey("properties", slug),
 })
 
 export const propertiesQueries = defineQueries<TPropertiesNamespace>()({
-  all: () =>
+  list: () =>
     queryOptions({
-      queryKey: propertiesQueryKeys.all(),
-      queryFn: propertiesServices.getProperties,
+      queryKey: propertiesQueryKeys.list(),
+      queryFn: propertiesServices.listProperties,
     }),
   detail: (slug: TPropertySlugOut) =>
     queryOptions({
