@@ -39,11 +39,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 FROM php:8.5-fpm AS production
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev \
-    libicu-dev \
-    libzip-dev \
+    libpng16-16 \
+    libpq5 \
+    libonig5 \
+    libicu72 \
+    libzip4 \
     libfcgi-bin \
     procps \
+    gosu \
     && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -o /usr/local/bin/php-fpm-healthcheck \
@@ -68,8 +71,6 @@ COPY --from=builder /var/www /var/www
 WORKDIR /var/www
 
 RUN chown -R www-data:www-data /var/www
-
-USER www-data
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
