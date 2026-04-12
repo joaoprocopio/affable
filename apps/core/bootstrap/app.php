@@ -23,7 +23,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withProviders([AppServiceProvider::class])
     ->withRouting(
         api: __DIR__ . '/../routes/api.php',
-        health: '/health',
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->append([

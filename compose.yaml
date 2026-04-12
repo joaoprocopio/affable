@@ -1,4 +1,5 @@
 services:
+  # TODO: healthchecks
   mysql:
     image: mysql:9.6
     ports:
@@ -8,9 +9,9 @@ services:
       - type: volume
         source: mysql_data
         target: /var/lib/mysql
-    environment:
-      MYSQL_DATABASE: affable
-      MYSQL_ROOT_PASSWORD: root
+    env_file:
+      - path: .env
+    restart: unless-stopped
 
   beanstalk:
     image: ghcr.io/beanstalkd/beanstalkd:latest
@@ -22,16 +23,19 @@ services:
       - type: volume
         source: beanstalkd_data
         target: /var/lib/beanstalkd
+    restart: unless-stopped
 
-  # laravel:
-  #   build:
-  #     context: ./apps/core
-  #     dockerfile: dockerfile
-  #   working_dir: /var/www
-  #   volumes:
-  #     - ./apps/core:/var/www
-  #   command: ["php-fpm"]
+  laravel:
+    build:
+      context: ./apps/core
+      dockerfile: dockerfile
+    ports:
+      - published: 9000
+        target: 9000
+    command: ["php-fpm"]
+    restart: unless-stopped
 
 volumes:
   mysql_data:
   beanstalkd_data:
+  laravel_data:
