@@ -35,6 +35,10 @@ services:
     command: ["php-fpm"]
     restart: unless-stopped
 
+  vite:
+    build:
+      context: ./apps/app
+
 volumes:
   mysql_data:
   beanstalkd_data:
