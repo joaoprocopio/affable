@@ -1,6 +1,13 @@
 #!/bin/sh
 set -e
 
+# Clear cached packages from dev dependencies
+# -----------------------------------------------------------
+# The packages.php file may contain references to dev packages
+# that aren't installed in production (--no-dev).
+# -----------------------------------------------------------
+rm -f /var/www/bootstrap/cache/packages.php /var/www/bootstrap/cache/services.php
+
 # Initialize storage directory if empty
 # -----------------------------------------------------------
 # If the storage directory is empty (first run with empty volume),
@@ -35,8 +42,6 @@ php artisan migrate --force
 php artisan config:cache
 php artisan route:cache
 
-# Drop privileges and run PHP-FPM as www-data
+# Run PHP-FPM (runs as root, pools run as www-data)
 # -----------------------------------------------------------
-# gosu allows us to run as www-data without needing sudo.
-# -----------------------------------------------------------
-exec gosu www-data "$@"
+exec "$@"

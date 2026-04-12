@@ -16,10 +16,8 @@ services:
       - published: 80
         target: 80
     depends_on:
-      laravel:
-        condition: service_healthy
-      reactrouter:
-        condition: service_started
+      - laravel
+      - reactrouter
     restart: unless-stopped
 
   mysql:
@@ -71,12 +69,6 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "php-fpm-healthcheck"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
     restart: unless-stopped
 
   reactrouter:

@@ -42,8 +42,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng16-16 \
     libpq5 \
     libonig5 \
-    libicu72 \
-    libzip4 \
+    libicu76 \
+    libzip5 \
     libfcgi-bin \
     procps \
     gosu \
