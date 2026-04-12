@@ -1,0 +1,11 @@
+FROM php:8.5-fpm
+
+WORKDIR /opt/server
+
+COPY . .
+
+RUN curl -sS https://getcomposer.org/installer | \
+    php -- --install-dir=/usr/local/bin --filename=composer && \
+    composer install --optimize-autoloader --no-interaction --no-progress --prefer-dist
+
+CMD ["php-fpm"]

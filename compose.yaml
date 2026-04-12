@@ -1,7 +1,7 @@
 services:
   nginx:
     image: nginx:1.29
-    command: ["nginx", "-g", "daemon off;"]
+    command: "nginx -g daemon off;"
     ports:
       - published: 80
         target: 80
@@ -25,7 +25,7 @@ services:
     ports:
       - published: 11300
         target: 11300
-    command: ["-b", "/var/lib/beanstalkd"]
+    command: "-b /var/lib/beanstalkd"
     volumes:
       - type: volume
         source: beanstalkd_data
@@ -35,11 +35,13 @@ services:
   laravel:
     build:
       context: ./apps/core
-      dockerfile: dockerfile
+      dockerfile: dockerfile.server
+    command: "php artisan migrate --force && php-fpm"
     ports:
       - published: 9000
         target: 9000
-    command: ["php-fpm"]
+    env_file:
+      - path: .env
     restart: unless-stopped
 
   reactrouter:
@@ -50,6 +52,8 @@ services:
     ports:
       - published: 3000
         target: 3000
+    env_file:
+      - path: .env
     restart: unless-stopped
 
 volumes:
