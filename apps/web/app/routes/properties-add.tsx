@@ -50,14 +50,12 @@ export default function PropertiesAddRoute() {
   const mutation = useMutation({
     ...options,
     async onError(error) {
-      if (HttpError.is(error)) {
-        if (error.response.status === HttpStatus.UnprocessableEntity) {
-          form.setErrorMap({
-            onSubmit: {
-              fields: transformLaravelValidationError(await error.response.json()),
-            },
-          })
-        }
+      if (HttpError.is(error) && error.response.status === HttpStatus.UnprocessableEntity) {
+        form.setErrorMap({
+          onSubmit: {
+            fields: transformLaravelValidationError(await error.response.json()),
+          },
+        })
 
         return undefined
       }

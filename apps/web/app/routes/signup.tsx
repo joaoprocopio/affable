@@ -39,26 +39,20 @@ export default function SignUpRoute() {
   const mutation = useMutation({
     ...options,
     async onError(error) {
-      if (HttpError.is(error)) {
-        if (error.response.status === HttpStatus.UnprocessableEntity) {
-          form.setErrorMap({
-            onSubmit: {
-              fields: transformLaravelValidationError(await error.response.json()),
-            },
-          })
-        }
+      if (HttpError.is(error) && error.response.status === HttpStatus.UnprocessableEntity) {
+        form.setErrorMap({
+          onSubmit: {
+            fields: transformLaravelValidationError(await error.response.json()),
+          },
+        })
 
-        if (error.response.status === HttpStatus.Conflict) {
-          form.setErrorMap({
-            onSubmit: {
-              fields: {
-                email: {
-                  message: "This email is already taken",
-                },
-              },
-            },
-          })
-        }
+        return undefined
+      }
+
+      if (HttpError.is(error) && error.response.status === HttpStatus.Conflict) {
+        form.setErrorMap({
+          onSubmit: { fields: { email: { message: "This email is already taken" } } },
+        })
 
         return undefined
       }

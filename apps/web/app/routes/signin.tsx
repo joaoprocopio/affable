@@ -37,7 +37,7 @@ export default function SignInRoute() {
   const options = authMutations.signin(queryClient, revalidator.revalidate)
   const mutation = useMutation({
     ...options,
-    onError: (error) => {
+    onError(error) {
       if (HttpError.is(error) && error.response.status === HttpStatus.Unauthorized) {
         toast.error("Email or password may be incorrect.", {
           description: "Try using a different email or password combination.",
