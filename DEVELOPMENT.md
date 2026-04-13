@@ -17,7 +17,7 @@ where i've used a variant of Hospitable's PALM-B stack variant:
   - remember do run [post-install scripts](https://docs.docker.com/engine/install/linux-postinstall/)
 
 ```sh
-docker compose up -d mysql
+docker compose up -d
 
 cd apps/core
 composer install
