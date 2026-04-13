@@ -50,9 +50,11 @@ export default function PropertiesListRoute() {
       <AppHeader>
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
-        <Badge variant="secondary" className="tabular-nums">
-          {properties.data?.length}
-        </Badge>
+        {!isEmpty(properties.data) && (
+          <Badge variant="secondary" className="tabular-nums">
+            {properties.data?.length}
+          </Badge>
+        )}
 
         <Button
           className="ml-auto"
