@@ -79,10 +79,21 @@ services:
     command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
     env_file:
       - path: .env
-    volumes:
-      - type: volume
-        source: laravel_storage_data
-        target: /var/www/storage
+    depends_on:
+      mysql:
+        condition: service_healthy
+      beanstalk:
+        condition: service_started
+    restart: unless-stopped
+
+  scheduler:
+    build:
+      context: ./apps/core
+      dockerfile: dockerfile
+    entrypoint: ["/usr/local/bin/entrypoint-worker.sh"]
+    command: php artisan schedule:work
+    env_file:
+      - path: .env
     depends_on:
       mysql:
         condition: service_healthy
