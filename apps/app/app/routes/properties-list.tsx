@@ -87,7 +87,7 @@ function PropertiesListTable() {
   return (
     <TableContainer>
       <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-24 table-fixed [&_tr]:hover:bg-[unset] [&_tr>*]:truncate">
-        <TableCaption>{table.getRowModel().rows.length.toLocaleString()} rows</TableCaption>
+        <TableCaption>{`${table.getRowModel().rows.length.toLocaleString()} rows`}</TableCaption>
 
         <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
           {table.getHeaderGroups().map((headerGroup) => (
