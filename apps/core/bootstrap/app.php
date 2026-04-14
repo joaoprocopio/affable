@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Middleware\ForceJsonMiddleware;
+use App\Jobs\GenerateMockReservations;
 use App\Providers\AppServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -57,4 +58,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {})
+    ->withSchedule(function ($schedule) {
+        $schedule->job(new GenerateMockReservations())
+            ->everyTenSeconds()
+            ->name('reservations:generate');
+    })
     ->create();

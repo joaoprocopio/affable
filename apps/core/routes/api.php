@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\PropertiesListController;
+use App\Http\Controllers\MetricsController;
 use App\Http\Controllers\PropertiesAddController;
+use App\Http\Controllers\PropertiesListController;
+use App\Http\Controllers\ReservationsListController;
 use App\Http\Controllers\UserMeController;
 use App\Http\Controllers\UserSignInController;
 use App\Http\Controllers\UserSignOutController;
@@ -28,5 +30,8 @@ Route::prefix('v1')->group(function () {
             Route::get('', PropertiesListController::class);
             Route::post('', PropertiesAddController::class);
         });
+
+        Route::get('reservations', ReservationsListController::class);
+        Route::get('metrics', MetricsController::class);
     });
 });

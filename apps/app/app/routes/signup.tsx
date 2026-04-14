@@ -102,6 +102,31 @@ export default function SignUpRoute() {
 
           <FieldGroup>
             <form.Field
+              name="name"
+              children={(field) => {
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+                return (
+                  <Field data-invalid={isInvalid}>
+                    <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+
+                    <Input
+                      id={field.name}
+                      value={field.state.value}
+                      aria-invalid={isInvalid}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Your display name"
+                      autoComplete="name"
+                    />
+
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                  </Field>
+                )
+              }}
+            />
+
+            <form.Field
               name="email"
               children={(field) => {
                 const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
@@ -119,31 +144,6 @@ export default function SignUpRoute() {
                       type="email"
                       placeholder="For booking notifications"
                       autoComplete="email"
-                    />
-
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                  </Field>
-                )
-              }}
-            />
-
-            <form.Field
-              name="name"
-              children={(field) => {
-                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-
-                    <Input
-                      id={field.name}
-                      value={field.state.value}
-                      aria-invalid={isInvalid}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="Your display name"
-                      autoComplete="name"
                     />
 
                     {isInvalid && <FieldError errors={field.state.meta.errors} />}
