@@ -13,8 +13,12 @@ where i've used a variant of Hospitable's PALM-B stack variant:
 
 - install [php](https://php.new/)
 - install [nvm](https://github.com/nvm-sh/nvm)
-- install [docker](https://docs.docker.com/engine/install)
-  - remember do run [post-install scripts](https://docs.docker.com/engine/install/linux-postinstall/)
+- install [docker engine](https://docs.docker.com/engine/install)
+  - checkout and run [post-install scripts](https://docs.docker.com/engine/install/linux-postinstall/)
+
+### backend
+
+the following sequence of commands are expected to run starting from the repository root.
 
 ```sh
 docker compose up -d
@@ -27,3 +31,21 @@ php artisan key:generate
 php artisan storage:link
 php artisan migrate
 ```
+
+now to run the api, worker and scheduler use those commands:
+
+- api: `php artisan serve`
+  - check it on: `http://localhost:8000/api/v1/auth/me`
+- worker: `php artisan queue:work`
+- scheduler: `php artisan schedule:work`
+
+### frontend
+
+```sh
+cd apps/app
+npm i -g pnpm
+pnpm install
+pnpm dev
+```
+
+check it out on http://localhost:5173
