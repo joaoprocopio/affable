@@ -30,6 +30,8 @@ return Application::configure(basePath: dirname(__DIR__))
             ForceJsonMiddleware::class,
         ]);
 
+        $middleware->redirectGuestsTo(fn () => null);
+
         $middleware->api([
             // cors
             HandleCors::class,
@@ -42,6 +44,9 @@ return Application::configure(basePath: dirname(__DIR__))
             TrimStrings::class,
             ConvertEmptyStringsToNull::class,
 
+            // encrypt
+            EncryptCookies::class,
+
             // session, auth
             AddQueuedCookiesToResponse::class,
             StartSession::class,
@@ -49,9 +54,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
             // csrf
             PreventRequestForgery::class,
-
-            // encrypt
-            EncryptCookies::class,
 
             // dependency injection
             SubstituteBindings::class,
