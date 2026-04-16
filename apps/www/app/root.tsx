@@ -1,5 +1,13 @@
 import type { Route } from "./+types/root"
-import { Links, Meta, Outlet, redirect, Scripts, ScrollRestoration } from "react-router"
+import {
+  Links,
+  Meta,
+  Outlet,
+  redirect,
+  Scripts,
+  ScrollRestoration,
+  useLocation,
+} from "react-router"
 import "~/assets/theme.css"
 import { HttpError } from "~/lib/http/errors"
 import { HttpStatus } from "~/lib/http/status"
@@ -8,6 +16,7 @@ import { QueryDevtools } from "~/lib/query/devtools"
 import { QueryProvider } from "~/lib/query/provider"
 import { ThemeProvider } from "~/lib/theme/provider"
 import { Empty } from "~/lib/ui/empty"
+import { Sidebar, SidebarInset, SidebarProvider } from "~/lib/ui/sidebar"
 import { Toaster } from "~/lib/ui/sonner"
 import { Spinner } from "~/lib/ui/spinner"
 import { TooltipProvider } from "~/lib/ui/tooltip"
@@ -40,14 +49,6 @@ export async function clientLoader(args: Route.ClientLoaderArgs) {
   }
 }
 
-export const meta: Route.MetaFunction = () => [
-  { charSet: "utf-8" },
-  { name: "viewport", content: "width=device-width, initial-scale=1" },
-  { title: "Affable" },
-]
-
-export const links: Route.LinksFunction = () => [{ rel: "icon", href: "/favicon.ico" }]
-
 export default function App() {
   return <Outlet />
 }
@@ -79,9 +80,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export function HydrateFallback() {
+  const location = useLocation()
+
+  if (authRoutes.has(location.pathname)) {
+    return (
+      <Empty className="size-full">
+        <Spinner className="size-12" />
+      </Empty>
+    )
+  }
+
   return (
-    <Empty className="size-full">
-      <Spinner className="size-16" />
-    </Empty>
+    <SidebarProvider>
+      <Sidebar variant="inset" />
+      <SidebarInset />
+    </SidebarProvider>
   )
 }
+
+export const meta: Route.MetaFunction = () => [
+  { charSet: "utf-8" },
+  { name: "viewport", content: "width=device-width, initial-scale=1" },
+  { title: "Affable" },
+]
+
+export const links: Route.LinksFunction = () => [{ rel: "icon", href: "/favicon.ico" }]

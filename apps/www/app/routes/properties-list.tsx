@@ -11,7 +11,6 @@ import { Home, MoveDown, MoveUp, Plus } from "lucide-react"
 import * as React from "react"
 import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
-import { getQueryClient } from "~/lib/query/client"
 import { Badge } from "~/lib/ui/badge"
 import { Button } from "~/lib/ui/button"
 import {
@@ -37,11 +36,6 @@ import type { TPropertyOut } from "~/state/properties/schemas"
 import { formatCurrency } from "~/utils/format"
 import { isEmpty } from "~/utils/is"
 
-export async function clientLoader() {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(propertiesQueries.list())
-}
-
 export default function PropertiesListRoute() {
   const properties = useQuery(propertiesQueries.list())
 
@@ -50,7 +44,8 @@ export default function PropertiesListRoute() {
       <AppHeader>
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
-        {!isEmpty(properties.data) && (
+
+        {properties.isSuccess && !isEmpty(properties.data) && (
           <Badge variant="secondary" className="tabular-nums">
             {properties.data?.length}
           </Badge>
@@ -67,7 +62,7 @@ export default function PropertiesListRoute() {
         </Button>
       </AppHeader>
 
-      {!isEmpty(properties.data) ? <PropertiesListTable /> : <PropertiesListEmpty />}
+      {/* {!isEmpty(properties.data) ? <PropertiesListTable /> : <PropertiesListEmpty />} */}
     </>
   )
 }
