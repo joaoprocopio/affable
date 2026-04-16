@@ -42,7 +42,7 @@ now to run the api, worker and scheduler use those commands:
 ### frontend
 
 ```sh
-cd apps/app
+cd apps/www
 npm i -g pnpm
 pnpm install
 pnpm dev

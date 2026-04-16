@@ -75,7 +75,7 @@ services:
     build:
       context: ./apps/core
       dockerfile: dockerfile
-    entrypoint: ["/usr/local/bin/entrypoint-worker.sh"]
+    entrypoint: [ "/usr/local/bin/entrypoint-worker.sh" ]
     command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
     env_file:
       - path: .env
@@ -90,7 +90,7 @@ services:
     build:
       context: ./apps/core
       dockerfile: dockerfile
-    entrypoint: ["/usr/local/bin/entrypoint-worker.sh"]
+    entrypoint: [ "/usr/local/bin/entrypoint-worker.sh" ]
     command: php artisan schedule:work
     env_file:
       - path: .env
@@ -103,7 +103,7 @@ services:
 
   reactrouter:
     build:
-      context: ./apps/app
+      context: ./apps/www
       dockerfile: dockerfile
     command: sh -c "env | grep '^VITE_' > .env && pnpm build && pnpm start"
     env_file:
