@@ -21,6 +21,14 @@ export function formatCurrency(value: number, currency: string = "USD"): string 
   }).format(value)
 }
 
+export function pluralize(
+  n: number,
+  rules: Partial<Record<Intl.LDMLPluralRule, string>>,
+  options?: Intl.PluralRulesOptions,
+): string | undefined {
+  return rules[new Intl.PluralRules(undefined, options).select(n)]
+}
+
 export function formatDate(
   value: string | number | Date,
   options: Intl.DateTimeFormatOptions = {

@@ -34,7 +34,7 @@ import {
 } from "~/lib/ui/table"
 import { propertiesQueries } from "~/state/properties/query"
 import type { TPropertyOut } from "~/state/properties/schemas"
-import { formatCurrency } from "~/utils/format"
+import { formatCurrency, pluralize } from "~/utils/format"
 import { isEmpty } from "~/utils/is"
 
 export default function PropertiesListRoute() {
@@ -65,7 +65,7 @@ export default function PropertiesListRoute() {
         </Button>
       </AppHeader>
 
-      {properties.isLoading && (
+      {Boolean(properties.isFetching || properties.isPending) && (
         <Empty>
           <EmptyContent>
             <PropertiesListLoading />
@@ -98,10 +98,12 @@ function PropertiesListTable() {
     state: { sorting },
   })
 
+  const rowsCount = table.getRowModel().rows.length
+
   return (
     <TableContainer>
       <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-28 [&_tr]:hover:bg-[unset]">
-        <TableCaption>{`${table.getRowModel().rows.length.toLocaleString()} rows`}</TableCaption>
+        <TableCaption>{`${rowsCount} ${pluralize(rowsCount, { one: "row", other: "rows" })}`}</TableCaption>
 
         <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
           {table.getHeaderGroups().map((headerGroup) => (
