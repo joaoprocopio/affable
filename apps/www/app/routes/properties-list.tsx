@@ -21,6 +21,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "~/lib/ui/empty"
+import { Spinner } from "~/lib/ui/spinner"
 import {
   Table,
   TableBody,
@@ -39,8 +40,10 @@ import { isEmpty } from "~/utils/is"
 export default function PropertiesListRoute() {
   const properties = useQuery(propertiesQueries.list())
 
+  console.log(properties)
+
   return (
-    <>
+    <div>
       <AppHeader>
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
@@ -62,9 +65,23 @@ export default function PropertiesListRoute() {
         </Button>
       </AppHeader>
 
-      {/* {!isEmpty(properties.data) ? <PropertiesListTable /> : <PropertiesListEmpty />} */}
-    </>
+      {properties.isLoading && (
+        <Empty>
+          <EmptyContent>
+            <PropertiesListLoading />
+          </EmptyContent>
+        </Empty>
+      )}
+
+      {Boolean(properties.isSuccess && !isEmpty(properties.data)) && <PropertiesListTable />}
+
+      {Boolean(properties.isSuccess && isEmpty(properties.data)) && <PropertiesListEmpty />}
+    </div>
   )
+}
+
+function PropertiesListLoading() {
+  return <Spinner className="size-12" />
 }
 
 function PropertiesListTable() {
