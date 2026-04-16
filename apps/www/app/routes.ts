@@ -13,7 +13,8 @@ export default [
       index("routes/properties-list.tsx"),
       route("add", "routes/properties-add.tsx"),
     ]),
-    route("reservations", "routes/reservations.tsx"),
+
+    layout("routes/reservations.tsx", [route("reservations", "routes/reservations-list.tsx")]),
     route("metrics", "routes/metrics.tsx"),
     route("*", "routes/catchall.tsx"),
   ]),
