@@ -25,7 +25,6 @@ import { Spinner } from "~/lib/ui/spinner"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableContainer,
   TableHead,
@@ -34,7 +33,7 @@ import {
 } from "~/lib/ui/table"
 import { propertiesQueries } from "~/state/properties/query"
 import type { TPropertyOut } from "~/state/properties/schemas"
-import { formatCurrency, pluralize } from "~/utils/format"
+import { formatCurrency } from "~/utils/format"
 import * as validators from "~/utils/validators"
 
 export default function PropertiesRoute() {
@@ -69,62 +68,60 @@ export default function PropertiesRoute() {
         </Button>
       </AppHeader>
 
-      <div className="overflow-y-scroll">
-        {isLoading && (
-          <Empty>
-            <EmptyContent>
-              <Spinner className="size-12" />
-            </EmptyContent>
-          </Empty>
-        )}
+      {isLoading && (
+        <Empty>
+          <EmptyContent>
+            <Spinner className="size-12" />
+          </EmptyContent>
+        </Empty>
+      )}
 
-        {hasError && (
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <CloudAlert />
-              </EmptyMedia>
-            </EmptyHeader>
+      {hasError && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <CloudAlert />
+            </EmptyMedia>
+          </EmptyHeader>
 
-            <EmptyContent>
-              <EmptyTitle>Unexpected error occurred</EmptyTitle>
+          <EmptyContent>
+            <EmptyTitle>Unexpected error occurred</EmptyTitle>
 
-              <EmptyDescription>
-                <code>
-                  {validators.isFn(properties.error.toString)
-                    ? properties.error.toString()
-                    : String(properties.error.message)}
-                </code>
-              </EmptyDescription>
-            </EmptyContent>
-          </Empty>
-        )}
+            <EmptyDescription>
+              <code>
+                {validators.isFn(properties.error.toString)
+                  ? properties.error.toString()
+                  : String(properties.error.message)}
+              </code>
+            </EmptyDescription>
+          </EmptyContent>
+        </Empty>
+      )}
 
-        {isEmpty && (
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Home />
-              </EmptyMedia>
+      {isEmpty && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Home />
+            </EmptyMedia>
 
-              <EmptyTitle>No properties yet</EmptyTitle>
-              <EmptyDescription>
-                You haven&apos;t created any properties yet. Get started by creating your first
-                project.
-              </EmptyDescription>
-            </EmptyHeader>
+            <EmptyTitle>No properties yet</EmptyTitle>
+            <EmptyDescription>
+              You haven&apos;t created any properties yet. Get started by creating your first
+              project.
+            </EmptyDescription>
+          </EmptyHeader>
 
-            <EmptyContent>
-              <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
-                <Plus />
-                <span>Add a property</span>
-              </Button>
-            </EmptyContent>
-          </Empty>
-        )}
+          <EmptyContent>
+            <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
+              <Plus />
+              <span>Add a property</span>
+            </Button>
+          </EmptyContent>
+        </Empty>
+      )}
 
-        {hasData && <PropertiesTable />}
-      </div>
+      {hasData && <PropertiesTable />}
     </>
   )
 }
@@ -145,10 +142,8 @@ function PropertiesTable() {
   const { rows } = table.getRowModel()
 
   return (
-    <TableContainer>
-      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-28 [&_tr]:hover:bg-[unset]">
-        <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
-
+    <TableContainer className="overflow-auto">
+      <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -190,7 +185,7 @@ function PropertiesTable() {
           ))}
         </TableHeader>
 
-        <TableBody className="overflow-scroll">
+        <TableBody>
           {!properties.isLoading &&
             properties.isSuccess &&
             rows.map((row) => (

@@ -25,7 +25,6 @@ import { Spinner } from "~/lib/ui/spinner"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableContainer,
   TableHead,
@@ -34,7 +33,7 @@ import {
 } from "~/lib/ui/table"
 import { reservationsQueries } from "~/state/reservations/query"
 import type { TReservationOut } from "~/state/reservations/schemas"
-import { formatCurrency, formatDateRange, formatDateTime, pluralize } from "~/utils/format"
+import { formatCurrency, formatDateRange, formatDateTime } from "~/utils/format"
 import * as validators from "~/utils/validators"
 
 export default function ReservationsRoute() {
@@ -135,8 +134,6 @@ function ReservationsTable() {
         height: `${virtualizer.getTotalSize() + 100}px`,
       }}>
       <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr]:hover:bg-[unset]">
-        <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
-
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
