@@ -185,21 +185,7 @@ const columns = [
   {
     id: "reservation",
     header: "Reservation",
-    accessorFn: (row) => getReservationReference(row),
-    cell: ({ row }) => {
-      const reservation = row.original
-      const reference = getReservationReference(reservation)
-      const secondaryId = reference !== reservation.id ? reservation.id : undefined
-
-      return (
-        <div className="flex flex-col gap-1">
-          <span className="font-medium tabular-nums">{reference}</span>
-          {secondaryId ? (
-            <span className="text-muted-foreground font-mono text-xs">{secondaryId}</span>
-          ) : null}
-        </div>
-      )
-    },
+    accessorFn: (row) => row.externalId ?? row.channelReservationId ?? row.id,
   },
   {
     id: "property",
