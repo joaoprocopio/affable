@@ -142,13 +142,11 @@ function PropertiesTable() {
   const { rows } = table.getRowModel()
 
   return (
-    <TableContainer className="overflow-auto">
+    <TableContainer>
       <Table>
-        <TableHeader>
+        <TableHeader className="bg-background sticky inset-x-0 top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className="bg-background sticky inset-x-0 top-0 z-10 border-b">
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 const canSort = header.column.getCanSort()
                 const isSorted = header.column.getIsSorted()

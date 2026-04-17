@@ -17,9 +17,6 @@ export const propertiesQueries = defineQueries<TPropertiesNamespace>()({
     queryOptions({
       queryKey: propertiesQueryKeys.list(),
       queryFn: propertiesServices.listProperties,
-      select(data) {
-        return data.concat(data).concat(data).concat(data)
-      },
     }),
   detail: (slug: TPropertySlugOut) =>
     queryOptions({
