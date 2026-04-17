@@ -4,6 +4,6 @@ export const handle: Handle = {
   breadcrumb: "Properties",
 }
 
-export default function AppPropertiesRoute() {
+export default function PropertiesRoute() {
   return <Outlet />
 }

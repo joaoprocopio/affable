@@ -37,7 +37,7 @@ import type { TReservationOut } from "~/state/reservations/schemas"
 import { formatCurrency, formatDateRange, formatDateTime, pluralize } from "~/utils/format"
 import * as validators from "~/utils/validators"
 
-export default function AppReservationsRoute() {
+export default function ReservationsRoute() {
   const reservations = useQuery(reservationsQueries.list())
 
   const isLoading = reservations.isLoading

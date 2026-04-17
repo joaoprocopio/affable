@@ -44,7 +44,7 @@ export const handle: Handle = {
   breadcrumb: "Add",
 }
 
-export default function AppPropertiesAddRoute() {
+export default function PropertiesAddRoute() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 

@@ -1,7 +1,7 @@
 import { NotepadTextDashed } from "lucide-react"
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "~/lib/ui/empty"
 
-export default function CatchallRoute() {
+export default function NotFoundRoute() {
   return (
     <Empty>
       <EmptyHeader>

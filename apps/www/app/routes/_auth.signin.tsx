@@ -26,32 +26,21 @@ import {
 } from "~/lib/ui/input-group"
 import { Spinner } from "~/lib/ui/spinner"
 import { authMutationKeys, authMutations } from "~/state/auth/query"
-import { SignUp, type TSignUpIn } from "~/state/auth/schemas"
-import { transformLaravelValidationError } from "~/utils/laravel"
+import { SignIn, type TSignInIn } from "~/state/auth/schemas"
 
-export default function AuthSignUpRoute() {
+export default function SignInRoute() {
   const [showPassword, setShowPassword] = React.useState(false)
 
   const revalidator = useRevalidator()
   const queryClient = useQueryClient()
 
-  const options = authMutations.signup(queryClient, revalidator.revalidate)
+  const options = authMutations.signin(queryClient, revalidator.revalidate)
   const mutation = useMutation({
     ...options,
-    async onError(error) {
-      if (HttpError.is(error) && error.response.status === HttpStatus.UnprocessableEntity) {
-        form.setErrorMap({
-          onSubmit: {
-            fields: transformLaravelValidationError(await error.response.json()),
-          },
-        })
-
-        return undefined
-      }
-
-      if (HttpError.is(error) && error.response.status === HttpStatus.Conflict) {
-        form.setErrorMap({
-          onSubmit: { fields: { email: { message: "This email is already taken" } } },
+    onError(error) {
+      if (HttpError.is(error) && error.response.status === HttpStatus.Unauthorized) {
+        toast.error("Email or password may be incorrect.", {
+          description: "Try using a different email or password combination.",
         })
 
         return undefined
@@ -69,12 +58,11 @@ export default function AuthSignUpRoute() {
 
   const form = useForm({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-    } satisfies TSignUpIn,
+    } satisfies TSignInIn,
     validators: {
-      onSubmit: SignUp,
+      onSubmit: SignIn,
     },
     onSubmit(props) {
       mutation.mutate(props.value)
@@ -93,38 +81,13 @@ export default function AuthSignUpRoute() {
         form.handleSubmit()
       }}>
       <FieldSet className="items-center">
-        <FieldLegend className="text-center">Sign up to Affable</FieldLegend>
+        <FieldLegend className="text-center">Sign in to Affable</FieldLegend>
 
         <FieldDescription>
-          Already have an account? <Link to="/signin">Sign in</Link>
+          Don&apos;t have an account? <Link to="/signup">Sign up</Link>
         </FieldDescription>
 
         <FieldGroup>
-          <form.Field
-            name="name"
-            children={(field) => {
-              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-
-              return (
-                <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-
-                  <Input
-                    id={field.name}
-                    value={field.state.value}
-                    aria-invalid={isInvalid}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="Your display name"
-                    autoComplete="name"
-                  />
-
-                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                </Field>
-              )
-            }}
-          />
-
           <form.Field
             name="email"
             children={(field) => {
@@ -141,7 +104,7 @@ export default function AuthSignUpRoute() {
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     type="email"
-                    placeholder="For booking notifications"
+                    placeholder="your@email.com"
                     autoComplete="email"
                   />
 
@@ -168,7 +131,7 @@ export default function AuthSignUpRoute() {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                       type={showPassword ? "text" : "password"}
-                      placeholder="Minimum 8 characters"
+                      placeholder="Your password"
                       autoComplete="current-password"
                     />
 

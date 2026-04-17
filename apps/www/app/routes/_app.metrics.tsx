@@ -3,7 +3,6 @@ import { ChartLine, MailCheck, Timer } from "lucide-react"
 import * as React from "react"
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
-import { getQueryClient } from "~/lib/query/client"
 import { Badge } from "~/lib/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/lib/ui/card"
 import {
@@ -18,16 +17,11 @@ import { metricsQueries } from "~/state/metrics/query"
 import type { TMetricsTimeseriesItemOut } from "~/state/metrics/schemas"
 import { formatCurrency, formatDate, formatDateRange, formatDateTime } from "~/utils/format"
 
-export async function clientLoader() {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(metricsQueries.summary())
-}
-
 export const handle: Handle = {
   breadcrumb: "Metrics",
 }
 
-export default function AppMetricsRoute() {
+export default function MetricsRoute() {
   const metrics = useQuery(metricsQueries.summary())
   const data = metrics.data
 
