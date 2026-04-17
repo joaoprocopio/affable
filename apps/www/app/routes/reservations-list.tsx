@@ -132,10 +132,11 @@ function ReservationsTable() {
   return (
     <TableContainer
       style={{
-        height: `${virtualizer.getTotalSize() + 50}px`,
+        height: `${virtualizer.getTotalSize() + 100}px`,
       }}>
-      {/* <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption> */}
       <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr]:hover:bg-[unset]">
+        <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
+
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
