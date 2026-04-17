@@ -143,7 +143,7 @@ function PropertiesTable() {
 
   return (
     <TableContainer>
-      <Table>
+      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container">
         <TableHeader className="bg-background sticky inset-x-0 top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -186,17 +186,15 @@ function PropertiesTable() {
         </TableHeader>
 
         <TableBody>
-          {!properties.isLoading &&
-            properties.isSuccess &&
-            rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+          {rows.map((row) => (
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

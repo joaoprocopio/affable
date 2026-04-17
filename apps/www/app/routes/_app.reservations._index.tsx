@@ -7,7 +7,6 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { useWindowVirtualizer } from "@tanstack/react-virtual"
 import { CloudAlert, DoorOpen, MoveDown, MoveUp } from "lucide-react"
 import * as React from "react"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
@@ -122,19 +121,10 @@ function ReservationsTable() {
 
   const { rows } = table.getRowModel()
 
-  const virtualizer = useWindowVirtualizer({
-    count: rows.length,
-    estimateSize: () => 80,
-    overscan: 10,
-  })
-
   return (
-    <TableContainer
-      style={{
-        height: `${virtualizer.getTotalSize() + 100}px`,
-      }}>
-      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr]:hover:bg-[unset]">
-        <TableHeader>
+    <TableContainer>
+      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container">
+        <TableHeader className="bg-background sticky inset-x-0 top-0 z-10">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -176,25 +166,15 @@ function ReservationsTable() {
         </TableHeader>
 
         <TableBody>
-          {virtualizer.getVirtualItems().map((vrow, iterindex) => {
-            const row = rows[vrow.index]
-            const posy = vrow.start - iterindex * vrow.size
-
-            return (
-              <TableRow
-                key={row.id}
-                style={{
-                  height: `${vrow.size}px`,
-                  transform: `translateY(${posy}px)`,
-                }}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            )
-          })}
+          {rows.map((row) => (
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
