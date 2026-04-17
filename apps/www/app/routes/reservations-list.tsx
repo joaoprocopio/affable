@@ -125,16 +125,18 @@ function ReservationsTable() {
 
   const virtualizer = useWindowVirtualizer({
     count: rows.length,
-    estimateSize: () => 62,
+    estimateSize: () => 70,
     overscan: 10,
   })
 
   return (
-    <TableContainer style={{ height: `${virtualizer.getTotalSize()}px` }}>
-      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>*]:truncate">
+    <TableContainer
+      className="overflow-y-hidden"
+      style={{ height: `${virtualizer.getTotalSize()}px` }}>
+      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr]:hover:bg-[unset]">
         <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
 
-        <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -178,13 +180,15 @@ function ReservationsTable() {
         <TableBody>
           {virtualizer.getVirtualItems().map((vrow, iterindex) => {
             const row = rows[vrow.index]
+            const ypos = vrow.start - iterindex * vrow.size
+            console.log(ypos)
 
             return (
               <TableRow
                 key={row.id}
                 style={{
                   height: `${vrow.size}px`,
-                  transform: `translateY(${vrow.start - iterindex * vrow.size}px)`,
+                  transform: `translateY(${ypos}px)`,
                 }}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

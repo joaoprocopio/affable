@@ -147,7 +147,7 @@ function PropertiesTable() {
       <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-28 [&_tr]:hover:bg-[unset]">
         <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
 
-        <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
