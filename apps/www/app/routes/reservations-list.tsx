@@ -34,7 +34,7 @@ import {
 } from "~/lib/ui/table"
 import { reservationsQueries } from "~/state/reservations/query"
 import type { TReservationOut } from "~/state/reservations/schemas"
-import { formatCurrency, formatDateRange, formatDateTime } from "~/utils/format"
+import { formatCurrency, formatDateRange, formatDateTime, pluralize } from "~/utils/format"
 import * as is from "~/utils/is"
 
 export default function ReservationsRoute() {
@@ -110,6 +110,7 @@ export default function ReservationsRoute() {
 function ReservationsTable() {
   const reservations = useQuery(reservationsQueries.list())
 
+  const containerRef = React.useRef<HTMLDivElement>(null)
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
@@ -121,65 +122,86 @@ function ReservationsTable() {
     state: { sorting },
   })
 
+  const { rows } = table.getRowModel()
+
+  const virtualizer = useVirtualizer({
+    count: rows.length,
+    getScrollElement: () => containerRef.current,
+    estimateSize: () => 62,
+    overscan: 5,
+  })
+
   return (
-    <TableContainer>
-      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>*]:truncate">
-        <TableCaption>{`${table.getRowModel().rows.length.toLocaleString()} rows`}</TableCaption>
+    <div ref={containerRef}>
+      <TableContainer style={{ height: `${virtualizer.getTotalSize()}px` }}>
+        <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>*]:truncate">
+          <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
 
-        <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                const canSort = header.column.getCanSort()
-                const isSorted = header.column.getIsSorted()
-                const sortingOrder = header.column.getNextSortingOrder()
-                const title = canSort
-                  ? sortingOrder === "asc"
-                    ? "Sort ascending"
-                    : sortingOrder === "desc"
-                      ? "Sort descending"
-                      : "Clear sort"
-                  : undefined
+          <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  const canSort = header.column.getCanSort()
+                  const isSorted = header.column.getIsSorted()
+                  const sortingOrder = header.column.getNextSortingOrder()
+                  const title = canSort
+                    ? sortingOrder === "asc"
+                      ? "Sort ascending"
+                      : sortingOrder === "desc"
+                        ? "Sort descending"
+                        : "Clear sort"
+                    : undefined
 
-                return (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
-                    <Button
-                      disabled={!canSort}
-                      className="[&_svg]:text-muted-foreground"
-                      variant="ghost"
-                      size="sm"
-                      title={title}
-                      onClick={header.column.getToggleSortingHandler()}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                  return (
+                    <TableHead key={header.id} colSpan={header.colSpan}>
+                      <Button
+                        disabled={!canSort}
+                        className="[&_svg]:text-muted-foreground"
+                        variant="ghost"
+                        size="sm"
+                        title={title}
+                        onClick={header.column.getToggleSortingHandler()}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
 
-                      {isSorted === "asc" ? (
-                        <MoveUp />
-                      ) : isSorted === "desc" ? (
-                        <MoveDown />
-                      ) : undefined}
-                    </Button>
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
+                        {isSorted === "asc" ? (
+                          <MoveUp />
+                        ) : isSorted === "desc" ? (
+                          <MoveDown />
+                        ) : undefined}
+                      </Button>
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
 
-        <TableBody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id} data-state={row.getIsSelected() ? "selected" : undefined}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <TableBody>
+            {virtualizer.getVirtualItems().map((vrow, iterindex) => {
+              const row = rows[vrow.index]
+
+              return (
+                <TableRow
+                  key={row.id}
+                  style={{
+                    height: `${vrow.size}px`,
+                    transform: `translateY(${vrow.start - iterindex * vrow.size}px)`,
+                  }}
+                  data-state={row.getIsSelected() ? "selected" : undefined}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   )
 }
 

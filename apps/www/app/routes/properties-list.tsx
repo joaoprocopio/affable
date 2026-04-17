@@ -140,13 +140,12 @@ function PropertiesTable() {
     onSortingChange: setSorting,
     state: { sorting },
   })
-
-  const rowsCount = table.getRowModel().rows.length
+  const { rows } = table.getRowModel()
 
   return (
     <TableContainer>
       <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr>:nth-child(1)]:min-max-w-28 [&_tr]:hover:bg-[unset]">
-        <TableCaption>{`${rowsCount} ${pluralize(rowsCount, { one: "row", other: "rows" })}`}</TableCaption>
+        <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
 
         <TableHeader className="bg-background backdrop-blue sticky inset-x-0 z-1">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -192,7 +191,7 @@ function PropertiesTable() {
         <TableBody>
           {!properties.isLoading &&
             properties.isSuccess &&
-            table.getRowModel().rows.map((row) => (
+            rows.map((row) => (
               <TableRow key={row.id} data-state={row.getIsSelected() ? "selected" : undefined}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
