@@ -7,6 +7,7 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
+import { useVirtualizer } from "@tanstack/react-virtual"
 import { CloudAlert, DoorOpen, MoveDown, MoveUp } from "lucide-react"
 import * as React from "react"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
@@ -57,15 +58,6 @@ export default function ReservationsRoute() {
         )}
       </AppHeader>
 
-      {/* <Alert>
-          <Mail className="text-muted-foreground" />
-          <AlertTitle>Queue-driven ingestion</AlertTitle>
-          <AlertDescription>
-            New reservations are fetched by the scheduler and queued for email delivery. Once a
-            reservation is acknowledged, it will show as synced in the status column.
-          </AlertDescription>
-        </Alert> */}
-
       {isLoading && (
         <Empty>
           <EmptyContent>
@@ -96,23 +88,21 @@ export default function ReservationsRoute() {
         </Empty>
       )}
 
-      {isEmpty && <ReservationsEmpty />}
+      {isEmpty && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <DoorOpen />
+            </EmptyMedia>
+            <EmptyTitle>No reservations yet</EmptyTitle>
+            <EmptyDescription>
+              Your queue will start populating once the scheduler fetches new bookings.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      )}
 
       {hasData && <ReservationsTable />}
-      {/* {!hasData ? (
-          <ReservationsEmpty />
-        ) : hasResults ? (
-          <ReservationsTable data={filteredReservations} />
-        ) : (
-          <ReservationsNoResults
-            onReset={() => {
-              setSearch("")
-              setProvider("all")
-              setStatus("all")
-            }}
-            showReset={hasFilters}
-          />
-        )} */}
     </>
   )
 }
@@ -190,22 +180,6 @@ function ReservationsTable() {
         </TableBody>
       </Table>
     </TableContainer>
-  )
-}
-
-function ReservationsEmpty() {
-  return (
-    <Empty>
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <DoorOpen />
-        </EmptyMedia>
-        <EmptyTitle>No reservations yet</EmptyTitle>
-        <EmptyDescription>
-          Your queue will start populating once the scheduler fetches new bookings.
-        </EmptyDescription>
-      </EmptyHeader>
-    </Empty>
   )
 }
 

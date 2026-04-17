@@ -99,7 +99,28 @@ export default function PropertiesListRoute() {
         </Empty>
       )}
 
-      {isEmpty && <PropertiesEmpty />}
+      {isEmpty && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Home />
+            </EmptyMedia>
+
+            <EmptyTitle>No properties yet</EmptyTitle>
+            <EmptyDescription>
+              You haven&apos;t created any properties yet. Get started by creating your first
+              project.
+            </EmptyDescription>
+          </EmptyHeader>
+
+          <EmptyContent>
+            <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
+              <Plus />
+              <span>Add a property</span>
+            </Button>
+          </EmptyContent>
+        </Empty>
+      )}
 
       {hasData && <PropertiesTable />}
     </>
@@ -183,30 +204,6 @@ function PropertiesTable() {
         </TableBody>
       </Table>
     </TableContainer>
-  )
-}
-
-function PropertiesEmpty() {
-  return (
-    <Empty>
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <Home />
-        </EmptyMedia>
-
-        <EmptyTitle>No properties yet</EmptyTitle>
-        <EmptyDescription>
-          You haven&apos;t created any properties yet. Get started by creating your first project.
-        </EmptyDescription>
-      </EmptyHeader>
-
-      <EmptyContent>
-        <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
-          <Plus />
-          <span>Add a property</span>
-        </Button>
-      </EmptyContent>
-    </Empty>
   )
 }
 
