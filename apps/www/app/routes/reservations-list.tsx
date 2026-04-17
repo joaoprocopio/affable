@@ -126,7 +126,7 @@ function ReservationsTable() {
   const virtualizer = useWindowVirtualizer({
     count: rows.length,
     estimateSize: () => 62,
-    overscan: 5,
+    overscan: 10,
   })
 
   return (
