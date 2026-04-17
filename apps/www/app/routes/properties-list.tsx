@@ -69,60 +69,62 @@ export default function PropertiesListRoute() {
         </Button>
       </AppHeader>
 
-      {isLoading && (
-        <Empty>
-          <EmptyContent>
-            <Spinner className="size-12" />
-          </EmptyContent>
-        </Empty>
-      )}
+      <div>
+        {isLoading && (
+          <Empty>
+            <EmptyContent>
+              <Spinner className="size-12" />
+            </EmptyContent>
+          </Empty>
+        )}
 
-      {hasError && (
-        <Empty>
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <CloudAlert />
-            </EmptyMedia>
-          </EmptyHeader>
+        {hasError && (
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <CloudAlert />
+              </EmptyMedia>
+            </EmptyHeader>
 
-          <EmptyContent>
-            <EmptyTitle>Unexpected error occurred</EmptyTitle>
+            <EmptyContent>
+              <EmptyTitle>Unexpected error occurred</EmptyTitle>
 
-            <EmptyDescription>
-              <code>
-                {validators.isFn(properties.error.toString)
-                  ? properties.error.toString()
-                  : String(properties.error.message)}
-              </code>
-            </EmptyDescription>
-          </EmptyContent>
-        </Empty>
-      )}
+              <EmptyDescription>
+                <code>
+                  {validators.isFn(properties.error.toString)
+                    ? properties.error.toString()
+                    : String(properties.error.message)}
+                </code>
+              </EmptyDescription>
+            </EmptyContent>
+          </Empty>
+        )}
 
-      {isEmpty && (
-        <Empty>
-          <EmptyHeader>
-            <EmptyMedia variant="icon">
-              <Home />
-            </EmptyMedia>
+        {isEmpty && (
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Home />
+              </EmptyMedia>
 
-            <EmptyTitle>No properties yet</EmptyTitle>
-            <EmptyDescription>
-              You haven&apos;t created any properties yet. Get started by creating your first
-              project.
-            </EmptyDescription>
-          </EmptyHeader>
+              <EmptyTitle>No properties yet</EmptyTitle>
+              <EmptyDescription>
+                You haven&apos;t created any properties yet. Get started by creating your first
+                project.
+              </EmptyDescription>
+            </EmptyHeader>
 
-          <EmptyContent>
-            <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
-              <Plus />
-              <span>Add a property</span>
-            </Button>
-          </EmptyContent>
-        </Empty>
-      )}
+            <EmptyContent>
+              <Button variant="secondary" nativeButton={false} render={<Link to="/add" />}>
+                <Plus />
+                <span>Add a property</span>
+              </Button>
+            </EmptyContent>
+          </Empty>
+        )}
 
-      {hasData && <PropertiesTable />}
+        {hasData && <PropertiesTable />}
+      </div>
     </>
   )
 }
@@ -188,7 +190,7 @@ function PropertiesTable() {
           ))}
         </TableHeader>
 
-        <TableBody>
+        <TableBody className="overflow-scroll">
           {!properties.isLoading &&
             properties.isSuccess &&
             rows.map((row) => (

@@ -14,7 +14,7 @@ import { isNil } from "~/utils/validators"
 export function AppHeader({ className, children, ...props }: React.ComponentProps<"header">) {
   return (
     <header
-      className={cn("px-container flex h-12 items-center gap-x-2 border-b", className)}
+      className={cn("px-container flex h-12 shrink-0 items-center gap-x-2 border-b", className)}
       {...props}>
       {children}
     </header>

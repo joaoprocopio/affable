@@ -85,126 +85,124 @@ export default function SignUpRoute() {
   const isLoading = Boolean(isMutating)
 
   return (
-    <>
-      <form
-        noValidate
-        onSubmit={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          form.handleSubmit()
-        }}>
-        <FieldSet className="items-center">
-          <FieldLegend className="text-center">Sign up to Affable</FieldLegend>
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}>
+      <FieldSet className="items-center">
+        <FieldLegend className="text-center">Sign up to Affable</FieldLegend>
 
-          <FieldDescription>
-            Already have an account? <Link to="/signin">Sign in</Link>
-          </FieldDescription>
+        <FieldDescription>
+          Already have an account? <Link to="/signin">Sign in</Link>
+        </FieldDescription>
 
-          <FieldGroup>
-            <form.Field
-              name="name"
-              children={(field) => {
-                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+        <FieldGroup>
+          <form.Field
+            name="name"
+            children={(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
 
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Name</FieldLabel>
 
-                    <Input
+                  <Input
+                    id={field.name}
+                    value={field.state.value}
+                    aria-invalid={isInvalid}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="Your display name"
+                    autoComplete="name"
+                  />
+
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+            }}
+          />
+
+          <form.Field
+            name="email"
+            children={(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+
+                  <Input
+                    id={field.name}
+                    value={field.state.value}
+                    aria-invalid={isInvalid}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    type="email"
+                    placeholder="For booking notifications"
+                    autoComplete="email"
+                  />
+
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+            }}
+          />
+
+          <form.Field
+            name="password"
+            children={(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+
+                  <InputGroup>
+                    <InputGroupInput
                       id={field.name}
                       value={field.state.value}
                       aria-invalid={isInvalid}
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="Your display name"
-                      autoComplete="name"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Minimum 8 characters"
+                      autoComplete="current-password"
                     />
 
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                  </Field>
-                )
-              }}
-            />
+                    <InputGroupAddon align="inline-end">
+                      <InputGroupButton
+                        variant="outline"
+                        size="icon-xs"
+                        onClick={() => setShowPassword(!showPassword)}
+                        tabIndex={-1}>
+                        {showPassword ? (
+                          <Eye className="size-3.5" />
+                        ) : (
+                          <EyeOff className="size-3.5" />
+                        )}
+                      </InputGroupButton>
+                    </InputGroupAddon>
+                  </InputGroup>
 
-            <form.Field
-              name="email"
-              children={(field) => {
-                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              )
+            }}
+          />
 
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+          <Button type="submit" disabled={isLoading}>
+            Continue
+            {isLoading && <Spinner strokeWidth={3} />}
+          </Button>
+        </FieldGroup>
 
-                    <Input
-                      id={field.name}
-                      value={field.state.value}
-                      aria-invalid={isInvalid}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                      type="email"
-                      placeholder="For booking notifications"
-                      autoComplete="email"
-                    />
-
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                  </Field>
-                )
-              }}
-            />
-
-            <form.Field
-              name="password"
-              children={(field) => {
-                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-
-                return (
-                  <Field data-invalid={isInvalid}>
-                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
-
-                    <InputGroup>
-                      <InputGroupInput
-                        id={field.name}
-                        value={field.state.value}
-                        aria-invalid={isInvalid}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Minimum 8 characters"
-                        autoComplete="current-password"
-                      />
-
-                      <InputGroupAddon align="inline-end">
-                        <InputGroupButton
-                          variant="outline"
-                          size="icon-xs"
-                          onClick={() => setShowPassword(!showPassword)}
-                          tabIndex={-1}>
-                          {showPassword ? (
-                            <Eye className="size-3.5" />
-                          ) : (
-                            <EyeOff className="size-3.5" />
-                          )}
-                        </InputGroupButton>
-                      </InputGroupAddon>
-                    </InputGroup>
-
-                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
-                  </Field>
-                )
-              }}
-            />
-
-            <Button type="submit" disabled={isLoading}>
-              Continue
-              {isLoading && <Spinner strokeWidth={3} />}
-            </Button>
-          </FieldGroup>
-
-          <FieldDescription className="text-center">
-            <TosAndPPAgreementLink />
-          </FieldDescription>
-        </FieldSet>
-      </form>
-    </>
+        <FieldDescription className="text-center">
+          <TosAndPPAgreementLink />
+        </FieldDescription>
+      </FieldSet>
+    </form>
   )
 }

@@ -5,6 +5,5 @@ export const handle: Handle = {
 }
 
 export default function PropertiesRoute() {
-  // return <div className="flex-1">{/* <div className="h-2000">abc</div> */}</div>
   return <Outlet />
 }
