@@ -35,16 +35,16 @@ import {
 import { reservationsQueries } from "~/state/reservations/query"
 import type { TReservationOut } from "~/state/reservations/schemas"
 import { formatCurrency, formatDateRange, formatDateTime, pluralize } from "~/utils/format"
-import * as is from "~/utils/is"
+import * as validators from "~/utils/validators"
 
 export default function ReservationsRoute() {
   const reservations = useQuery(reservationsQueries.list())
 
   const isLoading = reservations.isLoading
-  const isEmpty = reservations.isSuccess && is.isEmpty(reservations.data)
+  const isEmpty = reservations.isSuccess && validators.isEmpty(reservations.data)
 
   const hasError = reservations.isError
-  const hasData = reservations.isSuccess && !is.isEmpty(reservations.data)
+  const hasData = reservations.isSuccess && !validators.isEmpty(reservations.data)
 
   return (
     <>
@@ -79,7 +79,7 @@ export default function ReservationsRoute() {
 
             <EmptyDescription>
               <code>
-                {is.isFn(reservations.error.toString)
+                {validators.isFn(reservations.error.toString)
                   ? reservations.error.toString()
                   : String(reservations.error.message)}
               </code>

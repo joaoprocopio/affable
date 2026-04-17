@@ -1,6 +1,6 @@
 import cookies from "js-cookie"
 import type { Storage, Unsubscribe } from "~/lib/storage/types"
-import { isNil } from "~/utils/is"
+import { isNil } from "~/utils/validators"
 
 export type CookieStorageEvent<T> = CustomEvent<CookieStorageEventDetails<T>>
 

@@ -1,6 +1,6 @@
 import * as React from "react"
 import type { Storage } from "~/lib/storage/types"
-import { isNil } from "~/utils/is"
+import { isNil } from "~/utils/validators"
 
 export function useStorage<TStorageDecoded, TStorageEncoded extends string = string>({
   storageKey,

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import * as React from "react"
 import { ChartLine, MailCheck, Timer } from "lucide-react"
+import * as React from "react"
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
 import { getQueryClient } from "~/lib/query/client"
 import { Badge } from "~/lib/ui/badge"
@@ -17,7 +17,7 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "~/
 import { metricsQueries } from "~/state/metrics/query"
 import type { TMetricsTimeseriesItemOut } from "~/state/metrics/schemas"
 import { formatCurrency, formatDate, formatDateRange, formatDateTime } from "~/utils/format"
-import { isEmpty } from "~/utils/is"
+import { isEmpty } from "~/utils/validators"
 
 export async function clientLoader() {
   const queryClient = getQueryClient()
@@ -148,10 +148,7 @@ export default function MetricsRoute() {
                 </CardHeader>
                 <CardContent>
                   {timeseries.length ? (
-                    <ChartContainer
-                      config={volumeChartConfig}
-                      className="h-72 w-full aspect-auto"
-                    >
+                    <ChartContainer config={volumeChartConfig} className="aspect-auto h-72 w-full">
                       <AreaChart data={timeseries} margin={{ left: 0, right: 0, top: 10 }}>
                         <CartesianGrid vertical={false} />
                         <XAxis
@@ -213,8 +210,7 @@ export default function MetricsRoute() {
                   {providers.length ? (
                     <ChartContainer
                       config={providerChartConfig}
-                      className="h-72 w-full aspect-auto"
-                    >
+                      className="aspect-auto h-72 w-full">
                       <BarChart data={providers} margin={{ left: 0, right: 0, top: 10 }}>
                         <CartesianGrid vertical={false} />
                         <XAxis
@@ -258,10 +254,7 @@ export default function MetricsRoute() {
                 </CardHeader>
                 <CardContent>
                   {statuses.length ? (
-                    <ChartContainer
-                      config={statusChartConfig}
-                      className="h-64 w-full aspect-auto"
-                    >
+                    <ChartContainer config={statusChartConfig} className="aspect-auto h-64 w-full">
                       <BarChart data={statuses} margin={{ left: 0, right: 0, top: 10 }}>
                         <CartesianGrid vertical={false} />
                         <XAxis
@@ -300,7 +293,7 @@ export default function MetricsRoute() {
                 <CardContent>
                   <div className="grid gap-6 md:grid-cols-2">
                     <div className="flex flex-col gap-3">
-                      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase">
+                      <div className="text-muted-foreground flex items-center gap-2 text-xs font-medium uppercase">
                         <Timer className="size-4" />
                         Queue
                       </div>
@@ -315,7 +308,7 @@ export default function MetricsRoute() {
                     </div>
 
                     <div className="flex flex-col gap-3">
-                      <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase">
+                      <div className="text-muted-foreground flex items-center gap-2 text-xs font-medium uppercase">
                         <MailCheck className="size-4" />
                         Email
                       </div>
@@ -344,7 +337,7 @@ function MetricCard({ title, value, caption }: { title: string; value: string; c
       <CardHeader className="gap-2">
         <CardDescription>{title}</CardDescription>
         <CardTitle className="text-2xl font-semibold tabular-nums">{value}</CardTitle>
-        {caption ? <div className="text-xs text-muted-foreground">{caption}</div> : null}
+        {caption ? <div className="text-muted-foreground text-xs">{caption}</div> : null}
       </CardHeader>
     </Card>
   )
@@ -361,7 +354,7 @@ function MetricRow({ label, value }: { label: string; value?: number | string })
 
 function ChartEmptyState({ label }: { label: string }) {
   return (
-    <div className="flex h-56 items-center justify-center rounded-lg border border-dashed text-sm text-muted-foreground">
+    <div className="text-muted-foreground flex h-56 items-center justify-center rounded-lg border border-dashed text-sm">
       {label}
     </div>
   )
@@ -406,9 +399,9 @@ const statusChartConfig = {
 }
 
 const providerLabels: Record<string, string> = {
-  airbnb: "Airbnb",
-  vrbo: "Vrbo",
-  booking: "Booking.com",
+  "airbnb": "Airbnb",
+  "vrbo": "Vrbo",
+  "booking": "Booking.com",
   "booking.com": "Booking.com",
 }
 
@@ -420,7 +413,7 @@ const statusLabels: Record<string, string> = {
   confirmed: "Confirmed",
   acknowledged: "Acknowledged",
   pending: "Pending",
-  "no_show": "No show",
+  no_show: "No show",
   noshow: "No show",
 }
 

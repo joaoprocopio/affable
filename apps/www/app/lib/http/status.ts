@@ -1,4 +1,4 @@
-import { inInclusiveRange } from "~/utils/is"
+import { inInclusiveRange } from "~/utils/validators"
 
 export const HttpStatus = {
   /**

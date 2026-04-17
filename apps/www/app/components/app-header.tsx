@@ -9,7 +9,7 @@ import {
 } from "~/lib/ui/breadcrumb"
 import { SidebarTrigger, useSidebar } from "~/lib/ui/sidebar"
 import { cn } from "~/lib/ui/utils"
-import { isNil } from "~/utils/is"
+import { isNil } from "~/utils/validators"
 
 export function AppHeader({ className, children, ...props }: React.ComponentProps<"header">) {
   return (

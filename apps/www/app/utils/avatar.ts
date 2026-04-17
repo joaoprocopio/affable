@@ -1,5 +1,5 @@
 import { isAlpha } from "~/utils/char"
-import { isNil } from "~/utils/is"
+import { isNil } from "~/utils/validators"
 
 const FALLBACK_INITIAL = "@"
 

@@ -1,5 +1,5 @@
 import { HttpError } from "~/lib/http/errors"
-import { isFn } from "~/utils/is"
+import { isFn } from "~/utils/validators"
 
 export type TFetcherOptions = RequestInit
 

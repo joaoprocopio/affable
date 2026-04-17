@@ -1,7 +1,7 @@
 import cookie from "js-cookie"
 import { env } from "~/env"
 import { createFetcher } from "~/lib/http/fetcher"
-import { isFormData } from "~/utils/is"
+import { isFormData } from "~/utils/validators"
 
 export const globalFetcher = createFetcher({
   baseURL: env.API_URL,

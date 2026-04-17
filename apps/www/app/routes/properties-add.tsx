@@ -37,8 +37,8 @@ import { Spinner } from "~/lib/ui/spinner"
 import { propertiesMutationKeys, propertiesMutations } from "~/state/properties/query"
 import { AddProperty, type TAddPropertyIn, type TAddPropertyOut } from "~/state/properties/schemas"
 import { formatBytes } from "~/utils/format"
-import { isFile } from "~/utils/is"
 import { transformLaravelValidationError } from "~/utils/laravel"
+import { isFile } from "~/utils/validators"
 
 export const handle: Handle = {
   breadcrumb: "Add",

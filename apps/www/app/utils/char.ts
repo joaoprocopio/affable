@@ -1,4 +1,4 @@
-import { isString } from "~/utils/is"
+import { isString } from "~/utils/validators"
 
 // 65 = 'A'
 // 90 = 'Z'

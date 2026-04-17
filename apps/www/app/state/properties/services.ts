@@ -6,7 +6,7 @@ import {
   type TAddPropertyOut,
   type TPropertySlugOut,
 } from "~/state/properties/schemas"
-import { isNumber } from "~/utils/is"
+import { isNumber } from "~/utils/validators"
 
 export async function listProperties(context: QueryFunctionContext) {
   const response = await globalFetcher("/v1/properties", {

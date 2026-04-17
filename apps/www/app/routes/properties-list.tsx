@@ -35,16 +35,16 @@ import {
 import { propertiesQueries } from "~/state/properties/query"
 import type { TPropertyOut } from "~/state/properties/schemas"
 import { formatCurrency, pluralize } from "~/utils/format"
-import * as is from "~/utils/is"
+import * as validators from "~/utils/validators"
 
 export default function PropertiesListRoute() {
   const properties = useQuery(propertiesQueries.list())
 
   const isLoading = properties.isLoading
-  const isEmpty = properties.isSuccess && is.isEmpty(properties.data)
+  const isEmpty = properties.isSuccess && validators.isEmpty(properties.data)
 
   const hasError = properties.isError
-  const hasData = properties.isSuccess && !is.isEmpty(properties.data)
+  const hasData = properties.isSuccess && !validators.isEmpty(properties.data)
 
   return (
     <>
@@ -90,7 +90,7 @@ export default function PropertiesListRoute() {
 
             <EmptyDescription>
               <code>
-                {is.isFn(properties.error.toString)
+                {validators.isFn(properties.error.toString)
                   ? properties.error.toString()
                   : String(properties.error.message)}
               </code>

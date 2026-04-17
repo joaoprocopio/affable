@@ -1,6 +1,6 @@
 import { QueryClient, environmentManager } from "@tanstack/react-query"
 import * as React from "react"
-import { isNil } from "~/utils/is"
+import { isNil } from "~/utils/validators"
 
 let browserQueryClient: QueryClient | undefined
 

@@ -1,4 +1,4 @@
-import { isDate } from "~/utils/is"
+import { isDate } from "~/utils/validators"
 
 const units = ["byte", "kilobyte", "megabyte", "gigabyte", "terabyte", "petabyte"]
 
