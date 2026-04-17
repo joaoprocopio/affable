@@ -188,8 +188,7 @@ function ReservationsTable() {
                   style={{
                     height: `${vrow.size}px`,
                     transform: `translateY(${vrow.start - iterindex * vrow.size}px)`,
-                  }}
-                  data-state={row.getIsSelected() ? "selected" : undefined}>
+                  }}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
