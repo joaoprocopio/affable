@@ -37,7 +37,7 @@ import type { TPropertyOut } from "~/state/properties/schemas"
 import { formatCurrency, pluralize } from "~/utils/format"
 import * as validators from "~/utils/validators"
 
-export default function PropertiesListRoute() {
+export default function AppPropertiesListRoute() {
   const properties = useQuery(propertiesQueries.list())
 
   const isLoading = properties.isLoading

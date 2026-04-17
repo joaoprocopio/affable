@@ -27,7 +27,7 @@ export const handle: Handle = {
   breadcrumb: "Metrics",
 }
 
-export default function MetricsRoute() {
+export default function AppMetricsRoute() {
   const metrics = useQuery(metricsQueries.summary())
   const data = metrics.data
 

@@ -9,13 +9,15 @@ export default [
   ]),
 
   layout("routes/app.tsx", [
-    layout("routes/properties.tsx", [
-      index("routes/properties-list.tsx"),
-      route("add", "routes/properties-add.tsx"),
+    layout("routes/app-properties.tsx", [
+      index("routes/app-properties-list.tsx"),
+      route("add", "routes/app-properties-add.tsx"),
     ]),
 
-    layout("routes/reservations.tsx", [route("reservations", "routes/reservations-list.tsx")]),
-    route("metrics", "routes/metrics.tsx"),
+    layout("routes/app-reservations.tsx", [
+      route("reservations", "routes/app-reservations-list.tsx"),
+    ]),
+    route("metrics", "routes/app-metrics.tsx"),
     route("*", "routes/catchall.tsx"),
   ]),
 ] satisfies RouteConfig

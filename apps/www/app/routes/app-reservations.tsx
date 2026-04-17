@@ -4,6 +4,6 @@ export const handle: Handle = {
   breadcrumb: "Reservations",
 }
 
-export default function ReservationsRoute() {
+export default function AppReservationsRoute() {
   return <Outlet />
 }
