@@ -1,3 +1,5 @@
+import { isDate } from "~/utils/is"
+
 const units = ["byte", "kilobyte", "megabyte", "gigabyte", "terabyte", "petabyte"]
 
 export function formatBytes(bytes: number): string {
@@ -37,7 +39,7 @@ export function formatDate(
     year: "numeric",
   },
 ): string {
-  const date = value instanceof Date ? value : new Date(value)
+  const date = isDate(value) ? value : new Date(value)
 
   if (Number.isNaN(date.getTime())) {
     return "-"

@@ -50,6 +50,10 @@ export function isInteger(value: unknown): value is number {
   return isFinite(parseInt(value as string))
 }
 
+export function isDate(value: unknown): value is Date {
+  return value instanceof Date
+}
+
 export function isEmpty(value: unknown): boolean {
   if (isNil(value)) {
     return true
