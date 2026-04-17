@@ -160,7 +160,7 @@ function PropertiesTable() {
                   : undefined
 
                 return (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
+                  <TableHead key={header.id}>
                     <Button
                       disabled={!canSort}
                       className="[&_svg]:text-muted-foreground"
