@@ -51,53 +51,6 @@ export default function ReservationsRoute() {
   const [provider, setProvider] = React.useState("all")
   const [status, setStatus] = React.useState("all")
 
-  const reservationData = reservations.data ?? []
-
-  const providers = React.useMemo(() => {
-    return Array.from(
-      new Set(reservationData.map((item) => normalizeFilterValue(item.provider)).filter(Boolean)),
-    ).sort()
-  }, [reservationData])
-
-  const statuses = React.useMemo(() => {
-    return Array.from(
-      new Set(reservationData.map((item) => normalizeFilterValue(item.status)).filter(Boolean)),
-    ).sort()
-  }, [reservationData])
-
-  const filteredReservations = React.useMemo(() => {
-    if (isEmpty(reservationData)) {
-      return []
-    }
-
-    const query = search.trim().toLowerCase()
-
-    return reservationData.filter((item) => {
-      const matchesProvider = provider === "all" || normalizeFilterValue(item.provider) === provider
-      const matchesStatus = status === "all" || normalizeFilterValue(item.status) === status
-
-      if (!matchesProvider || !matchesStatus) {
-        return false
-      }
-
-      if (!query.length) {
-        return true
-      }
-
-      const reference = getReservationReference(item)
-      const propertyName = item.property?.name ?? ""
-      const guestName = item.guest?.name ?? ""
-
-      return [reference, item.id, propertyName, guestName]
-        .filter(Boolean)
-        .some((value) => value.toString().toLowerCase().includes(query))
-    })
-  }, [reservationData, provider, status, search])
-
-  const hasData = !isEmpty(reservationData)
-  const hasResults = !isEmpty(filteredReservations)
-  const hasFilters = Boolean(search.trim().length || provider !== "all" || status !== "all")
-
   return (
     <>
       <AppHeader>

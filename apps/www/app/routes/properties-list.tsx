@@ -7,10 +7,11 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { Home, MoveDown, MoveUp, Plus } from "lucide-react"
+import { CloudAlert, Home, MoveDown, MoveUp, Plus } from "lucide-react"
 import * as React from "react"
 import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
+import { Alert, AlertTitle } from "~/lib/ui/alert"
 import { Badge } from "~/lib/ui/badge"
 import { Button } from "~/lib/ui/button"
 import {
@@ -35,20 +36,23 @@ import {
 import { propertiesQueries } from "~/state/properties/query"
 import type { TPropertyOut } from "~/state/properties/schemas"
 import { formatCurrency, pluralize } from "~/utils/format"
-import { isEmpty } from "~/utils/is"
+import * as is from "~/utils/is"
 
 export default function PropertiesListRoute() {
   const properties = useQuery(propertiesQueries.list())
 
-  console.log(properties)
+  const isLoading = properties.isLoading
+  const isError = properties.isError
+  const isSuccess = properties.isSuccess && !is.isEmpty(properties.data)
+  const isEmpty = properties.isSuccess && is.isEmpty(properties.data)
 
   return (
-    <div>
+    <>
       <AppHeader>
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
 
-        {properties.isSuccess && !isEmpty(properties.data) && (
+        {isSuccess && (
           <Badge variant="secondary" className="tabular-nums">
             {properties.data?.length}
           </Badge>
@@ -65,23 +69,41 @@ export default function PropertiesListRoute() {
         </Button>
       </AppHeader>
 
-      {Boolean(properties.isFetching || properties.isPending) && (
+      {isLoading && (
         <Empty>
           <EmptyContent>
-            <PropertiesListLoading />
+            <Spinner className="size-12" />
           </EmptyContent>
         </Empty>
       )}
 
-      {Boolean(properties.isSuccess && !isEmpty(properties.data)) && <PropertiesListTable />}
+      {isEmpty && <PropertiesListEmpty />}
 
-      {Boolean(properties.isSuccess && isEmpty(properties.data)) && <PropertiesListEmpty />}
-    </div>
+      {isSuccess && <PropertiesListTable />}
+
+      {isError && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <CloudAlert />
+            </EmptyMedia>
+          </EmptyHeader>
+
+          <EmptyContent>
+            <EmptyTitle>Unexpected error occurred</EmptyTitle>
+
+            <EmptyDescription>
+              <code>
+                {is.isFn(properties.error.toString)
+                  ? properties.error.toString()
+                  : String(properties.error.message)}
+              </code>
+            </EmptyDescription>
+          </EmptyContent>
+        </Empty>
+      )}
+    </>
   )
-}
-
-function PropertiesListLoading() {
-  return <Spinner className="size-12" />
 }
 
 function PropertiesListTable() {
