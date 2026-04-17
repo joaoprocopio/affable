@@ -69,7 +69,7 @@ export default function PropertiesRoute() {
         </Button>
       </AppHeader>
 
-      <div>
+      <div className="overflow-y-scroll">
         {isLoading && (
           <Empty>
             <EmptyContent>

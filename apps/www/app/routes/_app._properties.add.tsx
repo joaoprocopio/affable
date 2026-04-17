@@ -107,16 +107,16 @@ export default function PropertiesAddRoute() {
   const isLoading = Boolean(isMutating)
 
   return (
-    <div>
+    <>
       <AppHeader>
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
       </AppHeader>
 
-      <div className="px-container mx-auto max-w-3xl pt-8 pb-32">
+      <div className="overflow-y-auto">
         <form
           noValidate
-          className="flex flex-col gap-16"
+          className="px-container mx-auto flex max-w-3xl flex-col gap-16 pt-8 pb-32"
           onSubmit={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -447,6 +447,6 @@ export default function PropertiesAddRoute() {
           </FieldSet>
         </form>
       </div>
-    </div>
+    </>
   )
 }
