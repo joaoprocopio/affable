@@ -17,7 +17,6 @@ import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "~/
 import { metricsQueries } from "~/state/metrics/query"
 import type { TMetricsTimeseriesItemOut } from "~/state/metrics/schemas"
 import { formatCurrency, formatDate, formatDateRange, formatDateTime } from "~/utils/format"
-import { isEmpty } from "~/utils/validators"
 
 export async function clientLoader() {
   const queryClient = getQueryClient()

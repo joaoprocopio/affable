@@ -1,4 +1,4 @@
-import { CheckIcon, CircleCheckIcon, CircleSlash, InfoIcon, TriangleAlertIcon } from "lucide-react"
+import { CircleCheckIcon, CircleSlash, InfoIcon, TriangleAlertIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { Spinner } from "~/lib/ui/spinner"
