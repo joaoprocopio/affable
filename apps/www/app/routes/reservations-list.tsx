@@ -7,11 +7,9 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { DoorOpen, Mail, MoveDown, MoveUp, Search } from "lucide-react"
+import { CloudAlert, DoorOpen, MoveDown, MoveUp } from "lucide-react"
 import * as React from "react"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
-import { getQueryClient } from "~/lib/query/client"
-import { Alert, AlertDescription, AlertTitle } from "~/lib/ui/alert"
 import { Badge } from "~/lib/ui/badge"
 import { Button } from "~/lib/ui/button"
 import {
@@ -22,8 +20,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "~/lib/ui/empty"
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "~/lib/ui/input-group"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/lib/ui/select"
+import { Spinner } from "~/lib/ui/spinner"
 import {
   Table,
   TableBody,
@@ -37,19 +34,16 @@ import {
 import { reservationsQueries } from "~/state/reservations/query"
 import type { TReservationOut } from "~/state/reservations/schemas"
 import { formatCurrency, formatDateRange, formatDateTime } from "~/utils/format"
-import { isEmpty } from "~/utils/is"
-
-export async function clientLoader() {
-  const queryClient = getQueryClient()
-  await queryClient.prefetchQuery(reservationsQueries.list())
-}
+import * as is from "~/utils/is"
 
 export default function ReservationsRoute() {
   const reservations = useQuery(reservationsQueries.list())
 
-  const [search, setSearch] = React.useState("")
-  const [provider, setProvider] = React.useState("all")
-  const [status, setStatus] = React.useState("all")
+  const isLoading = reservations.isLoading
+  const isEmpty = reservations.isSuccess && is.isEmpty(reservations.data)
+
+  const hasError = reservations.isError
+  const hasData = reservations.isSuccess && !is.isEmpty(reservations.data)
 
   return (
     <>
@@ -58,67 +52,54 @@ export default function ReservationsRoute() {
         <AppHeaderBreadcrumb />
         {hasData && (
           <Badge variant="secondary" className="tabular-nums">
-            {filteredReservations.length}
+            {reservations.data.length}
           </Badge>
         )}
       </AppHeader>
 
-      <div className="px-container mx-auto flex w-full max-w-6xl flex-col gap-6 py-6 pb-16">
-        <Alert>
+      {/* <Alert>
           <Mail className="text-muted-foreground" />
           <AlertTitle>Queue-driven ingestion</AlertTitle>
           <AlertDescription>
             New reservations are fetched by the scheduler and queued for email delivery. Once a
             reservation is acknowledged, it will show as synced in the status column.
           </AlertDescription>
-        </Alert>
+        </Alert> */}
 
-        <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <InputGroup className="md:max-w-sm">
-            <InputGroupAddon align="inline-start">
-              <InputGroupText>
-                <Search />
-              </InputGroupText>
-            </InputGroupAddon>
-            <InputGroupInput
-              placeholder="Search by reservation, guest, or property"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
-          </InputGroup>
+      {isLoading && (
+        <Empty>
+          <EmptyContent>
+            <Spinner className="size-12" />
+          </EmptyContent>
+        </Empty>
+      )}
 
-          <div className="flex flex-wrap items-center gap-2">
-            <Select value={provider} onValueChange={setProvider}>
-              <SelectTrigger size="sm">
-                <SelectValue placeholder="Provider" />
-              </SelectTrigger>
-              <SelectContent align="end">
-                <SelectItem value="all">All providers</SelectItem>
-                {providers.map((value) => (
-                  <SelectItem key={value} value={value}>
-                    {formatProvider(value)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+      {hasError && (
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <CloudAlert />
+            </EmptyMedia>
+          </EmptyHeader>
 
-            <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger size="sm">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent align="end">
-                <SelectItem value="all">All statuses</SelectItem>
-                {statuses.map((value) => (
-                  <SelectItem key={value} value={value}>
-                    {formatStatus(value)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+          <EmptyContent>
+            <EmptyTitle>Unexpected error occurred</EmptyTitle>
 
-        {!hasData ? (
+            <EmptyDescription>
+              <code>
+                {is.isFn(reservations.error.toString)
+                  ? reservations.error.toString()
+                  : String(reservations.error.message)}
+              </code>
+            </EmptyDescription>
+          </EmptyContent>
+        </Empty>
+      )}
+
+      {isEmpty && <ReservationsEmpty />}
+
+      {hasData && <ReservationsTable />}
+      {/* {!hasData ? (
           <ReservationsEmpty />
         ) : hasResults ? (
           <ReservationsTable data={filteredReservations} />
@@ -131,18 +112,19 @@ export default function ReservationsRoute() {
             }}
             showReset={hasFilters}
           />
-        )}
-      </div>
+        )} */}
     </>
   )
 }
 
-function ReservationsTable({ data }: { data: TReservationOut[] }) {
+function ReservationsTable() {
+  const reservations = useQuery(reservationsQueries.list())
+
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
-    columns,
-    data,
+    columns: columns,
+    data: reservations.data!,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
@@ -223,33 +205,6 @@ function ReservationsEmpty() {
           Your queue will start populating once the scheduler fetches new bookings.
         </EmptyDescription>
       </EmptyHeader>
-    </Empty>
-  )
-}
-
-function ReservationsNoResults({
-  onReset,
-  showReset,
-}: {
-  onReset: () => void
-  showReset: boolean
-}) {
-  return (
-    <Empty>
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <DoorOpen />
-        </EmptyMedia>
-        <EmptyTitle>No matches</EmptyTitle>
-        <EmptyDescription>Try adjusting your search or filter selections.</EmptyDescription>
-      </EmptyHeader>
-      {showReset && (
-        <EmptyContent>
-          <Button variant="secondary" size="sm" onClick={onReset}>
-            Reset filters
-          </Button>
-        </EmptyContent>
-      )}
     </Empty>
   )
 }

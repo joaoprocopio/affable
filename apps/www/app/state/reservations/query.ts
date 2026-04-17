@@ -13,6 +13,5 @@ export const reservationsQueries = defineQueries<TReservationsNamespace>()({
     queryOptions({
       queryKey: reservationsQueryKeys.list(),
       queryFn: reservationsServices.listReservations,
-      placeholderData: [],
     }),
 })

@@ -11,7 +11,6 @@ import { CloudAlert, Home, MoveDown, MoveUp, Plus } from "lucide-react"
 import * as React from "react"
 import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
-import { Alert, AlertTitle } from "~/lib/ui/alert"
 import { Badge } from "~/lib/ui/badge"
 import { Button } from "~/lib/ui/button"
 import {
@@ -42,9 +41,10 @@ export default function PropertiesListRoute() {
   const properties = useQuery(propertiesQueries.list())
 
   const isLoading = properties.isLoading
-  const isError = properties.isError
-  const isSuccess = properties.isSuccess && !is.isEmpty(properties.data)
   const isEmpty = properties.isSuccess && is.isEmpty(properties.data)
+
+  const hasError = properties.isError
+  const hasData = properties.isSuccess && !is.isEmpty(properties.data)
 
   return (
     <>
@@ -52,7 +52,7 @@ export default function PropertiesListRoute() {
         <AppHeaderSidebarTrigger />
         <AppHeaderBreadcrumb />
 
-        {isSuccess && (
+        {hasData && (
           <Badge variant="secondary" className="tabular-nums">
             {properties.data?.length}
           </Badge>
@@ -77,11 +77,7 @@ export default function PropertiesListRoute() {
         </Empty>
       )}
 
-      {isEmpty && <PropertiesListEmpty />}
-
-      {isSuccess && <PropertiesListTable />}
-
-      {isError && (
+      {hasError && (
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
@@ -102,11 +98,15 @@ export default function PropertiesListRoute() {
           </EmptyContent>
         </Empty>
       )}
+
+      {isEmpty && <PropertiesEmpty />}
+
+      {hasData && <PropertiesTable />}
     </>
   )
 }
 
-function PropertiesListTable() {
+function PropertiesTable() {
   const properties = useQuery(propertiesQueries.list())
 
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -186,7 +186,7 @@ function PropertiesListTable() {
   )
 }
 
-function PropertiesListEmpty() {
+function PropertiesEmpty() {
   return (
     <Empty>
       <EmptyHeader>
