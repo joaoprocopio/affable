@@ -4,8 +4,8 @@ export const authRoutes = new Set(["/signin", "/signup"])
 
 export default [
   layout("routes/auth.tsx", [
-    route("signin", "routes/signin.tsx"),
-    route("signup", "routes/signup.tsx"),
+    route("signin", "routes/auth-signin.tsx"),
+    route("signup", "routes/auth-signup.tsx"),
   ]),
 
   layout("routes/app.tsx", [
