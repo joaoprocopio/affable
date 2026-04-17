@@ -11,12 +11,12 @@ function TableContainer({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+function Table({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <table
+    <div
       data-slot="table"
       className={cn(
-        "[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container w-full caption-bottom text-sm [&_tr>*]:truncate",
+        "[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container w-full text-sm [&_tr>*]:truncate",
         className,
       )}
       {...props}
@@ -24,13 +24,13 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
   )
 }
 
-function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
-  return <thead data-slot="table-header" className={cn("border-b", className)} {...props} />
+function TableHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="table-header" className={cn("border-b", className)} {...props} />
 }
 
-function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
+function TableBody({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <tbody
+    <div
       data-slot="table-body"
       className={cn("[&_tr:last-child]:border-0", className)}
       {...props}
@@ -38,19 +38,15 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   )
 }
 
-function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
+function TableFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <tfoot
-      data-slot="table-footer"
-      className={cn("bg-muted/50 font-medium", className)}
-      {...props}
-    />
+    <div data-slot="table-footer" className={cn("bg-muted/50 font-medium", className)} {...props} />
   )
 }
 
-function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
+function TableRow({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <tr
+    <div
       data-slot="table-row"
       className={cn(
         "has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted transition-colors",
@@ -61,9 +57,9 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   )
 }
 
-function TableHead({ className, ...props }: React.ComponentProps<"th">) {
+function TableHead({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <th
+    <div
       data-slot="table-head"
       className={cn(
         "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0",
@@ -74,9 +70,9 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   )
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<"td">) {
+function TableCell({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <td
+    <div
       data-slot="table-cell"
       className={cn("p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0", className)}
       {...props}
@@ -84,9 +80,9 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   )
 }
 
-function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
+function TableCaption({ className, ...props }: React.ComponentProps<"p">) {
   return (
-    <caption
+    <p
       data-slot="table-caption"
       className={cn("text-muted-foreground mt-4 text-sm", className)}
       {...props}
