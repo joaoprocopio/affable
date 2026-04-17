@@ -136,7 +136,7 @@
 
   html,
   body {
-    @apply relative isolate h-full min-h-full scroll-smooth font-sans;
+    @apply min-max-size-[100%] isolate scroll-smooth font-sans;
   }
 
   body {
@@ -179,4 +179,22 @@
   height: --spacing(--value(integer));
   min-height: --spacing(--value(integer));
   max-height: --spacing(--value(integer));
+}
+
+@utility min-max-size-* {
+  height: --value([*]);
+  min-height: --value([*]);
+  max-height: --value([*]);
+
+  height: --spacing(--value(integer));
+  min-height: --spacing(--value(integer));
+  max-height: --spacing(--value(integer));
+
+  width: --value([*]);
+  min-width: --value([*]);
+  max-width: --value([*]);
+
+  width: --spacing(--value(integer));
+  min-width: --spacing(--value(integer));
+  max-width: --spacing(--value(integer));
 }
