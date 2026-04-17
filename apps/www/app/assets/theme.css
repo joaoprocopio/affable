@@ -170,3 +170,13 @@
   min-width: --spacing(--value(integer));
   max-width: --spacing(--value(integer));
 }
+
+@utility min-max-h-* {
+  height: --value([*]);
+  min-height: --value([*]);
+  max-height: --value([*]);
+
+  height: --spacing(--value(integer));
+  min-height: --spacing(--value(integer));
+  max-height: --spacing(--value(integer));
+}

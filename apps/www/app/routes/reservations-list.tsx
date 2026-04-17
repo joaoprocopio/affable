@@ -125,81 +125,83 @@ function ReservationsTable() {
 
   const virtualizer = useWindowVirtualizer({
     count: rows.length,
-    estimateSize: () => 70,
+    estimateSize: () => 80,
     overscan: 10,
   })
 
   return (
-    <TableContainer
-      className="overflow-y-hidden"
-      style={{ height: `${virtualizer.getTotalSize()}px` }}>
-      <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr]:hover:bg-[unset]">
-        <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption>
+    <TableContainer className="overflow-y-visible">
+      <div
+        style={{
+          height: `${virtualizer.getTotalSize()}px`,
+        }}>
+        <Table className="[&_tr>:first-child]:pl-container [&_tr>:last-child]:pr-container [&_tr]:hover:bg-[unset]">
+          {/* <TableCaption>{`${rows.length} ${pluralize(rows.length, { one: "row", other: "rows" })}`}</TableCaption> */}
 
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                const canSort = header.column.getCanSort()
-                const isSorted = header.column.getIsSorted()
-                const sortingOrder = header.column.getNextSortingOrder()
-                const title = canSort
-                  ? sortingOrder === "asc"
-                    ? "Sort ascending"
-                    : sortingOrder === "desc"
-                      ? "Sort descending"
-                      : "Clear sort"
-                  : undefined
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  const canSort = header.column.getCanSort()
+                  const isSorted = header.column.getIsSorted()
+                  const sortingOrder = header.column.getNextSortingOrder()
+                  const title = canSort
+                    ? sortingOrder === "asc"
+                      ? "Sort ascending"
+                      : sortingOrder === "desc"
+                        ? "Sort descending"
+                        : "Clear sort"
+                    : undefined
 
-                return (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
-                    <Button
-                      disabled={!canSort}
-                      className="[&_svg]:text-muted-foreground"
-                      variant="ghost"
-                      size="sm"
-                      title={title}
-                      onClick={header.column.getToggleSortingHandler()}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
+                  return (
+                    <TableHead key={header.id} colSpan={header.colSpan}>
+                      <Button
+                        disabled={!canSort}
+                        className="[&_svg]:text-muted-foreground"
+                        variant="ghost"
+                        size="sm"
+                        title={title}
+                        onClick={header.column.getToggleSortingHandler()}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(header.column.columnDef.header, header.getContext())}
 
-                      {isSorted === "asc" ? (
-                        <MoveUp />
-                      ) : isSorted === "desc" ? (
-                        <MoveDown />
-                      ) : undefined}
-                    </Button>
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-
-        <TableBody>
-          {virtualizer.getVirtualItems().map((vrow, iterindex) => {
-            const row = rows[vrow.index]
-            const ypos = vrow.start - iterindex * vrow.size
-            console.log(ypos)
-
-            return (
-              <TableRow
-                key={row.id}
-                style={{
-                  height: `${vrow.size}px`,
-                  transform: `translateY(${ypos}px)`,
-                }}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                        {isSorted === "asc" ? (
+                          <MoveUp />
+                        ) : isSorted === "desc" ? (
+                          <MoveDown />
+                        ) : undefined}
+                      </Button>
+                    </TableHead>
+                  )
+                })}
               </TableRow>
-            )
-          })}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+
+          <TableBody>
+            {virtualizer.getVirtualItems().map((vrow, iterindex) => {
+              const row = rows[vrow.index]
+              const posy = vrow.start - iterindex * vrow.size
+
+              return (
+                <TableRow
+                  key={row.id}
+                  style={{
+                    height: `${vrow.size}px`,
+                    transform: `translateY(${posy}px)`,
+                  }}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      </div>
     </TableContainer>
   )
 }
