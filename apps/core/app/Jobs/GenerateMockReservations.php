@@ -77,8 +77,6 @@ final class GenerateMockReservations implements ShouldQueue
             Reservation::query()
                 ->whereIn('id', $reservationIds)
                 ->update(['email_status' => 'queued']);
-
-            SendReservationDigestEmail::dispatch($userId, $reservationIds);
         }
 
         $durationMs = (int) round((microtime(true) - $startedAt) * 1000);
