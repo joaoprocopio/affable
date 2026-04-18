@@ -88,6 +88,8 @@ export default function ReservationsRoute() {
                   Generate {count} {pluralize(count, { one: "reservation", other: "reservations" })}
                 </DropdownMenuItem>
               ))}
+
+              <DropdownMenuItem>Clear all reservations</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </ButtonGroup>
@@ -351,10 +353,6 @@ const columns = [
 
 function normalizeFilterValue(value?: string | null) {
   return value?.toLowerCase().trim() ?? ""
-}
-
-function getReservationReference(reservation: TReservationOut) {
-  return reservation.externalId ?? reservation.channelReservationId ?? reservation.id
 }
 
 function getReservationNights(reservation: TReservationOut) {
