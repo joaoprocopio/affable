@@ -7,7 +7,7 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { CloudAlert, DoorOpen, Ellipsis, MoveDown, MoveUp, Plus } from "lucide-react"
+import { CloudAlert, Dices, DoorOpen, Ellipsis, MoveDown, MoveUp, Plus, Trash } from "lucide-react"
 import * as React from "react"
 import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
@@ -18,6 +18,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/lib/ui/dropdown-menu"
 import {
@@ -85,11 +86,16 @@ export default function ReservationsRoute() {
             <DropdownMenuContent className="w-fit" align="start">
               {[1, 5, 10].map((count, index) => (
                 <DropdownMenuItem key={index}>
+                  <Dices />
                   Generate {count} {pluralize(count, { one: "reservation", other: "reservations" })}
                 </DropdownMenuItem>
               ))}
 
-              <DropdownMenuItem>Clear all reservations</DropdownMenuItem>
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem variant="destructive">
+                <Trash className="text-muted-foreground" /> Clear all reservations
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </ButtonGroup>
