@@ -29,8 +29,6 @@ return new class extends Migration
             $table->timestamp('acknowledged_at')->nullable();
             $table->string('guest_name')->nullable();
             $table->string('guest_email')->nullable();
-            $table->string('email_status')->nullable();
-            $table->timestamp('email_sent_at')->nullable();
             $table->timestamps();
 
             $table->index(['user_id', 'created_at']);

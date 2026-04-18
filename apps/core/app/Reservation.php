@@ -27,8 +27,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'acknowledged_at',
     'guest_name',
     'guest_email',
-    'email_status',
-    'email_sent_at',
 ])]
 final class Reservation extends Model
 {
@@ -40,7 +38,6 @@ final class Reservation extends Model
         'check_out' => 'date',
         'booked_at' => 'datetime',
         'acknowledged_at' => 'datetime',
-        'email_sent_at' => 'datetime',
     ];
 
     public function property(): BelongsTo

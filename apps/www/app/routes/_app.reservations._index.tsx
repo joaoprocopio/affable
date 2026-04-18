@@ -7,11 +7,19 @@ import {
   type ColumnDef,
   type SortingState,
 } from "@tanstack/react-table"
-import { CloudAlert, DoorOpen, MoveDown, MoveUp } from "lucide-react"
+import { CloudAlert, DoorOpen, Ellipsis, MoveDown, MoveUp, Plus } from "lucide-react"
 import * as React from "react"
+import { Link } from "react-router"
 import { AppHeader, AppHeaderBreadcrumb, AppHeaderSidebarTrigger } from "~/components/app-header"
 import { Badge } from "~/lib/ui/badge"
 import { Button } from "~/lib/ui/button"
+import { ButtonGroup } from "~/lib/ui/button-group"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "~/lib/ui/dropdown-menu"
 import {
   Empty,
   EmptyContent,
@@ -32,7 +40,7 @@ import {
 } from "~/lib/ui/table"
 import { reservationsQueries } from "~/state/reservations/query"
 import type { TReservationOut } from "~/state/reservations/schemas"
-import { formatCurrency, formatDateRange, formatDateTime } from "~/utils/format"
+import { formatCurrency, formatDateRange, formatDateTime, pluralize } from "~/utils/format"
 import * as validators from "~/utils/validators"
 
 export default function ReservationsRoute() {
@@ -54,6 +62,35 @@ export default function ReservationsRoute() {
             {reservations.data.length}
           </Badge>
         )}
+
+        <ButtonGroup className="ml-auto">
+          <Button
+            variant="secondary"
+            size="sm"
+            nativeButton={false}
+            render={<Link to="/reservations/add" />}>
+            <Plus />
+            <span>Add a reservation</span>
+          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <Button variant="secondary" size="icon-sm">
+                  <Ellipsis />
+                </Button>
+              }
+            />
+
+            <DropdownMenuContent className="w-fit" align="start">
+              {[1, 5, 10].map((count, index) => (
+                <DropdownMenuItem key={index}>
+                  Generate {count} {pluralize(count, { one: "reservation", other: "reservations" })}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </ButtonGroup>
       </AppHeader>
 
       {isLoading && (

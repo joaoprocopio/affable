@@ -60,7 +60,7 @@ final class MetricsController extends Controller
             ->groupBy('provider')
             ->orderByDesc('reservations')
             ->get()
-            ->map(fn ($row) => [
+            ->map(fn($row) => [
                 'provider' => $row->provider,
                 'reservations' => (int) $row->reservations,
                 'revenue' => (int) $row->revenue,
@@ -73,7 +73,7 @@ final class MetricsController extends Controller
             ->groupBy('status')
             ->orderByDesc('count')
             ->get()
-            ->map(fn ($row) => [
+            ->map(fn($row) => [
                 'status' => $row->status,
                 'count' => (int) $row->count,
             ])
@@ -93,12 +93,7 @@ final class MetricsController extends Controller
             ->where('user_id', $user_id)
             ->whereBetween('created_at', [$start, $end]);
 
-        $email = [
-            'pending' => (clone $emailRange)->whereIn('email_status', ['queued', 'pending'])->count(),
-            'sent' => (clone $emailRange)->where('email_status', 'sent')->count(),
-            'failed' => (clone $emailRange)->where('email_status', 'failed')->count(),
-            'lastSentAt' => (clone $emailRange)->whereNotNull('email_sent_at')->max('email_sent_at'),
-        ];
+        $email = [];
 
         return new JsonResponse([
             'range' => [

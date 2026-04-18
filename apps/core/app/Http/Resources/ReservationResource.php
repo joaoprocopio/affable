@@ -43,8 +43,6 @@ final class ReservationResource extends JsonResource
                 'name' => $this->resource->guest_name,
                 'email' => $this->resource->guest_email,
             ],
-            'emailStatus' => $this->resource->email_status,
-            'emailSentAt' => $this->resource->email_sent_at?->toIso8601String(),
         ];
     }
 }
